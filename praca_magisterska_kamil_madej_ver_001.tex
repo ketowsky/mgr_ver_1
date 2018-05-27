@@ -48,7 +48,7 @@
 % ===============  STRONA TYTULOWA PRACY MAGISTERSKIEJKIEJ ==============
 \thispagestyle{empty}
 %% ------------------------ NAGLOWEK STRONY ------------------------------
-\includegraphics[height=37.5mm]{logAGH.jpg}\\
+\includegraphics[height=37.5mm]{dudel.jpg}\\
 \rule{30mm}{0pt}
 {\large \textsf{Wydział Fizyki i Informatyki Stosowanej}}\\
 \rule{\textwidth}{3pt}\\
@@ -63,25 +63,25 @@
 \vspace{10ex}
 
 % --------------------------- IMIE I NAZWISKO ----------------------------
-{\bf \Large \textsf{Konrad Wadas}}\\
+{\bf \Large \textsf{Kamil Madej}}\\
 \vspace{3ex}
 {\sf\small kierunek studiów:} {\bf\small \textsf{Informatyka Stosowana}}\\
 \vspace{1.5ex}
 {\sf\small specjalność:} {\bf\small \textsf{Grafika Komputerowa i Przetwarzanie Obrazów}}\\
 \vspace{10ex}
 %% ------------------------ TYTUL PRACY ----------------------------------
-{\bf \huge \textsf{Implementacja probabilistycznej sieci neuronowej wraz z metaheurystycznym algorytmem uczenia w pakiecie obliczeniowym R}}\\
-\vspace{14ex}
+{\bf \huge \textsf{Sposoby zwiększania bezpieczeństwa systemu informatycznego przy pomocy aplikacji do zarządzania zasobami systemów informatycznych}}\\
+\vspace{10ex}
 %% ------------------------ OPIEKUN PRACY --------------------------------
-{\Large Opiekun: \bf \textsf{dr inż. Piotr Kowalski}}\\
-\vspace{22ex}
+{\Large Opiekun: \bf \textsf{dr inż. Antoni Dydejczyk}}\\
+\vspace{10ex}
 {\large \bf \textsf{Kraków, czerwiec 2018}}
 \end{center}
 %% ===============  STRONA TYTULOWA PRACY MAGISTERSKIEJKIEJ ==============
 
 \newpage
 %% ============= TYL STRONY TYTULOWEJ PRACY MAGISTERSKIEJKIEJ ============
-{\sf Oświadczam, świadomy(-a) odpowiedzialności karnej za poświadczenie nieprawdy, że niniejszą pracę dyplomową wykonałem(-am) osobiście i samodzielnie i  nie korzystałem(-am) ze źródeł innych niż wymienione w pracy.}
+{\sf Oświadczam, świadomy odpowiedzialności karnej za poświadczenie nieprawdy, że niniejszą pracę dyplomową wykonałem osobiście i samodzielnie i  nie korzystałem ze źródeł innych niż wymienione w pracy.}
 \vspace{14ex}
 \begin{flushright}
 \begin{tabular}{lr}
@@ -107,35 +107,36 @@
 \rightline{Kraków, czerwiec 2018}
 \begin{center}
 {\bf Tematyka pracy magisterskiej i praktyki dyplomowej
-Konrada Wadasa,
+Kamila Madeja,
 studenta V roku studiów kierunku informatyka stosowana, specjalności grafika komputerowa i przetwarzanie obrazów}\\
 \end{center}
 
 Temat pracy magisterskiej:
-{\bf Implementacja probabilistycznej sieci neuronowej wraz z metaheurystycznym algorytmem uczenia w pakiecie obliczeniowym R}\\
+{\bf Sposoby zwiększania bezpieczeństwa systemu informatycznego przy pomocy aplikacji do zarządzania zasobami systemów informatycznych}\\
 
 \begin{tabular}{rl}
 
-Opiekun pracy:                  & dr inż. Piotr Kowalski\\
+Opiekun pracy:                  & dr inż. Antoni Dydejczyk\\
 Recenzenci pracy:               & dr inż. TODO\\
 Miejsce praktyki dyplomowej:    & WFiIS AGH, Kraków\\
 \end{tabular}
-
+\vspace{3ex}
 \begin{center}
 {\bf Program pracy magisterskiej i praktyki dyplomowej}
 \end{center}
 
 \begin{enumerate}
-\item Omówienie realizacji pracy magisterskiej z opiekunem.
+\item Omówienie realizacji pracy magisterskiej z opiekunem oraz przedstawicielem firmy IBM.
 \item Zebranie i opracowanie literatury dotyczącej tematu pracy.
 \item Praktyka dyplomowa:
 \begin{itemize}
-\item Zapoznanie się z ideą probabilistycznych sieci neuronowych
-\item Zapoznanie się z tematyką metaheurystycznych algorytmów optymalizacyjnych
-\item Nauka języka programowania R
+\item Zapoznanie się z ideą Software Asset Management
+\item Zapoznanie się z tematyką podatności systemów informatycznych
+\item Analiza danych wejściowych
 \end{itemize}
-\item Przygotowanie oprogramowania
+\item Opracowanie algorytmu umożliwiającego wykrywanie podatności w systemie
 \item Przeprowadzenie testów, analiza wyników
+\item Porównanie otrzymanych wyników z próbami przeprowadzonymi przez IBM
 \item Analiza wyników, ich omówienie i zatwierdzenie przez opiekuna
 \item Opracowanie redakcyjne pracy
 \end{enumerate}
@@ -180,16 +181,20 @@ Merytoryczna ocena pracy przez recenzenta: TODO
 \addcontentsline{toc}{section}{Wstęp}
 \markboth{Wstęp}{}
 \paragraph{}
-	Eksploracja danych i Inteligencja Obliczeniowa to obecnie jedne z najszybciej rozwijających się dziedzin informatyki. Dynamiczny wzrost możliwości obliczeniowych komputerów umożliwia automatyczne analizowanie ogromnych ilości danych i budowanie bardzo dokładnych modeli zjawisk z różnych dziedzin. Przykładami zastosowań mogą być przewidywanie kursów akcji, ocena zagrożenia chorobami u pacjentów na podstawie badań czy podział klientów na grupy o różnych potrzebach. Zastosowanie komputerów umożliwia wykonanie zadań często przekraczających możliwości człowieka, zarówno pod względem ilości analizowanych danych, szybkości uczenia się jak i dokładności wyników. Istnieje ogromna ilość narzędzi umożliwiających automatyczne wykonywanie zadań takich jak klasyfikacja, regresja czy klasteryzacja, dobór konkretnego często zależy od zbioru danych. 
-	\paragraph{}
-	Obecnie bardzo często podejmowane są próby modyfikacji istniejących algorytmów lub wykorzystywania aspektów różnych już istniejących metod do tworzenia nowych algorytmów. Większość zadań analizy danych jest w tej chwili rozwiązywana przez komputery na bardzo wysokim poziomie, dlatego też nawet niewielka poprawa jakości wyników okazuje się istotna. Podobnie jest z szybkością wykonywania, rozmiary zbiorów danych sięgają obecnie giga czy nawet terabajtów, każda optymalizacja czasu wykonywania algorytmu jest bardzo cenna.  
+    Software Asset Management jest pojęciem ściśle związanym z dynamicznie rozwijającym się rynkiem oprogramowania. Pojawiające się różne rodzaje licencji pozwalających korzystać z poszczególnych rozwiązań stworzyły przestrzeń dla firm takich, jak IBM, na stworzenie aplikacji ułatwiającej zarządzanie licencjami w systemach informatycznych przedsiębiorstw. W dzisiejszych realiach poważne przedsiębiorstwa muszą działać transparentnie, nie mogą sobie bowiem pozwolić na oskarżenia o nadużywanie lub nieprzestrzeganie wymogów licencyjnych. Wiąże się to nie tylko z kosztami ponoszonymi wskutek naliczanych kar, ale też ze stratami wizerunkowymi.
+
+    \paragraph{}
+    Każdego dnia pojawiają się nowe podatności i zagrożenia, na jakie wystawione są systemy informatyczne. Twórcom oprogramowania zależy, aby ich produkt był jak najbardziej na nie odporny. Wymusza to publikowanie nowych wersji oprogramowania, w którym poprawiono błędy i załatano luki umożliwiające niepożądane działanie systemu.      
+
+    \paragraph{}
+    Niniejsza praca jest próbą połączenia powyższych pojęć w jednym narzędziu. Wykorzystując informacje gromadzone w aplikacji IBM Big Fix Inventory, można informować użytkownika o tym, że w jego systemie informatycznym zainstalowane jest oprogramowanie, w którym wykryta została podatność. Właściciel systemu na podstawie informacji o rodzaju podatności i o stopniu zagrożenia z nią związanego, może zdecydować jakie akcje należy podjąć, by zapewnić stabilność i bezpieczeństwo systemu.
+
+    \paragraph{}
+    Algorytm opracowany w ramach pracy umożliwia wykrycie w systemie informatycznym wersji oprogramowania znajdujących się na liście obciążonych podatnościami, publikowanej przez amerykańską agencję NIST. Jego działanie polega na dopasowaniu informacji o oprogramowaniu zainstalowanym i używanym w systemie, zebranych przez IBM Big Fix Inventory, z informacjami zebranymi przez NIST.    
+    
 \paragraph{}
 
-	 
-	
-\newpage
-\thispagestyle{empty}
-\mbox{}
+
 
 \newpage
 %% =========================== CEL PRACY =================================
@@ -197,15 +202,16 @@ Merytoryczna ocena pracy przez recenzenta: TODO
 \addcontentsline{toc}{section}{Cel pracy}
 \markboth{Cel pracy}{}
 \paragraph{}
-Niniejsza praca stanowi badanie możliwości wykorzystania probabilistycznych sieci neuronowych (PNN) oraz metaheurystycznego algorytmu optymalizacyjnego do klasyfikacji. Zadania jakie zostaną wykonane:
+Niniejsza praca stanowi badanie możliwości wykorzystania różnych algorytmów porównania tekstu oraz ich połączeń w celu wykrywania oprogramowania, które może powodować podatność systemu informatycznego na zagrożenia. W ramach pracy zostaną wykonane następujące czynności:
 \begin{itemize}
-\item Implementacja Probabilistycznej sieci neuronowej, z możliwością doboru i strojenia parametrów.
-\item Implementacja algorytmu Flower Pollination (FPA) dla globalnej optymalizacji dowolnej funkcji.
-\item Integracja obydwu algorytmów, wykorzystanie FPA do optymalizacji parametrów sieci neuronowej
-\item Porównanie wyników z innymi wiodącymi metodami klasyfikacji, ocena przydatności zaimplementowanego rozwiązania, porównanie czasu wykonywania różnych algorytmów
+\item Analiza poszczególnych algorytmów pod kątem danych wejściowych. 
+\item Na podstawie powyższej analizy zostanie opracowany algorytm pozwalający na połączenie dostępnych informacji o podatnościach występujących oprogramowaniu informatycznym oraz informacji o oprogramowaniu zainstalowanym w badanym systemie.
+\item Implementacja algorytmu w języku Python
+\item Przeprowadzenie testów skuteczności algorytmu
+\item Analiza otrzymanych wyników
 \end{itemize}
 \paragraph{}
-Podczas implementacji pracy duży nacisk zostanie położony na optymalizację pisanego kodu ponieważ wspomniane algorytmy przeznaczone są do analizy dużych ilości danych. Przeprowadzone zostaną testy wpływu doboru parametrów sieci neuronowej na wyniki działania algorytmu. Efektem pracy będzie przedstawienie wniosków na temat przydatności proponowanego rozwiązania, na podstawie porównania wyników algorytmu w klasyfikacji danych z różnych dziedzin z wynikami obecnie powszechnie stosowanych metod klasyfikacji. 
+Podczas opracowywania algorytmu szczególna uwaga zwrócona będzie w kierunku skuteczności wykrycia zagrożonej wersji oprogramowania zainstalowanej w systemie informatycznym monitorowanym przez narzędzie IBM Big Fix Inventory. Efektem pracy będą przedstawione wnioski dotyczące efektywności poszczególnych algorytmów porównania tekstu oraz ich połączeń opracowanych w ramach pracy. Wnioski zostaną wyciągnięte na podstawie wyników testów poszczególnych rozwiązań.
 \newpage
 \thispagestyle{empty}
 \mbox{}
@@ -242,7 +248,7 @@ Drzewa decyzyjne to zbiór algorytmów których celem jest zbudowanie modelu w p
 Istnieje wiele algorytmów opartych o drzewa decyzyjne, klasycznym przykładem jest algorytm Iterative Dichotomiser 3 (ID3) w którym wybór decyzji jaka zostanie dodana do drzewa kierowany jest kryterium maksymalizacji zysku informacyjnego. Zysk informacyjny to różnica pomiędzy entropią zbioru danych przed i po dodaniu decyzji. W zbiorze uporządkowanym entropia powinna wynosić 0 ( w każdym zbiorze będą znajdować się tylko elementy jednej klasy).
 \begin{figure}[h]
     \centering
-    \includegraphics[width=1\textwidth]{ID3_algorithm_decision_tree.png}
+    \includegraphics[width=1\textwidth]{dudel.jpg}
     \caption{Struktura drzewa decyzyjnego w algorytmie ID3}
 \end{figure}
 
@@ -252,7 +258,7 @@ Istnieje wiele algorytmów opartych o drzewa decyzyjne, klasycznym przykładem j
 Maszyna wektorów nośnych (ang. support vector machines, SVM), to metoda klasyfikacji binarnej której celem jest wyznaczenie hiperpłaszczyzny oddzielającej od siebie elementy dwóch klas \cite{svm}. Niestety, nie wszystkie zbiory danych można znaleźć granicę pomiędzy klasami danych, najczęściej w oryginalnej reprezentacji dane w pewnych obszarach mieszają się ze sobą. Aby rozwiązać ten problem w metodzie SVM stosuje się nieliniową transformacje zbioru danych w przestrzeń o znacznie wyższej wymiarowości w której zbiory danych staną się separowalne liniowo. 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{SVN.png}
+    \includegraphics[width=0.8\textwidth]{dudel.jpg}
     \caption{Liniowy podział zbioru danych.}
 \end{figure}
 \paragraph{}
@@ -264,7 +270,7 @@ Algorytm SVM polega na znalezieniu takiej linii rozdzielającej punkty aby odleg
 Sztuczne sieci neuronowe mogą być wykorzystywane do aproksymacji dowolnej funkcji, mogą więc również zostać użyte do klasyfikacji. Sztuczna sieć składa się z wielu połączonych ze sobą modeli neuronów. Neurony stanowią zwykle matematyczny model biologicznych neuronów. Pojedynczy neuron ma za zadanie zsumować sygnały ze wszystkich swoich wejść z zadanymi wagami, a następnie dokonać pogowania \cite{nn}. Sieć neuronowa składa się z kilku warstw  połączonych neuronów, zazwyczaj istnieją co najmniej dwie warstwy, warstwa wejściowa gdzie istnieje dokładnie jeden neuron dla każdej cechy zbioru danych, i warstwa wyjściowa z liczbą neuronów odpowiadającą złożoności problemu. W przypadku klasyfikacji, w warstwie wyjściowej zwykle znajduje się dokładnie tyle neuronów ile jest klas, gdzie każdy z nich daje binarną odpowiedź o przynależności do jednej z klas, bądź stosuje się dodatkową agregującą warstwę które przyporządkowuje badany element do klasy na podstawie wyjść poprzedniej warstwy. 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{NN.png}
+    \includegraphics[width=0.8\textwidth]{dudel.jpg}
     \caption{Uproszczony schemat sieci neuronowej.}
 \end{figure}
 \paragraph{}
@@ -290,7 +296,7 @@ Do przybliżania wartości funkcji rozkładu gęstości prawdopodobieństwa wyko
 Gdzie m to liczność zbioru zdanych, K to funkcja estymatora jądrowego, a h to parametr wygładzania. Jądro musi być funkcją symetryczną z maksimum globalnym w zerze, a jego całka musi wynosić jeden \cite{kde2}. Istnieje wiele funkcji spełniających te warunki, dobór jądra zostanie omówiony w podrozdziale 2.3. Na rysunku 4 widać  funkcję rozkładu gęstości prawdopodobieństwa, która przyjmuje wysokie wartości w tych przedziałach w których znajduje się duża liczba elementów, i bardzo niskie w obszarach w których elementy nie występują. Wartość tej funkcji można interpretować jako prawdopodobieństwo wystąpienia konkretnego zestawienia wartości wszystkich cech zbioru danych.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{KDE.png}
+    \includegraphics[width=0.8\textwidth]{dudel.jpg}
     \caption{Jądrowy estymator gęstości jednowymiarowej funkcji}
 \end{figure}
 
@@ -314,7 +320,7 @@ W niniejszej pracy wykorzystano podejście produktywne.
 Probabilistyczna sieć neuronowa to struktura wykorzystująca funkcję rozkładu gęstości prawdopodobieństwa  do celu klasyfikacji. Struktura sieci przedstawiona jest na rysunku 5. 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=1\textwidth]{pnn.png}
+    \includegraphics[width=1\textwidth]{dudel.jpg}
     \caption{Struktura probabilistycznej sieci neuronowej}
 \end{figure}
 \paragraph{}
@@ -343,7 +349,7 @@ Pierwsze wymaganie podyktowane jest chęcią modelowania funkcji gęstości praw
     \hline
     Wykres & Wzór & Nazwa \\ \hline
     \begin{minipage}[c][7cm]{.4\textwidth}
-      \includegraphics[width=\linewidth, height=60mm]{uniform}
+      \includegraphics[width=\linewidth, height=60mm]{dudel.jpg}
     \end{minipage}
     &
      $ K(x)=1/2, |x|\leq1$
@@ -351,7 +357,7 @@ Pierwsze wymaganie podyktowane jest chęcią modelowania funkcji gęstości praw
     Jednostajne
     \\ \hline
     \begin{minipage}[c][7cm]{.4\textwidth}
-      \includegraphics[width=\linewidth, height=60mm]{triangular}
+      \includegraphics[width=\linewidth, height=60mm]{dudel.jpg}
     \end{minipage}
     &
      $ K(x)=(1-|x|), |x|\leq1$
@@ -359,7 +365,7 @@ Pierwsze wymaganie podyktowane jest chęcią modelowania funkcji gęstości praw
     Trójkątne
     \\ \hline
     \begin{minipage}[c][7cm]{.4\textwidth}
-      \includegraphics[width=\linewidth, height=60mm]{epanechnikov}
+      \includegraphics[width=\linewidth, height=60mm]{dudel.jpg}
     \end{minipage}
     &
      $ K(x)=3/4(1-x^2), |x|\leq1$
@@ -376,7 +382,7 @@ Pierwsze wymaganie podyktowane jest chęcią modelowania funkcji gęstości praw
     \hline
     Wykres & Wzór & Nazwa \\ \hline
     \begin{minipage}[c][7cm]{.4\textwidth}
-      \includegraphics[width=\linewidth, height=60mm]{biweight}
+      \includegraphics[width=\linewidth, height=60mm]{dudel.jpg}
     \end{minipage}
     &
     $ K(x)=15/16(1-x^2)^2, |x|\leq1$
@@ -384,7 +390,7 @@ Pierwsze wymaganie podyktowane jest chęcią modelowania funkcji gęstości praw
     Dwówagowe
     \\ \hline
     \begin{minipage}[c][7cm]{.4\textwidth}
-      \includegraphics[width=\linewidth, height=60mm]{gausian}
+      \includegraphics[width=\linewidth, height=60mm]{dudel.jpg}
     \end{minipage}
     &
      $ K(x)=1/\sqrt{2\pi}e^{-1/2u^2} $
@@ -392,7 +398,7 @@ Pierwsze wymaganie podyktowane jest chęcią modelowania funkcji gęstości praw
     Normalne
     \\ \hline
     \begin{minipage}[c][7cm]{.4\textwidth}
-      \includegraphics[width=\linewidth, height=60mm]{cauchy}
+      \includegraphics[width=\linewidth, height=60mm]{dudel.jpg}
     \end{minipage}
     &
      $ K(x)=2/\pi(x^2+1)^2 $
@@ -514,7 +520,7 @@ Przebieg algorytmu:
 W pracy  wykorzystano interpretowany język programowania R. R to język służący do przeprowadzania obliczeń i analiz statystycznych i wizualizacji ich wyników. Obecnie jest jednym z najczęściej wykorzystywanych języków w analizie danych i uczeniu maszynowym zaraz po Pythonie. Największą zaletą tego języka jest ogromna ilość dostępnych bibliotek i narzędzi, duża ilość algorytmów z dziedzin statystyki i analizy danych jest już zaimplementowana i dostępna w postaci pakietów. Kolejną zaletą języka R jest fakt że jest dostępny na otwartej licencji GNU. Ilość dostępnych bibliotek i wbudowanych funkcjonalności umożliwiają szybkie pisanie algorytmów, ich testowanie i prototypownie, jednakże niska wydajność języka i brak funkcjonalności związanych z bezpieczeństwem powodują że R nie nadaje się do budowy finalnych aplikacji. R jest językiem który znacznie lepiej sprawdzi się w pracy naukowej. Środowiskiem programistycznym jakie wykorzystano jest darmowe RStudio.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.7\textwidth]{R_logo.png}
+    \includegraphics[width=0.7\textwidth]{dudel.jpg}
     \caption{Logo języka R}
 \end{figure}
  \newpage
@@ -562,7 +568,7 @@ Poza wspomnianymi funkcjonalnościami do wykorzystania z klasą PNN zaimplemento
 Dodatkowo w celu ułatwienia prezentacji wyników zaimplementowano funkcję umożliwiającą rysowanie wykresów estymatorów jądrowych wykorzystywanych w klasie PNN. Funkcja wyświetla trójwymiarowy przekrój estymatora dla dwóch zmiennych, a pozostałe zostają ustawioną na średnią wartość w obrębie klasy.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=1\textwidth]{plotPNN}
+    \includegraphics[width=1\textwidth]{dudel.jpg}
     \caption{Przykład wykresu przekroju estymatora jądrowego}
 \end{figure}
 \newpage
@@ -645,12 +651,12 @@ Osobny parametr wygładzania dla każdej z klas również może być przydatny, 
 \vfill 
 \begin{figure}
     \centering
-    \includegraphics[width=1.2\textwidth]{sm1}
+    \includegraphics[width=1.2\textwidth]{dudel.jpg}
     \caption{Estymator jądrowy, wygładzanie równe jeden dla każdego wymiaru i klasy}
 \end{figure}
 \begin{figure}
     \centering
-    \includegraphics[width=1.2\textwidth]{sm2}
+    \includegraphics[width=1.2\textwidth]{dudel.jpg}
     \caption{Estymator jądrowy, wygładzania 1.5 dla jednej z klas}
 \end{figure}
 \vfill
@@ -659,12 +665,12 @@ Osobny parametr wygładzania dla każdej z klas również może być przydatny, 
 \vfill 
 \begin{figure}
     \centering
-    \includegraphics[width=1.2\textwidth]{sm2}
+    \includegraphics[width=1.2\textwidth]{dudel.jpg}
     \caption{Estymator jądrowy, wygładzanie 2 dla jednego z wymiarów}
 \end{figure}
 \begin{figure}
     \centering
-    \includegraphics[width=1.2\textwidth]{sm4}
+    \includegraphics[width=1.2\textwidth]{dudel.jpg}
     \caption{Estymator jądrowy, wygładzanie 2 dla jednego z wymiarów i 1.5 dla jednej z klas}
 \end{figure}
 \vfill
