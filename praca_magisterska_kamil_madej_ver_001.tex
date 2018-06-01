@@ -218,7 +218,7 @@ Podczas opracowywania algorytmu szczególna uwaga zwrócona będzie w kierunku s
 
 \newpage
 %% =========================== ROZDZIAL 1 ================================
-\section{Klasyfikacja}
+\section{Software Asset Management}
 \subsection{Wstęp}
 \paragraph{}
 Eksploracja danych zajmuje się analizą dużych zbiorów danych dotyczących różnych zjawisk. Mogą to być dane finansowe, wyniki obserwacji fizyczny czy dane pacjentów. Danych najczęściej jest zbyt dużo aby mógł je przeanalizować człowiek, dlatego też istnieje zapotrzebowanie na automatyczne algorytmy operujące na całym zbiorze danych. Zbiór zwykle przedstawiany jest w postaci macierzy której kolumnami są cechy opisujące zjawisko, a wiersze to kolejne obserwacje. Analizowane dane mogą mieć następujące typy:
@@ -228,67 +228,37 @@ Eksploracja danych zajmuje się analizą dużych zbiorów danych dotyczących r�
     \item Tekstowe - Bloki tekstu opisujące zjawisko, na przykład treść wiadomości e-mail 
 \end{itemize}
 \paragraph{}
-Jedną z podstawowych procedur Eksploracji danych jest klasyfikacja, polegająca na dopasowywaniu nowych obserwacji do jednej z kategorii(klas). Nieprzypisana obserwacja powinna zostać przyporządkowana do klasy w której znajdują się  elementy najbardziej do niej podobne. Miarą podobieństwa może być odległość, pochodzenie z tego samego rozkładu lub inne bardziej złożone miary. Procedura ta zakłada istnienie zbioru trenującego już podzielonego na klasy, który będzie służył za przykład na podstawie którego dopasowane zostaną nowe rekordy.  Przykładem klasyfikacji może być  ocena czy pacjent cierpi na jakąś chorobę, czy określenie gatunku ziarna na podstawie jego wymiarów i wagi.  Klasyfikacja jest przykładem uczenia nadzorowanego, procedura uczy się na podstawie dostarczonych do niej przykładów. Przykładem uczenia nienadzorowanego jest klasteryzacja, w której celem jest podział zbioru danych na grupy bez żadnych informacji podanych z zewnątrz.
-\newpage
-\subsection{Dostępne rozwiązania}
-\subsubsection{Klasyfikator K-najbliższych sąsiadów}
-\paragraph{}
-Klasyfikator K-Najbliższych sąsiadów opiera się na założeniu że obserwacje ze zbioru uczącego znajdujące się najbliżej dostarczają istotnych informacji na temat klasy do której należy klasyfikowana obserwacja. Na potrzeby tego klasyfikatora należy zdefiniować pojęcie odległości w danym zbiorze danych. W przypadku danych liczbowych odległość może zostać zdefiniowana przy pomocy metryki Euklidesowej, i taka tez jest najczęściej wykorzystywana w praktyce. Inne typy danych nie mogą być bezpośrednio wykorzystywane do obliczania odległości. Dane tekstowe należy przekształcić na dane numeryczne lub kategoryczne przy pomocy procedur eksploracji tekstu. Cechy kategoryczne o więcej niż dwóch możliwych wartościach można przykładowo umieścić na sympleksie o odpowiedniej wymiarowości, tak aby odległości wszystkich wyborów były równe. Przebieg algorytmu \cite{knn}:
-\begin{itemize}
-\item Znajdź K elementów o najmniejszej odległości od klasyfikowanego
-\item Przypisz element do klasy z której pochodzi najwięcej sąsiadów
-\end{itemize} 
-\paragraph{}
-Dobór wartości K jest bardzo istotny dla działania algorytmu. Małe K powoduje że algorytm jest bardzo narażony na wpływ elementów nietypowych, a granicach klas pojawi się bardzo wiele źle zaklasyfikowanych elementów.  Duża wartość K może spowodować że mało liczne klasy i skupienia będą ignorowane, co również negatywnie wpłynie na jakość klasyfikacji \cite{knn}. Zaletą algorytmu jest jego prostota, jednakże jest on zwykle mniej skuteczny od bardziej zaawansowanych algorytmów.
-\newpage
-\subsubsection{Drzewa decyzyjne}
-\paragraph{}
-Drzewa decyzyjne to zbiór algorytmów których celem jest zbudowanie modelu w postaci drzewa umożliwiającego podjęcie decyzji na temat przynależności elementu do danej klasy. Algorytmu budowy drzew decyzyjnych polegają na rekursywnym podziale zbioru danych \cite{tree}. Celem działania drzewa decyzyjnego jest podział przestrzeni możliwych danych wejściowych na takie części aby każda z nich zawierała wyłącznie elementy jednej klasy. W węzłach drzewa umieszczane są kryteria na podstawie których dzielona jest przestrzeń danych wejściowych. 
-\paragraph{}
-Istnieje wiele algorytmów opartych o drzewa decyzyjne, klasycznym przykładem jest algorytm Iterative Dichotomiser 3 (ID3) w którym wybór decyzji jaka zostanie dodana do drzewa kierowany jest kryterium maksymalizacji zysku informacyjnego. Zysk informacyjny to różnica pomiędzy entropią zbioru danych przed i po dodaniu decyzji. W zbiorze uporządkowanym entropia powinna wynosić 0 ( w każdym zbiorze będą znajdować się tylko elementy jednej klasy).
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=1\textwidth]{dudel.jpg}
-    \caption{Struktura drzewa decyzyjnego w algorytmie ID3}
-\end{figure}
-
-
-\subsubsection{Maszyna wektorów nośnych}
-\paragraph{}
-Maszyna wektorów nośnych (ang. support vector machines, SVM), to metoda klasyfikacji binarnej której celem jest wyznaczenie hiperpłaszczyzny oddzielającej od siebie elementy dwóch klas \cite{svm}. Niestety, nie wszystkie zbiory danych można znaleźć granicę pomiędzy klasami danych, najczęściej w oryginalnej reprezentacji dane w pewnych obszarach mieszają się ze sobą. Aby rozwiązać ten problem w metodzie SVM stosuje się nieliniową transformacje zbioru danych w przestrzeń o znacznie wyższej wymiarowości w której zbiory danych staną się separowalne liniowo. 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\textwidth]{dudel.jpg}
-    \caption{Liniowy podział zbioru danych.}
-\end{figure}
-\paragraph{}
-Algorytm SVM polega na znalezieniu takiej linii rozdzielającej punkty aby odległość od najbliższego punktu każdej z klas była jak największa, tak by zapewnić jak największy margines klasyfikacji \cite{svm}. Taki wybór linii rozdzielającej znacznie poprawia właściwości uogólniające sieci. SVM działa tyko dla przypadku dwóch klas, aby umożliwić klasyfikacja większej ilości klas należy utworzyć wiele instancji SVM z których każda będzie podejmować decyzję czy dany punkt należy do danej klasy czy do pozostałych klas. 
-
-\newpage
-\subsubsection{Sieci neuronowe}
-\paragraph{}
-Sztuczne sieci neuronowe mogą być wykorzystywane do aproksymacji dowolnej funkcji, mogą więc również zostać użyte do klasyfikacji. Sztuczna sieć składa się z wielu połączonych ze sobą modeli neuronów. Neurony stanowią zwykle matematyczny model biologicznych neuronów. Pojedynczy neuron ma za zadanie zsumować sygnały ze wszystkich swoich wejść z zadanymi wagami, a następnie dokonać pogowania \cite{nn}. Sieć neuronowa składa się z kilku warstw  połączonych neuronów, zazwyczaj istnieją co najmniej dwie warstwy, warstwa wejściowa gdzie istnieje dokładnie jeden neuron dla każdej cechy zbioru danych, i warstwa wyjściowa z liczbą neuronów odpowiadającą złożoności problemu. W przypadku klasyfikacji, w warstwie wyjściowej zwykle znajduje się dokładnie tyle neuronów ile jest klas, gdzie każdy z nich daje binarną odpowiedź o przynależności do jednej z klas, bądź stosuje się dodatkową agregującą warstwę które przyporządkowuje badany element do klasy na podstawie wyjść poprzedniej warstwy. 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\textwidth]{dudel.jpg}
-    \caption{Uproszczony schemat sieci neuronowej.}
-\end{figure}
-\paragraph{}
-Proces uczenia sieci neuronowej polega na dobraniu takich wag aby sieć realizowała pożądane zadanie. Wprowadza się pojęcie funkcji celu której wartość będzie optymalizowana, zwykle poprzez kwadrat odległości wyjścia sieci neuronowej od wartości faktycznej. Do optymalizacji wykorzystuje się techniki propagacji wstecznej i algorytmy spadku gradientowego \cite{nn}.
-Innym rodzajem sieci neuronowej jest sieć probabilistyczna, która zostanie opisana w kolejnym rozdziale.
 \newpage
 \thispagestyle{empty}
 \mbox{}
 
 \newpage
 %% =========================== ROZDZIAL 2 ================================
-\section{Opis teoretyczny badanego rozwiązania}
-\subsection{Jądrowy estymator gęstości}
+\section{Reprezentacja danych}
+\subsection{Dane publikowane przez National Institute of Standards and Technology}
 \paragraph{}
-Rozkład gęstości prawdopodobieństwa to funkcja opisująca prawdopodobieństwo wystąpienia elementu w zależności od wartości wszystkich współrzędnych \cite{kde}. 
-\begin{equation} f:\mathbb{R}^n\rightarrow [0,\infty )
-\end{equation}
-Znajomość tej funkcji dostarcza wielu informacji na temat zbioru danych, na jej podstawie opiera się wiele algorytmów statystycznych, między innymi ten wykorzystany w pracy. Funkcja ta jednak nigdy nie jest dana w sposób jawny dla zbioru danych, dlatego należy ją estymować na podstawie dostępnych wartości.
+National Institute of Standards and Technology (NIST) jest amerykańską agencją federalną, która zajmuje się szeroko pojętą metrologią. Wśród obszarów zainteresowań NIST znalazły się również podatności w systemach informatycznych. \cite{nist_official} National Vulnerability Database (NVD) jest wynikiem prac prowadzonych przez Instytut, które miały na celu usystematyzowanie i jak najlepsze opisanie podatności oraz ich wpływu na systemy informatyczne. NVD jest rządowym repozytorium, które za pomocą protokołu Secutiry Content Automation Protocol (SCAP) pozwala na ustandaryzowane automatyzowanie zarządzania podatnościami. NVD zawiera listy kontrolne bezpieczeństwa, wady oprogramowania związane z bezpieczeństwem, błędy konfiguracyjne, nazwy produktów oraz ocenę wpływu na system. Dane w NVD aktualizowane są na bieżąco, zaraz po przeanalizowaniu ich przez zespół ekspercki. \cite{nvd_official} 
+\paragraph{}
+W protokole SCAP wykorzystuje się system Common Vulnerabilities and Exposures (CVE), który jest zarządzany i rozwijany przez firmę Mitre Corporation. Bazy danych NVD zawierają indeksy CVE rozszerzone dodatkowo o ocenę według metryk Common Vulnerability Scoring System (CVSS). Pozwala to na podjęcie automatycznej decyzji o akcjach związanych z pojawieniem się podatności w systemie informatycznym. CVE znajdujące się w bazie NVD mogą znajdować się w jednym z siedmiu stanów:
+
+Received\tab -\tab CVE został niedawno opublikowany do słownika CVE i został odebrany przez NVD\newline{}
+Awaiting Analysis\tab -\tab CVE został przeznaczony do analizy eksperckiej ze strony NVD, która zwykle zajmuje do 24 godzin\newline{}
+Undergoing Analysis\tab -\tab CVE jest obecnie analizowane przez ekspertów NVD
+Analyzed\tab -\tab CVE zostało całkowicie przeanalizowane oraz wszystkie dodatkowe dane zostały do niego przypisane. Każda z analiz może być opisana jednym z trzech podtypów:\newline{}
+    \tab Initial\tab -\tab używany by pokazać, że została przeprowadzona dopiero pierwsza analiza danego CVE\newline{}
+    \tab Modified\tab -\tab używana by pokazać, że została przeprowadzona analiza związana z modyfikacją danych w CVE\newline{}
+    \tab Reanalysis\tab -\tab używany by pokazać, że ponowna analiza została przeprowadzona z powodu innego niż modyfikacja CVE\newline{}
+Modified\tab -\tab CVE było poprawione przez źródło, które je opublikowało, co oznacza, że wyniki analizy NVD mogą być już nieaktualne\newline{}
+Deferred\tab -\tab jeśli CVE znajduje się w tym planie oznacza to, że nie jest planowana jego analiza\newline{}
+Rejected\tab -\tab CVE w tym stanie znajduje się w bazie danych NVD, nie wyświetla się jednak w wynikach wyszukiwania\newline{}
+
+\paragraph{}
+
+
+
+
+
+
 \paragraph{}
 Do przybliżania wartości funkcji rozkładu gęstości prawdopodobieństwa wykorzystano metodę estymatorów jądrowych. Gęstość prawdopodobieństwa często jest funkcją o wielu lokalnych maksimach i minimach, dlatego też nie można jej efektywnie estymować  żadnym standardowym rozkładem prawdopodobieństwa, dlatego też wybrano metodę nieparametryczną ( nie zakładającą przynależności do danego rozkładu). Metoda estymatorów jądrowych polega na sumowaniu funkcji jądrowych (ang. kernel functions) przesuniętych do każdego z elementów zbioru trenującego. Jednowymiarowy estymator gęstości opisany jest więc wzorem \cite{kde}:
 \begin{equation} \hat{f}(x)=\frac{1}{mh}\sum_{i=1}^{m}K\left ( \frac{x-x_{i}}{h} \right )
