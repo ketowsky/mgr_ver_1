@@ -237,249 +237,43 @@ Eksploracja danych zajmuje się analizą dużych zbiorów danych dotyczących r�
 \section{Reprezentacja danych}
 \subsection{Dane publikowane przez National Institute of Standards and Technology}
 \paragraph{}
-National Institute of Standards and Technology (NIST) jest amerykańską agencją federalną, która zajmuje się szeroko pojętą metrologią. Wśród obszarów zainteresowań NIST znalazły się również podatności w systemach informatycznych. \cite{nist_official} National Vulnerability Database (NVD) jest wynikiem prac prowadzonych przez Instytut, które miały na celu usystematyzowanie i jak najlepsze opisanie podatności oraz ich wpływu na systemy informatyczne. NVD jest rządowym repozytorium, które za pomocą protokołu Secutiry Content Automation Protocol (SCAP) pozwala na ustandaryzowane automatyzowanie zarządzania podatnościami. NVD zawiera listy kontrolne bezpieczeństwa, wady oprogramowania związane z bezpieczeństwem, błędy konfiguracyjne, nazwy produktów oraz ocenę wpływu na system. Dane w NVD aktualizowane są na bieżąco, zaraz po przeanalizowaniu ich przez zespół ekspercki. \cite{nvd_official} 
+National Institute of Standards and Technology (NIST) jest amerykańską agencją federalną, która zajmuje się szeroko pojętą metrologią. Wśród obszarów zainteresowań NIST znalazły się również podatności w systemach informatycznych\cite{nist_official}. National Vulnerability Database (NVD) jest wynikiem prac prowadzonych przez Instytut, które miały na celu usystematyzowanie i jak najlepsze opisanie podatności oraz ich wpływu na systemy informatyczne. NVD jest rządowym repozytorium, które za pomocą protokołu Secutiry Content Automation Protocol (SCAP) pozwala na ustandaryzowane automatyzowanie zarządzania podatnościami. NVD zawiera listy kontrolne bezpieczeństwa, wady oprogramowania związane z bezpieczeństwem, błędy konfiguracyjne, nazwy produktów oraz ocenę ich wpływu na system. Dane w NVD aktualizowane są na bieżąco, zaraz po przeanalizowaniu ich przez zespół ekspercki\cite{nvd_official}. 
 \paragraph{}
-W protokole SCAP wykorzystuje się system Common Vulnerabilities and Exposures (CVE), który jest zarządzany i rozwijany przez firmę Mitre Corporation. Bazy danych NVD zawierają indeksy CVE rozszerzone dodatkowo o ocenę według metryk Common Vulnerability Scoring System (CVSS). Pozwala to na podjęcie automatycznej decyzji o akcjach związanych z pojawieniem się podatności w systemie informatycznym. CVE znajdujące się w bazie NVD mogą znajdować się w jednym z siedmiu stanów:
+W protokole SCAP wykorzystuje się system Common Vulnerabilities and Exposures (CVE), który jest zarządzany i rozwijany przez firmę Mitre Corporation. Bazy danych NVD zawierają indeksy CVE rozszerzone dodatkowo o ocenę podatności według metryk Common Vulnerability Scoring System (CVSS). Pozwala to na podjęcie automatycznej decyzji o akcjach związanych z pojawieniem się podatności w systemie informatycznym. CVE znajdujące się w bazie NVD mogą znajdować się w jednym z siedmiu stanów:
+\newline Received  \tab\tab\tab -\tab CVE został niedawno opublikowany do słownika CVE i został odebrany przez NVD\newline{}
+Awaiting   Analysis \tab-\tab CVE został przeznaczony do analizy eksperckiej ze strony NVD, która zwykle zajmuje do 24 godzin\newline{}
+Undergoing Analysis\tab -\tab CVE jest obecnie analizowane przez ekspertów NVD\newline{}
+Analyzed\tab\tab -\tab CVE zostało całkowicie przeanalizowane oraz wszystkie dodatkowe dane zostały do niego przypisane. Każda z analiz może być opisana jednym z trzech podtypów:\newline{}
+    \tab\tab Initial\tab\tab -\tab używany by pokazać, że została przeprowadzona dopiero pierwsza analiza danego CVE\newline{}
+    \tab\tab Modified\tab\tab -\tab używana by pokazać, że została przeprowadzona analiza związana z modyfikacją danych w CVE\newline{}
+    \tab\tab Reanalysis\tab\tab -\tab używany by pokazać, że ponowna analiza została przeprowadzona z powodu innego niż modyfikacja CVE\newline{}
+Modified\tab\tab\tab -\tab CVE było poprawione przez źródło, które je opublikowało, co oznacza, że wyniki analizy NVD mogą być już nieaktualne\newline{}
+Deferred\tab\tab\tab -\tab jeśli CVE znajduje się w tym planie oznacza to, że nie jest planowana jego analiza\newline{}
+Rejected\tab\tab\tab -\tab CVE w tym stanie znajduje się w bazie danych NVD, nie wyświetla się jednak w wynikach wyszukiwania\newline{}
 
-Received\tab -\tab CVE został niedawno opublikowany do słownika CVE i został odebrany przez NVD\newline{}
-Awaiting Analysis\tab -\tab CVE został przeznaczony do analizy eksperckiej ze strony NVD, która zwykle zajmuje do 24 godzin\newline{}
-Undergoing Analysis\tab -\tab CVE jest obecnie analizowane przez ekspertów NVD
-Analyzed\tab -\tab CVE zostało całkowicie przeanalizowane oraz wszystkie dodatkowe dane zostały do niego przypisane. Każda z analiz może być opisana jednym z trzech podtypów:\newline{}
-    \tab Initial\tab -\tab używany by pokazać, że została przeprowadzona dopiero pierwsza analiza danego CVE\newline{}
-    \tab Modified\tab -\tab używana by pokazać, że została przeprowadzona analiza związana z modyfikacją danych w CVE\newline{}
-    \tab Reanalysis\tab -\tab używany by pokazać, że ponowna analiza została przeprowadzona z powodu innego niż modyfikacja CVE\newline{}
-Modified\tab -\tab CVE było poprawione przez źródło, które je opublikowało, co oznacza, że wyniki analizy NVD mogą być już nieaktualne\newline{}
-Deferred\tab -\tab jeśli CVE znajduje się w tym planie oznacza to, że nie jest planowana jego analiza\newline{}
-Rejected\tab -\tab CVE w tym stanie znajduje się w bazie danych NVD, nie wyświetla się jednak w wynikach wyszukiwania\newline{}
+Dodatkową kategorią indeksu CVE jest kategoria "Reserved". CVE występujące w słowniku, które są oznaczone takim polem, nie zostają włączone do bazy danych NVD\cite{nvd_official}.
 
+\subsection{Common Vulnerabilities and Exposures}
 \paragraph{}
-
-
-
-
-
-
+Common Vulnerabilities and Exposures jest systemem zapewniającym publiczne, darmowe informacje na temat ekspozycji i podatności systemów informatycznych. Celem stworzenia CVE było utworzenie standardu, który ułatwiłby dzielenie się informacjami pomiędzy różnymi narzędziami zajmującymi się tematyką cyberbezpieczeństwa. Dzięki CVE możliwa była komunikacja pomiędzy tymi narzędziami, co pozwoliło na bardziej efektywną walkę z atakami na systemy informatyczne. 
 \paragraph{}
-Do przybliżania wartości funkcji rozkładu gęstości prawdopodobieństwa wykorzystano metodę estymatorów jądrowych. Gęstość prawdopodobieństwa często jest funkcją o wielu lokalnych maksimach i minimach, dlatego też nie można jej efektywnie estymować  żadnym standardowym rozkładem prawdopodobieństwa, dlatego też wybrano metodę nieparametryczną ( nie zakładającą przynależności do danego rozkładu). Metoda estymatorów jądrowych polega na sumowaniu funkcji jądrowych (ang. kernel functions) przesuniętych do każdego z elementów zbioru trenującego. Jednowymiarowy estymator gęstości opisany jest więc wzorem \cite{kde}:
-\begin{equation} \hat{f}(x)=\frac{1}{mh}\sum_{i=1}^{m}K\left ( \frac{x-x_{i}}{h} \right )
-\end{equation}
-Gdzie m to liczność zbioru zdanych, K to funkcja estymatora jądrowego, a h to parametr wygładzania. Jądro musi być funkcją symetryczną z maksimum globalnym w zerze, a jego całka musi wynosić jeden \cite{kde2}. Istnieje wiele funkcji spełniających te warunki, dobór jądra zostanie omówiony w podrozdziale 2.3. Na rysunku 4 widać  funkcję rozkładu gęstości prawdopodobieństwa, która przyjmuje wysokie wartości w tych przedziałach w których znajduje się duża liczba elementów, i bardzo niskie w obszarach w których elementy nie występują. Wartość tej funkcji można interpretować jako prawdopodobieństwo wystąpienia konkretnego zestawienia wartości wszystkich cech zbioru danych.
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\textwidth]{dudel.jpg}
-    \caption{Jądrowy estymator gęstości jednowymiarowej funkcji}
-\end{figure}
-
-
-\newpage
-Dla przypadku zmiennej losowej wielowymiarowej funkcja estymatora jądrowego opisywana jest przez wzór \cite{kde2}: \begin{equation}
-\hat{f}(x,H)=\frac{1}{m}\sum_{i=1}^{m}\left | H \right |^{-1/2} K\left ( H^{-1/2}x \right )\label{eq:1}
-\end{equation}
-Gdzie $H$ to macierz współczynników wygładzania a $K$ to jądro wielowymiarowe.
-Istnieją dwie metody generacji jąder wielowymiarowych z jąder jednowymiarowych, jądro produktywne i jądro radialne. Jądro produktywne to jądro wielowymiarowe utworzone jako iloraz jąder jednowymiarowych \cite{kde2}:
-\begin{equation} K^n(x)=\prod_{i=1}^{n} K^1(x_{i})
-\end{equation}
-
-Alternatywnym podejściem jest stosowanie jądra radialnego \cite{kde2}:
-
-\begin{equation} K^n(x)=c_{K,n}K^1((x^Tx)^{1/2})
-\end{equation}
-W niniejszej pracy wykorzystano podejście produktywne.
-\subsection{Probabilistyczna sieć neuronowa}
+W CVE podatność zdefiniowana jest jako słabość w logice obliczeniowej, znaleziona w oprogramowaniu lub komponentach sprzętowych, które, jeśli zostałyby odkryte, niekorzystnie wpłynęły by na poufność, integralność lub dostępność systemu. Naprawa podatności zwykle wymaga zmian w kodzie programu, czasem również zmian w specyfikacji. Ekspozycją (TODO przemyśleć tłumaczenie "exposure") jest błędna konfiguracja systemu lub błąd w oprogramowaniu, który daje dostęp do informacji i zdolności systemu, użytymi później przez hakera jako wytrych\cite{cve_mitre_terms}.   
 \paragraph{}
-Probabilistyczna sieć neuronowa to struktura wykorzystująca funkcję rozkładu gęstości prawdopodobieństwa  do celu klasyfikacji. Struktura sieci przedstawiona jest na rysunku 5. 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=1\textwidth]{dudel.jpg}
-    \caption{Struktura probabilistycznej sieci neuronowej}
-\end{figure}
-\paragraph{}
-Pierwsza warstwa to warstwa wejściowa, każdy neuron warstwy wejściowej reprezentuje jeden z atrybutów zbioru danych. Wartości atrybutów klasyfikowanego elementu przekazywane są na wejścia neuronów wejściowych. W drugiej warstwie ( warstwa wzorów) obliczane są wartości funkcji jądrowej przesuniętej do punktu ze zbioru uczącego w badanym punkcie dla każdego elementu trenującego. Warstwa ta zawiera wszystkie informacje ze zbioru trenującego. Powstałe wartości są sumowane i skalowane w warstwie sumacyjnej. Sumowanie przeprowadzane jest po wszystkich elementach klasy, więc neuronów w warstwie sumacyjnej jest dokładnie tyle ile klas w zbiorze danych. Wyjścia warstwy sumacyjnej są odpowiednikami obliczenia wartości jądrowego estymatora gęstości dla każdej z klas w badanym punkcie.   Ostatnia warstwa podejmuje decyzję o klasyfikacji. Wybrana zostaje klasa której wartość wyjścia warstwy sumacyjnej jest największa.
-\paragraph{}
-W przeciwieństwie do klasycznych sieci neuronowych, siec probabilistyczna nie wymaga procesu optymalizacji wag wszystkich połączeń. Proces uczenia PNN polega na budowie struktury i umieszczeniu w niej wszystkich elementów zbioru trenującego, oraz na odpowiednim dobraniu parametrów jądrowego estymatora gęstości, które zostaną opisane w kolejnych podrozdziałach. Wadą probabilistycznych sieci neuronowych jest jednakże wysoki czas klasyfikacji, który uwarunkowany jest umieszczeniem całego zbioru danych w strukturze sieci.
-\subsection{Dobór jądra}
-Funkcja jądrowa (ang. kernel) powinna spełniać poniższe warunki \cite{kde2}:
-\begin{equation} \int K(x)dx=1
-\end{equation}
-\begin{equation} \int xK(x)dx=0
-\end{equation}
-\begin{equation} \int x^2K(x)dx<\inf
-\end{equation}
-\begin{equation}  K(x)>0
-\end{equation}
-\begin{equation}  K(x)=K(-x)
-\end{equation}
-
-Pierwsze wymaganie podyktowane jest chęcią modelowania funkcji gęstości prawdopodobieństwa, której całka również musi wynosić jeden. Pozostałe warunki wynikają ze specyfiki procesu estymacji, warto aby funkcja jądra była symetryczna aby nie kierować danych w jednym z kierunków.  Istnieje wiele funkcji spełniających powyższe warunki, nie można również stwierdzić które z okien daje najlepsze rezultaty. W tabeli 1 wypisano jądra badane w niniejszej pracy. 
-\newpage
-\begin{table}[h!]
-  \centering
-  \caption{Jądra}
-  \begin{tabular}{ | c | m{6cm} | m{3cm} | }
-    \hline
-    Wykres & Wzór & Nazwa \\ \hline
-    \begin{minipage}[c][7cm]{.4\textwidth}
-      \includegraphics[width=\linewidth, height=60mm]{dudel.jpg}
-    \end{minipage}
-    &
-     $ K(x)=1/2, |x|\leq1$
-    & 
-    Jednostajne
-    \\ \hline
-    \begin{minipage}[c][7cm]{.4\textwidth}
-      \includegraphics[width=\linewidth, height=60mm]{dudel.jpg}
-    \end{minipage}
-    &
-     $ K(x)=(1-|x|), |x|\leq1$
-    & 
-    Trójkątne
-    \\ \hline
-    \begin{minipage}[c][7cm]{.4\textwidth}
-      \includegraphics[width=\linewidth, height=60mm]{dudel.jpg}
-    \end{minipage}
-    &
-     $ K(x)=3/4(1-x^2), |x|\leq1$
-    & 
-    Epanecznikowa
-    \\ \hline
-    \end{tabular}
-  \label{tbl:myLboro}
-\end{table}
-\begin{table}[h!]
-  \centering
-  \caption{Jądra cz.2}
-  \begin{tabular}{ | c | m{6cm} | m{3cm} | }
-    \hline
-    Wykres & Wzór & Nazwa \\ \hline
-    \begin{minipage}[c][7cm]{.4\textwidth}
-      \includegraphics[width=\linewidth, height=60mm]{dudel.jpg}
-    \end{minipage}
-    &
-    $ K(x)=15/16(1-x^2)^2, |x|\leq1$
-    & 
-    Dwówagowe
-    \\ \hline
-    \begin{minipage}[c][7cm]{.4\textwidth}
-      \includegraphics[width=\linewidth, height=60mm]{dudel.jpg}
-    \end{minipage}
-    &
-     $ K(x)=1/\sqrt{2\pi}e^{-1/2u^2} $
-    & 
-    Normalne
-    \\ \hline
-    \begin{minipage}[c][7cm]{.4\textwidth}
-      \includegraphics[width=\linewidth, height=60mm]{dudel.jpg}
-    \end{minipage}
-    &
-     $ K(x)=2/\pi(x^2+1)^2 $
-    & 
-    Cauchiego
-    \\ \hline
-    \end{tabular}
-  \label{tbl:myLboro}
-\end{table}
-\clearpage
-\paragraph{}
-Jądro Epanecznikowa jest optymalne pod względem błędu średniokwadratowego estymacji \cite{epa}, jednakże wykorzystywana jest znaczna ilość innych okien, przede wszystkim dlatego że teoretyczna różnica dokładności nie jest duża, a często wybiera się okna o dobrych właściwościach matematycznych, ułatwiając tym samym przeprowadzanie obliczeń. Z tego właśnie powodu często wykorzystywane są jądra Cauchiego i normalne. Można też zauważyć że istnieją dwa typy jąder: 
+Lista Common Vulnerabilities and Exposures składa się CVE Entry, czyli wpisów CVE, które identyfikują poszczególne podatności. Każdy wpis na liście CVE składa się z:
 \begin{itemize}
-\item O skończonej szerokości: Jednostajne, Trójkątne, Epanecznikowa, Dwówagowe
-\item O nieskończonej szerokości: Normalne, Cauchiego
-\end{itemize}
-Różnice pomiędzy tymi typami okien  oraz wyniki uzyskane z różnymi oknami zostaną omówione w części praktycznej pracy.
-\subsection{Parametr wygładzania}
-\paragraph{}
-Bardzo istotny w procesie estymacji jądrowej jest parametr wygładzania. Parametr ten kontroluje szerokość jądra, duże wartości powodują mocne wygładzenie estymatora rozkładu, natomiast małe wartości prowadzą do bardzo dużej zmienności estymatora. We wzorze \ref{eq:1} symbol H oznacza macierz symetryczną parametrów wygładzania, można analizować kilka stopni dokładności doboru parametru wygładzania:
-\begin{itemize}
-\item Parametr wygładzania taki sam dla wszystkich wymiarów i klas - H to macierz powstała przez przemnożenie skalara przez macierz jednostkową, ta sama dla każdej klasy.
-\item Parametr wygładzania taki sam dla wszystkich klas, zmienny dla wymiarów - H to macierz diagonalna, ta sama dla każdej klasy.
-\item Parametr wygładzania taki sam dla wszystkich wymiarów, zmienny dla klas - H to macierz powstała przez przemnożenie skalara przez macierz jednostkową, różna dla każdej klasy.
-\item Parametr wygładzania zmienny dla wymiarów i klas - H to macierz diagonalna, różna dla każdej klasy.
-\end{itemize}
-
-W pracy zbadane zostaną wszystkie wymienione podejścia. 
-
-\subsection{Dobór parametru wygładzania metodą plug-in}
-\paragraph{}
-Istnieje wiele metod doboru parametru wygładzania, w przypadku jądra radialnego najczęściej wykorzystywana jest metoda kros-walidacji, natomiast w przypadku podejścia produktywnego najczęściej wykorzystuje się metodę podstawiania (ang. plug-in) \cite{kde}. W niniejszej pracy wykorzystana i omówiona zostanie metoda plug-in. 
-Jakość estymacji oceniana jest miarą całkowego błędu średnio kwadratowego MISE:
-\begin{equation}  MISE(\hat{f})=E\left(\int_{R^n}\left[\hat{f}(x)-f(x)\right]^2 dx\right)
-\end{equation}
-Gdzie E oznacza wartość oczekiwaną. Celem metody plug-in jest znalezienie h minimalizującego powyższe wyrażenie. 
-
-Można pokazać że wartością minimalizującą powyższe wyrażenie dla przypadku jednowymiarowego z błędem zmieżającym do zera wraz ze wzrostem rozmiaru zbioru danych jest \cite{kde2}:
-\begin{equation}  h_{MISE}=\left[ \frac{R(K)}{mP(K)^2\Psi_{4}}\right]^\frac{1}{5} \label{eqn2}
-\end{equation}
-Gdzie:
-\begin{equation}  R(K)=\int_{R^n}K(x)^2dx
-\end{equation}
-\begin{equation}  P(K)=\int_{R^n}x^TxK(x)dx
-\end{equation}
-\begin{equation} \Psi_{4}=\int^{\infty}_{-\infty }f^{(4)}(x)f(x)dx
-\end{equation}
-
-\paragraph{}
-Jedynym nieznanym elementem równania \ref{eqn2}  $\Psi_{4}$. W metodzie plug-in do znalezienia tej zmiennej wykorzystuję się proces estymacji jądrowej pochodnej rozkładu prawdopodobieństwa. Do estymacji pochodnej użyty może zostać dowolny inny estymator jądrowy $K_{1}$ i dowolny inny parametr wygładzania g. Proces wyznaczania estymatora jądrowego wymaga znajomości jego drugiej pochodnej, natomiast proces wyznaczania estymatora jądrowego drugiej pochodnej wymaga znajomości pochodnej czwartego rzędu. W ogólności wyznaczenie h dla pochodnej rzędu N wymaga znajomości pochodnej rzędu N+2. Aby uzyskać dokładną wartość $h_{MISE}$ należało by przeanalizować nieskończoną ilość pochodnych, dlatego też stosuje się pewne przybliżenie. Proces podstawiania kończy się po skończonej ilości iteracji ( w niniejszej pracy 3), a do estymacji pochodnej najwyższego rzędu wykorzystuje się przybliżenie nie oparte o estymatory jądrowe. 
-Estymator $\Psi_{r}$ zdefiniowany jest następująco \cite{kde}:
-\begin{equation} \hat{\Psi}_{r}(g)=\frac{1}{m^2g^{r+1}}\sum^m_{i=1}\sum^m_{j=1}K_{1}^{(r)}(\frac{x_{i}-x_{j}}{g})
-\end{equation}
-Po zastosowaniu estymatora wzór na $h_{MISE}$  wygląda następująco:
-\begin{equation}  h_{MISE}=\left[ \frac{R(K)}{mP(K)^2 \hat{\Psi}_{4}(g_{4})}\right]^\frac{1}{5} 
-\end{equation}
-Wartość g stanowi parametr wygładzania estymatora pochodnej rozkładu gęstości prawdopodobieństwa, i można go obliczyć ze wzoru: 
-\begin{equation}  g_{r}=\left[ \frac{2K^{(r)}(0)}{mP(K)\hat{\Psi}_{r+2}(g_{r+2})}\right]^\frac{1}{r+3} 
-\end{equation}
-
-Jak widzimy, równania wykazują zależność rekurencyjną. W przypadku algorytmu trzeciego stopnia dokonujemy obliczeń $\Psi_{4}$, $\Psi_{6}$ i $\Psi_{8}$ według podanych wzorów, natomiast $\Psi_{10}$ potrzebne do obliczenia $\Psi_{8}$ zostaje estymowane przy pomocy wzoru normalnej skali (ang. normal scale) \cite{kde2}:
-\begin{equation} \hat{\Psi}^{NS}_{r}=\left[\frac{-1^{r/2}r!}{(2\hat{\sigma})^{r+1}(r/2)!\pi^{1/2}}\right]^\frac{1}{9} 
-\end{equation}
-\subsection{Modyfikacja parametru wygładzania}
-\paragraph{}
-Modyfikacja parametru wygładzania to proces uzależnienia stopnia wygładzania od lokalnej gęstości występowania elementów w estymatorze jądrowym. Algorytm modyfikacjie przebiega następujaco \cite{kde}:
-\begin{itemize}
-\item Obliczenie estymatora gęstości $\hat{f}_{*}$ nie używając modyfikacji parametru wygładzania, wykorzystując parametry wygładzania obliczone na przykład przy pomocy metody plug-in
-\item Obliczenie parametru modyfikacji $s_{i}$ dla każdego elementu zbioru danych $x_{i}$ według wzoru:
-\begin{equation} s_{i}=\left(\frac{\hat{f}_{*}(x_{i})}{s}\right)^{-c} 
-\end{equation}
-Gdzie s to średnia geometryczna wartości estymatora $\hat{f}_{*}$  dla wszystkich elementów zbioru danych, a c to większa lub równa od zera zmienna oznaczająca siłę modyfikacji.
-\item Obliczenie estymatora gęstości wykorzystując wyznaczony parametr modyfikacji korzystając ze wzoru:
-\begin{equation}
-\hat{f}(x)=\frac{1}{mh^n}\sum_{i=1}^{m}\frac{1}{s^{n}_{i}}K\left ( \frac{x-x_{i}}{hs^{n}_{i}} \right )
-\end{equation}
-\end{itemize}
- \paragraph{}
-Modyfikacja parametru wygładzania ma korzystny wpływ z dwóch przyczyn, po pierwsze zwiększone wygładzanie w rejonach niskiej gęstości znacznie poprawia odporność klasyfikatora na elementy nietypowe. Rekord bardzo oddalony od jakiegokolwiek innego zostanie bardzo mocno wygładzony, dzięki czemu jego wpływ na wynik będzie minimalny.  W rejonach wysokiej gęstości nie potrzebne jest duże wygładzanie, a każde wygładzanie prowadzi do utraty informacji (wysokie częstotliwości w funkcji rozkładu gęstości zostają odfiltrowane), dlatego też zmniejszenie stopnia wygładzania w rejonach wysokiej gęstości pozytywnie wpływa na jakość estymacji. 
- Wpływ stosowania modyfikacji wygładzania zostanie zbadany w niniejszej pracy.
-\subsection{Flower Pollination Algorithm}
-\paragraph{}
-W niniejszej pracy badany będzie wpływ zastosowania algorytmu optymalizacyjnego do doboru parametru wygładzania w probabilistycznej sieci neuronowej. Algorytm jaki został wybrany to oparty o schematy biologiczne Flower Pollination Algorithm (FPA, pol. Algortym zapylania kwiatów). FPA to algorytm metaheourystyczny, nie istnieją mocne teoretyczne podstawy dla jego skuteczności, proces optymalizacji przebiegać będzie w ten sam sposób niezależnie od optymalizowanej funkcji.  Inspiracją do stworzenia tego algorytmu jest proces zapylania kwiatów w którym możemy wyróżnić dwa oddzielne pod procesy \cite{FPA}:
-\begin{itemize}
-\item Zapylanie lokalne, odbywające się w obrębie jednego kwiatu bądź w obrębie kwiatów tej samej rośliny lub poprzez czynniki abiotyczne jak na przykład wiatr. 
-\item Zapylanie globalne, odbywające się pod wpływem działania organizmów zewnętrznych jak na przykład pszczoły, które mogą pokonywać duże dystanse pomiędzy roślinami
+\item CVE ID, który jest unikatowym identyfikatorem wpisu. Zapisany jest w formacie CVE-YYY-NNNN, gdzie YYYY jest liczbą oznaczającą rok publikacji wpisu, a NNNN jest numerem identyfikacyjnym w danym roku. pole NNNN składa się co najmniej z czterech cyfr, jednak od 2014 roku może ich być więcej niż cztery.
+\item Krótki opis podatności lub ekspozycji systemu, który może zwierać takie informacje, jak nazwa producenta podatnego oprogramowania.
+\item Odnośniki do innych, powiązanych wpisów CVE oraz wszelkie inne odnośniki, takie jak raporty i porady podane przez producenta.
 \end{itemize}
 \paragraph{}
-Obydwa procesy wykorzystane zostają w algorytmie, aby je wykorzystać należy przedstawić je w postaci równań aktualizacji pozycji wektora rozwiązań. W przypadku zapylania globalnego aktualizacja przebiega według wzoru \cite{FPA}:
-\begin{equation}
-x^{t+1}_i=x^t_i + \gamma L(\lambda)(g_*-x^t_i)\label{global}
-\end{equation}
-Gdzie $g_*$ to rozwiązanie optymalne w poprzedniej generacji, $L(\lambda)$ to krok pochodzący z rozkładu Lévy'ego a  $\gamma$ to współczynnik skalujący. Wzór ten zakłada że poruszanie się organizmów zapylających może być modelowane poprzez loty Lévy'ego \cite{FPA}. 
-Zapylanie lokalne modelowane jest przy pomocy wzoru \cite{FPA}:
-\begin{equation}
-x^{t+1}_i=x^t_i + \epsilon(x^t_j - x^t_k)\label{local}
-\end{equation}
-Gdzie $x^t_j$ i $x^t_k$ to inne wektory rozwiązań, a $\epsilon$ to rozmiar kroku który losowany jest z rozkładu jednorodnego w przedziale od 0 do 1. Niniejszy wzór modeluje stałość kwiatów (flower constancy), czyli zjawisko  w którym obserwuje się chęć organizmów zapylających do odwiedzania wyłącznie kwiatów tego samego gatunku. Zjawisko to ma uzasadnienie ewolucyjne zarówno dla kwiatów ( więcej zapylonych osobników) jak i dla organizmów, które dzięki dużej liczbie zapylonych kwiatów uzyskają dostęp do większej ilości nektaru \cite{FPA}. 
-Wybór pomiędzy rodzajami zapylania kontrolowany jest przez prawdopodobieństwo przełączenia (ang. switch probability), faworyzujące zapylanie lokalne, którego sugerowana w literaturze wartość to 0.8. 
-Przebieg algorytmu:
-\begin{enumerate}
-\item Wylosowanie początkowych wektorów rozwiązań.
-\item Znalezienie rozwiązania optymalnego w obecnej generacji
-\item Wybór typu zapylenia dla każdego rozwiązania zgodnie z prawdopodobieństwem przełączenia
-\item Wyznaczenie nowych rozwiązań korzystając z odpowiedniego z wzorów \ref{global} i \ref{local} 
-\item Wyznaczenie wartości optymalizowanej funkcji w nowych rozwiązaniach, aktualizacja rozwiązań jeżeli nowe rozwiązanie osiągnęło lepszy wynik
-\item Powtórzenie kroków 2-5 przez pewną liczbę iteracji
-\end{enumerate}
-\newpage
-\thispagestyle{empty}
-\mbox{}
+Wpisy tworzone są przez zespół Mitre zajmujący się CVE, producentów oprogramowania, których aplikacje zawierają podatności oraz tak zwanych CVE Numbering Authority (CNA). CNA to organizacja zajmująca się dystrybuowaniem CVE ID. Ma ona ograniczone możliwości przypisywania CVE ID, dokładnie określone i udokumentowane, zwykle obejmujące programy lub sprzęt pochodzące od kilku producentów. Ograniczenia te stworzone są po to, by kompetencje zbyt wielu osób nie nachodziły na siebie, co mogłoby powodować chaos\cite{cve_mitre_cna_doc}.
+\paragraph{}
+
+
+
+
+\paragraph{}
+
 
 \newpage
 %% =========================== ROZDZIAL 3 ================================
@@ -850,31 +644,18 @@ Niniejsza praca stanowi jedynie badanie użyteczności algorytmu FPA do strojeni
 \bibliographystyle{plain}
 \renewcommand{\refname}{Bibliografia}
 \begin{thebibliography}{}
-\bibitem{knn}
-Kramer O. (2013) K-Nearest Neighbors. In: Dimensionality Reduction with Unsupervised Nearest Neighbors. Intelligent Systems Reference Library, vol 51. Springer, Berlin, Heidelberg
-\bibitem{tree}
-Berk R.A. (2008) Classification and Regression Trees (CART). In: Statistical Learning from a Regression Perspective. Springer Series in Statistics. Springer, New York, NY
-\bibitem{svm}
-Cortes, C. Vapnik, V. Mach Learn (1995) 20: 273. \url{https://doi.org/10.1007/BF00994018}
-\bibitem{nn}
-Evans J.P. (1990) Classifying Artificial Neural Network Architecture. In: International Neural Network Conference. Springer, Dordrecht
-\bibitem{kde}
-Kulczycki P. (2005) Estymatory jądrowe w analizie systemowej. WNT, Warszawa
-\bibitem{kde2}
-Gramacki A. (2018) Kernel Density Estimation. In: Nonparametric Kernel Density Estimation and Its Computational Aspects. Studies in Big Data, vol 37. Springer, Cham
-\bibitem{pnn}
-Kowalski, P.A. Kulczycki, P. Neural Comput  Applic (2017) 28: 817. \url{https://doi.org/10.1007/s00521-015-2109-3}
-\bibitem{epa}
-Epanechnikov, V.A. (1969). "Non-parametric estimation of a multivariate probability density". Theory of Probability and its Applications. 14: 153–158.
-\bibitem{FPA}
-  Xin-She Yang,
-  \emph{Nature-Inspired Optimization Algorithms},
-  Rozdział 11 – Flower Pollination Algorithms
-  2014.
 
-\bibitem{R_webpage}
-  Oficjalna dokumentacja języka R,
-  \emph{\url{https://www.r-project.org/}}, ostatni dostęp: 03.05.2018
+
+\bibitem{mitre_cve_basics}
+https://cve.mitre.org/about/faqs.html
+
+\bibitem{cve_mitre_terms}
+https://cve.mitre.org/about/terminology.html
+
+\bibitem{cve_mitre_cna_doc}
+"CVE Overview for Prospective CNAs", Mitre Corporation, Version 1.0, 29 Wrzesień 2018
+%% https://cve.mitre.org/cve/cna/CVE_Overview_for_Prospective_CNAs_v1.0.pdf
+
   
 
 \end{thebibliography}
