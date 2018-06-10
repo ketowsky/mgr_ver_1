@@ -248,7 +248,7 @@ Lista Common Vulnerabilities and Exposures składa się CVE Entry, czyli wpisów
 \item Odnośniki do innych, powiązanych wpisów CVE oraz wszelkie inne odnośniki, takie jak raporty i porady podane przez producenta.
 \end{itemize}
 \paragraph{}
-Wpisy tworzone są przez zespół Mitre zajmujący się CVE, producentów oprogramowania, tak zwanych CVE Numbering Authority (CNA), których aplikacje zawierają podatności. CNA to organizacja zajmująca się dystrybuowaniem CVE ID. Ma ona ograniczone możliwości przypisywania CVE ID, dokładnie określone i udokumentowane, zwykle obejmujące programy lub sprzęt pochodzące maksymalnie od kilku producentów. Ograniczenia te stworzone są po to, by kompetencje zbyt wielu osób nie nachodziły na siebie, co mogłoby powodować chaos\cite{cve_mitre_cna_doc}.
+Wpisy tworzone są przez zespół Mitre zajmujący się CVE oraz producentów oprogramowania, tak zwanych CVE Numbering Authority (CNA), których aplikacje zawierają podatności. CNA to organizacja zajmująca się dystrybuowaniem CVE ID. Ma ona ograniczone możliwości przypisywania CVE ID, dokładnie określone i udokumentowane, zwykle obejmujące programy lub sprzęt pochodzące maksymalnie od kilku producentów. Ograniczenia te stworzone są po to, by kompetencje zbyt wielu osób nie nachodziły na siebie, co mogłoby powodować chaos\cite{cve_mitre_cna_doc}.
 \paragraph{}
 CVE ID jest polem wpisu CVE. Jest to unikatowy numer identyfikacyjny pozwalający jednoznacznie odróżnić od siebie wpisy na liście CVE. Składa się on z trzech podidentyfikatorów: identyfikatora listy, identyfikatora roku oraz identyfikatora wpisu w danym roku. Identyfikator listy może przyjmować dwie wartości:
 \begin{itemize}
@@ -262,7 +262,7 @@ Opis wpisu CVE stworzony jest zwykle przez zespół CVE, organizację CNA lub os
 \paragraph{}
 Odniesienia CVE jest polem, w którym wpisane są wszystkie istotne odnośniki do danej podatności. Mogą to być odnośniki do informacji o podobnych podatnościach, odnośniki do informacji o podatnościach powiązanych w jakiś sposób z danym wpisem CVE, jak również informacje o kontakcie do producenta danego oprogramowania lub sprzętu. Odnośniki te powinny dawać możliwość znalezienia rozwiązania poprawiającego daną podatność. 
 \paragraph{}
-Data stworzenia wpisu, jest jak nazwa wskazuje, datą oznaczającą dzień, w którym powstał wpis. Nie oznacza ona jednak, że to w tym dniu został przypisany CVE ID. W przypadku wpisów tworzonych bezpośrednio zespół Mitre CVE, data ta pokrywa się z datą przypisania CVE ID. Jednak w przypadku wpisów tworzonych przez CNA dopuszczalna jest sytuacja, w której CVE ID jest zajęte przez daną organizację z góry, przez co nie zostaje ono użyte przez dłuższy czas. Dopiero po wykryciu konkretnej podatności w oprogramowaniu lub sprzęcie danej organizacji, wpisana zostaje data stworzenia wpisu i zaczyna on oficjalnie widnieć na liście CVE.
+Data stworzenia wpisu, jak nazwa wskazuje, jest datą oznaczającą dzień, w którym powstał wpis. Nie oznacza ona jednak, że to w tym dniu został przypisany CVE ID. W przypadku wpisów tworzonych bezpośrednio przez zespół Mitre CVE, data ta pokrywa się z datą przypisania CVE ID. Jednak w przypadku wpisów tworzonych przez CNA dopuszczalna jest sytuacja, w której CVE ID jest zajęte przez daną organizację z góry, przez co nie zostaje ono użyte przez dłuższy czas. Dopiero po wykryciu konkretnej podatności w oprogramowaniu lub sprzęcie danej organizacji, wpisana zostaje data stworzenia wpisu i zaczyna on oficjalnie widnieć na liście CVE.
 \paragraph{}
 W wyjątkowych sytuacjach wpisy na liście CVE mogą zawierać dodatkową informację o stanie, w jakim aktualnie się znajdują. Są to stany, w których wpis nie jest jeszcze oficjalnie opublikowany na liście. Mogą to być:
 \begin{itemize}
@@ -300,371 +300,112 @@ Dane znajdujące się w bazie danych NVD  przygotowane są do pobrania z oficjal
 \subsection{Analiza pola Opis CVE}
 \paragraph{}
 Jak wspomniano w sekcji 2.1, pole opisu we wpisach CVE jest jednym z kluczowych pól indeksów CVE, z uwagi na informacje, jakie powinno przechowywać. Szczególnie istotne są te dotyczące produktu, jego wersji oraz dostawcy danego produktu. Niestety brak odpowiedniego, zaplanowanego formatowania utrudnia ekstrakcję tych danych z opisu. Dodatkowo nie zawsze wpisy CVE są w pełni opisane. W wielu przypadkach podatności zgłaszane są przez podmioty, które nie mają dostępu do wszystkich pożądanych informacji. W dodatku liczba osób redagujących opisy sprawia, że pod uwagę należy brać styl pisania, różnice w pisowni lub nazewnictwie produktów, wersji i producentów. 
+\paragraph{}
+Do dalszej, szczegółowej analizy wybrano kilka wpisów CVE dotyczących produktu Internet Explorer firmy Microsoft. Na ich przykładzie można pokazać najbardziej znaczące cechy pola opisu wpisów CVE oraz omówić ich konsekwencje i problemy przy ich automatycznym przetwarzaniu. 
+\paragraph{}
+Wpisy wyszukano za pomocą bazy danych NVD, z uwagi na możliwość filtrowania wyników wyszukiwania na podstawie producenta i produktu. Już na tym etapie można było zauważyć, że nazewnictwo w różnych wpisach może się różnić. Na Rysunku 1 widać, że zależnie od autora wpisu wybrany produkt może być inaczej nazwany. W tym przypadku nazwy "ie" oraz 'internet explorer" oznaczają to samo oprogramowanie. 
 
 
 \paragraph{}
-
-
-\newpage
-%% =========================== ROZDZIAL 3 ================================
-\section{Implementacja}
-
-\subsection{Język programowania R}
-\paragraph{}
-W pracy  wykorzystano interpretowany język programowania R. R to język służący do przeprowadzania obliczeń i analiz statystycznych i wizualizacji ich wyników. Obecnie jest jednym z najczęściej wykorzystywanych języków w analizie danych i uczeniu maszynowym zaraz po Pythonie. Największą zaletą tego języka jest ogromna ilość dostępnych bibliotek i narzędzi, duża ilość algorytmów z dziedzin statystyki i analizy danych jest już zaimplementowana i dostępna w postaci pakietów. Kolejną zaletą języka R jest fakt że jest dostępny na otwartej licencji GNU. Ilość dostępnych bibliotek i wbudowanych funkcjonalności umożliwiają szybkie pisanie algorytmów, ich testowanie i prototypownie, jednakże niska wydajność języka i brak funkcjonalności związanych z bezpieczeństwem powodują że R nie nadaje się do budowy finalnych aplikacji. R jest językiem który znacznie lepiej sprawdzi się w pracy naukowej. Środowiskiem programistycznym jakie wykorzystano jest darmowe RStudio.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.7\textwidth]{dudel.jpg}
-    \caption{Logo języka R}
+    \includegraphics[width=1.0\textwidth]{image/001NVDSearchResults.png}
+    \caption{Wybór filtrów w wyszukiwarce bazy danych NVD}
 \end{figure}
- \newpage
-\subsection{Implementacja PNN}
-\paragraph{}
-Probabilistyczna sieć neuronowa została zrealizowana jako klasa referencyjna języka R. Taki zabieg ma na celu umożliwienie przechowywania stanu sieci, aby pozwolić na wielokrotne wykorzystanie gotowego modelu do klasyfikacji wielu elementów. Zaimplementowana sieć posiada możliwość wyboru następujących parametrów: 
-\begin{itemize}
-\item Parametr wygładzania:
-\begin{enumerate}
-\item W formie skalara, jeden parametr wygładzania dla wszystkich elementów.
-\item W formie wektora o długości odpowiadającej ilości wymiarów, aby uzyskać inne wygładzanie dla każdego stopnia swobody.
-\item W formie wektora o długości równej liczbie klas, aby zapewnić różne wygładzanie dla każdej klasy.
-\item W formie macierzy aby uzyskać różne parametry dla każdej klasy i każdego wymiaru. 
-\end{enumerate}
-\item Jądro estymacji, wybierane jako argument znakowy z listy dostępnych jąder wymienionych w tabeli \ref{tbl:myLboro}
-\item Siła modyfikacji parametru wygładzania. W przypadku podania siły 0 obliczenia związane z modyfikacją nie zostają wykonane. 
-\end{itemize}
-Oprócz wspomnianych parametrów do konstruktora sieci neuronowej przekazujemy również zbiór danych w postaci macierzy oraz wektor etykiet klas. Po inicjalizacji klasa reprezentująca sieć udostępnia metodę classify zwracającą etykiety klas umożliwiającą klasyfikację nowych danych. Funkcja classify jest zwektoryzowana, można przekazywać do niej całe wektory elementów do zaklasyfikowania, w takim wypadku zostanie zwrócony wektor etykiet klas do których przyporządkowano odpowiednie elementy. Wektoryzacja funkcji znacznie przyśpiesza proces klasyfikacji dla większej ilości elementów. Funkcja classify na każdym z elementów wywołuję funkcję get\_class\_score, a następnie wybiera etykietę klasy dla której zwrócony został najwyższy wynik. Funkcja get\_class\_score oblicza wartość estymatora gęstości prawdopodobieństwa stworzonego dla danej klasy w badanym punkcie. Wykorzystanie klasy do implementacji algorytmu umożliwia zmniejszenie ilości argumentów przekazywanych pomiędzy funkcjami, co optymalizuje ilość wykorzystywanej pamięci. 
-\newpage
-\begin{lstlisting}[caption={Kod funkcji classify i get\_class\_score}]
-get_class_score = function(x, class_index) {
-  kernel_density=function(cls, mod){
-    univariate=kernel((x - cls)/(smooth[,class_index] * mod))
-    return(colProds(univariate)/mod)
-  }
-  kernels = mapply(kernel_density,
-                    data.frame(test_set[[class_index]]),
-                    modification[[class_index]])
-  m=ncol(test_set[[class_index]])
-  return(rowSums2(to_mat(kernels))/(prod(smooth[,class_index]) * m))
-}
 
-classify = function(x) {
-  x <- t(to_mat(x))
-  class_scores =sapply(seq_along(test_set),
-                       Curry(get_class_score, x = x))
-  return(names(test_set)[max.col(to_mat(class_scores))])
-}
-\end{lstlisting}
-Klasa PNN posiada również implementację algorytmu modyfikacji parametrów wygładzania. Jeżeli podana zostanie siła modyfikacji większa od zera, wykonane zostaną obliczenia współczynników modyfikacji dla każdego z elementów zbioru trenującego, a następnie zostaną one użyte do budowania estymatorów jądrowych poszczególnych klas.
+
+
+Na rysunkach 2-5 można zauważyć iż opisy poszczególnych podatności mają podobną, jednak nie identyczną strukturę. W dwóch przypadkach, na rysunkach 2 i 3, wpis zaczyna się od określenia zakresu wpływu podatności na system, następnie podana jest nazwa producenta oraz nazwa produktu. Kolejnym elementem opisu jest wskazanie wersji produktu, w których wykryto daną podatność. W dalszej części opisu następuje wyjaśnienie istoty danej podatności. W opisach znajdujących się na rysunkach 4 oraz 5 pominięto część dotyczącą zakresu wpływu. 
+
 \paragraph{}
-Poza wspomnianymi funkcjonalnościami do wykorzystania z klasą PNN zaimplementowano funkcję pozwalającą na wyznaczenie parametrów wygłądzania metodą plug-in dla dowolnego jądra wymienionego w tabeli \ref{tbl:myLboro}. Wykorzystano trzystopniowy algorytm plug-in, do estymacji pochodnych funkcji gęstości wykorzystano jądro Cauchy'ego. Parametry wygładzania obliczane mogą zostać dla całego zbioru danych, bądź dla każdej z klas z osobna. 
-\paragraph{}
-\newpage
-Dodatkowo w celu ułatwienia prezentacji wyników zaimplementowano funkcję umożliwiającą rysowanie wykresów estymatorów jądrowych wykorzystywanych w klasie PNN. Funkcja wyświetla trójwymiarowy przekrój estymatora dla dwóch zmiennych, a pozostałe zostają ustawioną na średnią wartość w obrębie klasy.
+Analizując poszczególne opisy można łatwo wywnioskować, że najbardziej różniącym się między poszczególnymi opisami elementem, jest określenie wersji produktu. W niektórych przypadkach opis ogranicza się do podania wersji produktu jako pojedynczej cyfry. W innych jest to doprecyzowane poprzez dopisanie po kropce dodatkowego identyfikatora wersji. Można spotkać również identyfikator wersji oznaczający pakiet, tak zwany Service Pack. W dodatku niektóre opisy zawierają mieszankę tych oznaczeń determinując poszczególne wersje z różną precyzją. Na rysunku 4 jest ukazany również przypadek, w którym podany jest zakres wersji produktu, w których można spotkać daną podatność. Wszystkie wspomniane różnice mogą powodować wysoki stopień trudności automatycznego przetwarzania opisu. Szczególnie biorąc pod uwagę fakt, że w omówionych przypadkach opisy dotyczyły tego samego produktu.
+
 \begin{figure}[h]
     \centering
-    \includegraphics[width=1\textwidth]{dudel.jpg}
-    \caption{Przykład wykresu przekroju estymatora jądrowego}
+    \includegraphics[width=1.0\textwidth]{image/002CVE20100494.png}
+    \caption{Pole opisu wpisu CVE-2010-0494}
 \end{figure}
-\newpage
-\subsection{Implementacja FPA}
-Flower pollination  algorithm zaimplementowano w postaci funkcji przyjmującej funkcję do optymalizacji, wymiarowość optymalizowanej zmiennej, rozmiar populacji i maksymalną ilość iteracji które należy wykonać. Do generacji liczb losowych z rozkładu jednostajnego wykorzystano funkcje wbudowane, natomiast do generacji lotów Levy'ego wykorzystano algorytm Mantegna zaproponowany w \cite{FPA}. 
-\begin{lstlisting}[caption={Algorytm Mantegana do generacli lotów Levy'ego}]
-Levy <- function(d, l, scale) {
-    sigma <- (gamma(1 + l) * sin(pi * l/2)
-              /(gamma((1 + l)/2) * l * 2^((l - 1)/2)))^(1/l)
-    u <- rnorm(d, sd = sigma)
-    v <- rnorm(d)
-    step <- u/(abs(v))^(1/l)
-    return(scale * step)
-}
-\end{lstlisting}
-Generacja odbywa się poprzez obliczenie ilorazu zmiennych pochodzących z dwóch rozkładów normalnych, u i v. Rozkład u ma odchylenie standardowe określone w parametrze sigma, natomiast rozkład v ma odchylenie standardowe równe 1. 
-\newpage
-\subsection{Integracja algorytmów}
-\paragraph{}
-Do oceny jakości klasyfikacji w niniejszej pracy wykorzystano dziesięciokrotną walidację krzyżową. W procesie tym zbiór danych dzielony jest na dziesięć równych części, a następnie dziesięciokrotnie przeprowadzana jest klasyfikacja w której jako zbiór treningowy wykorzystuje się dziewięć z dziesięciu części, i sprawdza się jakość klasyfikacji pozostałej jednej dziewiątej. Jakość klasyfikacji mierzona jest jako iloczyn ilości poprawnie zaklasyfikowanych elementów i liczności zbioru klasyfikowanego.  
-\paragraph{}
-FPA wymaga sformułowania funkcji celu, zaimplementowano wersję algorytmu służącą do maksymalizacji wartości funkcji. Algorytm optymalizacyjny użyty został do automatycznego dobierania wartości parametru wygładzania tak aby osiągnąć najlepszą jakość klasyfikacji. Stworzono więc funkcję której jedynym parametrem wejściowym jest macierz wygładzania, a parametrem wyjściowym jest wynik 10-cio krotnej walidacji krzyżowej procesu klasyfikacji zbioru danych. Optymalizacji można poddać wszystkie możliwości doboru zmienności parametru wygładzania.
-\paragraph{}
-FPA jest algorytmem optymalizacji globalnej przeznaczonym do pracy z funkcjami gdzie przestrzeń rozwiązań jest nieograniczona. W przypadku optymalizacji doboru parametrów wygładzania przestrzeń rozwiązań ograniczona jest od dołu przez zero, i teoretycznie nie jest ograniczona z góry. Bardzo wysokie wartości parametru wygładzania bardzo rzadko mają jednak zastosowanie praktycznie, dlatego też można stosować również ograniczenia odgórne. Należało więc zmodyfikować algorytm FPA w taki sposób aby umożliwić podanie wartości granicznych w obrębie których ma zostać przeprowadzona optymalizacja. Aby to osiągnąć rozszerzono sygnaturę funkcji o dwa dodatkowe parametry, ograniczono zakres losowania populacji początkowej tak aby wszystkie wyniki znalazły się wewnątrz ograniczonego przedziału. Kolejnym krokiem modyfikacji było dopasowanie procesu losowania nowych położeń w taki sposób aby zwracane były tylko nowe lokalizacje w obszarze optymalizowanym. Osiągnięto to poprzez powtarzanie losowania tak długo jak otrzymany wynik nie spełnia założonych kryteriów.  Powyższa modyfikacja znacznie poprawiła szybkość zbieżności algorytmu, odpowiednie dobranie granic optymalizacji pozwala znacznie przyśpieszyć proces. 
-\paragraph{}
-Ostatnią modyfikacją algorytmu w celu lepszej integracji z zadaniem optymalizacji parametrów wygładzania jest dodanie możliwości wprowadzenia znanego dobrego rozwiązania. Jeżeli chcemy optymalizować funkcję, ale mamy rozwiązanie pochodzące z innego algorytmu możemy podać to rozwiązanie do funkcji FPA, co zapewni że jedno z rozwiązań z populacji początkowej znajdzie się w tym punkcie. W przypadku optymalizacji parametrów wygładzania, jako znane dobre rozwiązanie można wykorzystać na przykład wynik metody plug-in.  Taka modyfikacja gwarantuje otrzymanie wyniku nie gorszego niż podany, jednakże może negatywnie wpłynąć na zdolności optymalizacyjne algorytmu. Wpływ modyfikacji zostanie zbadany w kolejnym rozdziale. 
-\newpage
-\thispagestyle{empty}
-\mbox{}
 
-\newpage
-%% =========================== ROZDZIAL 4 ================================
-\section{Analiza użyteczności}
-Do oceny użyteczności algorytmu wykorzystana zostanie dziesięciokrotna walidacja krzyżowa na 4 standardowych zbiorach danych:
-\begin{table}[H]
-\centering
-\caption{Zbiory danych}
-\label{zbiory}
-\begin{tabular}{|l|l|l|}
-\hline
-Nazwa         & Ilość elementów & Wymiarowość \\ \hline
-Seeds   & 210 & 8 \\ \hline
-Cardiotocography (CTG)   & 2126 & 35 \\ \hline
-Breast Cancer Wisconsin  & 569 & 32 \\ \hline
-Iris  & 150 & 5 \\ \hline
-\end{tabular}
-\end{table}
-Ocenę będzie stanowić stosunek próbek poprawnie zaklasyfikowanych do liczności zbioru danych. 
-\subsection{Badanie wpływu doboru parametrów}
-\subsubsection{Wybór jądra estymacji}
-Istnieje wiele jąder które można wykorzystać do estymacji jądrowej i klasyfikacji przy użyciu PNN, nie można jednoznacznie stwierdzić które jest najlepsze. Bardzo często wybór jądra zależy od zbioru danych, często jest też uwarunkowywany łatwością przeprowadzania obliczeń z wykorzystaniem danego jądra. W tabeli \ref{kernelchoice} przedstawiono wyniki klasyfikacji osiągnięte przez sieć przy użyciu wszystkich jąder z tabeli \ref{tbl:myLboro}. Do wykonania klasyfikacji wykorzystano stały parametr wygładzania wynoszący 1 dla wszystkich klas i wymiarów.
-
-\begin{table}[H]
-\begin{adjustwidth}{-.5in}{-.5in}  
-\centering
-\caption{Wybór jądra, h=1}
-\label{kernelchoice}
-\begin{tabular}{|l|l|l|l|l|l|l|}
-\hline
-              & Normalne & Trójkątne & Cauchyego & Epanechinkowa & Jednostajne & Dwuwagowe\\ \hline
-Seeds   & 0.9095238 & 0.8904762 & 0.9 & 0.8857143 & 0.8952381 & 0.8857143 \\ \hline
-CTG     & 0.6622265 & 0.3283063 & 0.9388542 & 0.3344406 & 0.3494707 & 0.3551023 \\ \hline
-Breast Cancer & 0.4920739 & 0.4974311 & 0.9402569 & 0.5184211 & 0.5007832 & 0.4955514 \\ \hline
-Iris & 0.9266667 & 0.96 & 0.9533333 & 0.9666667 & 0.9133333 & 0.9666667\\ \hline
-\end{tabular}
-\end{adjustwidth}
-\end{table}
-\paragraph{}
-Wyniki klasyfikacji w zbiorach o niskiej wymiarowości są zbliżone dla wszystkich jąder, natomiast w zbiorach o wyższej wymiarowości zauważalna jest znaczna różnica pomiędzy jądrami Cauchiego i Normalnym a pozostałymi. Te dwa jądra odróżniają się od pozostałych faktem nieskończonej szerokości. Wszystkie pozostałe jądra dla wartości o module większym od jedności przyjmują wartość zero. Dokładniejsza analiza wyników gęstości prawdopodobieństwa dla poszczególnych klas pokazuje że w przypadku jąder o skończonym czasie trwania większość badanych elementów uzyskuje gęstość prawdopodobieństwa równą zero. Zjawosko to wynika z klątwy wysokiej wymiarowości ( ang. curse of dimentinality). W przestrzeniach o dużej liczbie wymiarów uzyskanie dobrego pokrycia dostępnego miejsca wymaga ogromnej ilości elementów. W przypadku jąder o skończonej szerokości, niskie pokrycie skutkuje powstawaniem przerw w estymatorze. Jeżeli klasyfikowany element trafi na tego rodzaju przerwę, istnieje duże prawdopodobieństwo że nie zostanie poprawnie zaklasyfikowany. Jądra o nieskończonej szerokości, jak na przykład jądro cauchiego radzą sobie z tą sytuacją znacznie lepiej, ponieważ pokrywają one w teorii całą przestrzeń rozwiązań za każdym razem, dlatego też teoretycznie zawsze powinniśmy uzyskać niezerową wartość gęstości prawdopodobieństwa, na podstawie której można dokonać klasyfikacji. W praktyce ograniczona dokładność obliczeń komputerowych powoduje że nawet okna Cauchiego i normalne mają ograniczoną szerokość, jednakże jest ona nadal znacznie większa od szerokości okien skończonych. Próba rozwiązania problemu skończonej szerokości zostanie przeprowadzona w kolejnych podrozdziałach przy pomocy odpowiedniego dostrojenia parametru wygładzania. 
-\paragraph{}
-W prawie wszystkich przypadkach najlepiej sprawdza się okno Cauchiego. Teoretycznie najlepsze okno Epanechinkowa wypadło najlepiej tylko w jednym przypadku. Powyższy wynik jest pierwszą sugestią że stosowanie metod optymalnych asymptotycznie do estymacji rozkładu prawdopodobieństwa może nie być najlepszym rozwiązaniem do zastosowania w PNN.
-\subsubsection{Stopnie swobody parametru wygładzania}
-\paragraph{}
-Parametr wygładzania można dobierać z różną dokładnością.  Można dobierać tylko jeden globalny parametr, jak również osobny parametr dla każdego wymiaru zbioru danych czy dla każdej klasy osobno. 
-\paragraph{}
-Stosowanie doboru osobnego parametru wygładzania dla każdego z wymiarów jest uzasadnione zróżnicowaniem zmienności danych. Bardzo często zdarza się że w jednym zbiorze danych znajdą się kolumny o odchyleniu standardowym różnych rzędów wielkości. W takiej sytuacji, gdyby dobrano wyłącznie jeden parametr wygładzania jeden z wymiarów musiałby być wy-estymowany niepoprawnie ze względu na zbyt duże lub zbyt małe wygładzenie. Przykład takiej sytuacji wykryto badając zbiór seeds wykorzystując okno Epanechnikowa, przy zastosowaniu parametru wygładzania 2 dla wszystkich wymiarów osiągnięto wynik 0.9047619, jednakże część wymiarów przy takim ustawieniu została za bardzo wygładzona i część informacji została utracona. Ustawienie wygładzania jednego z wymiarów na 0.5 przyniosło poprawę wyniku do 0.9142857. Metoda plug-in umożliwia dobór parametrów wygładzania dla każdego z wymiarów. 
-\paragraph{}
-Osobny parametr wygładzania dla każdej z klas również może być przydatny, można zaistnieć sytuacja w której w jednym zbiorze danych znajdą się klasy bardzo szerokie, charakteryzujące się dużą zmiennością wielu atrybutów jak i klasy bardzo specyficzne, o bardzo niskiej zmienności. W sytuacji kiedy używalibyśmy tylko jednego parametru wygładzania niezależnie od klasy, mogło by się zdarzyć tak że poprawne wygładzenie klasy szerokiej spowodowało by że dwie zbliżone do siebie klasy wąskie zostały by ze sobą połączone. Jednakże dobór osobnych parametrów wygładzania dla każdej z klas niesie ze sobą pewne problemy. Przede wszystkim, wartość parametru wygładzania wpływa na wartość estymowanej funkcji gęstości prawdopodobieństwa. Wysokie wygładzanie prowadzi do niskich wartości gęstości prawdopodobieństwa ponieważ zawsze zachowana musi zostać wartość całki gęstości prawdopodobieństwa. Taki wpływ może powodować błędną klasyfikację, elementy mogą być rzadziej klasyfikowane do klasy bardziej wygładzonej. Kolejnym problemem jest możliwość pojawienia się zerowego odchylenia standardowego. Może zdarzyć się tak że w obrębie klasy dana kolumna będzie miała stałą wartość, a w większości algorytmów wyznaczania parametru wygładzania wygładzanie jest odwrotnie proporcjonalne do odchylenia standardowego. Taka sytuacja prowadzi do wyznaczenia ogromnych bądź nieskończonych wartości parametru wygładzania, co zwykle uniemożliwia klasyfikację.
-\newpage
-\vfill 
-\begin{figure}
+\begin{figure}[h]
     \centering
-    \includegraphics[width=1.2\textwidth]{dudel.jpg}
-    \caption{Estymator jądrowy, wygładzanie równe jeden dla każdego wymiaru i klasy}
+    \includegraphics[width=1.0\textwidth]{image/003CVE20100491.png}
+    \caption{Pole opisu wpisu CVE-2010-0491}
 \end{figure}
-\begin{figure}
+
+\begin{figure}[h]
     \centering
-    \includegraphics[width=1.2\textwidth]{dudel.jpg}
-    \caption{Estymator jądrowy, wygładzania 1.5 dla jednej z klas}
+    \includegraphics[width=1.0\textwidth]{image/004CVE20111964.png}
+    \caption{Pole opisu wpisu CVE-2011-1964}
 \end{figure}
-\vfill
-\clearpage
-\newpage
-\vfill 
-\begin{figure}
+
+\begin{figure}[h]
     \centering
-    \includegraphics[width=1.2\textwidth]{dudel.jpg}
-    \caption{Estymator jądrowy, wygładzanie 2 dla jednego z wymiarów}
+    \includegraphics[width=1.0\textwidth]{image/005CVE20121881.png}
+    \caption{Pole opisu wpisu CVE-2012-1881}
 \end{figure}
-\begin{figure}
+
+\paragraph{}
+Na zdjęciach 6-9 przedstawiono opisy dotyczące różnych produktów firmy Microsoft. Przeanalizowane zostaną pod kątem różnic w opisach wpisów CVE dotyczących aplikacji wytworzonych i rozwijanych przez tego samego producenta. 
+
+\begin{figure}[h]
     \centering
-    \includegraphics[width=1.2\textwidth]{dudel.jpg}
-    \caption{Estymator jądrowy, wygładzanie 2 dla jednego z wymiarów i 1.5 dla jednej z klas}
+    \includegraphics[width=1.0\textwidth]{image/006CVE20133870.png}
+    \caption{Pole opisu wpisu CVE-2013-3870. Produkt: Microsoft Outlook}
 \end{figure}
-\vfill
-\clearpage
-\newpage
-\paragraph{}
-Należy również pamiętać że większa ilość parametrów wygładzania to również większa złożoność obliczeniowa. Algorytmy wyznaczania parametrów wygładzania mają zwykle wysokie wymagania obliczeniowe, metoda plug-in ma złożoność kwadratową. W przypadku optymalizacji przy użyciu FPA większa ilość parametrów do optymalizowania znacznie spowalnia proces optymalizacji. 
-\begin{table}[H]
-\centering
-\caption{Wpływ ilości stopni swobody parametru wygładzania na proces optymalizacji FPA}
-\label{swoboda}
 
-\begin{tabular}{|l|l|l|l|}
-\hline
-\theadfont\diagbox[width=15em]{Wariant}{Ilość iteracji} & 10 & 20 & 100\\ \hline
-Jeden parametr   & 0.9047 & 0.9047  &0.9047\\ \hline
-Różne dla wymiarów  & 0.9523 & 0.9571  & 0.9619\\ \hline
-Różne dla klas  & 0.895 & 0.9047  & 0.9142\\ \hline
-Różne dla wymiarów i klas  & 0.9238 & 0.94761  &0.9571\\ \hline
-\end{tabular}
-\end{table}
-\paragraph{}
-Tabela \ref{swoboda} pokazuje że optymalizacja dla parametru wygładzania zmiennego dla każdego wymiaru daje najlepsze rezultaty najszybciej. Można podejrzewać, że optymalizacja dla każdego wymiaru i klasy dała by lepsze rezultaty, ale wymagało by do bardzo dużej ilości iteracji. Z powyższych przyczyn do dalszych rozważań wybrano wariant wyboru parametru wygładzania dla każdego wymiaru, lecz taki sam dla wszystkich klas. 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{image/007CVE20120141.png}
+    \caption{Pole opisu wpisu CVE-2012-0141. Produkt: Microsoft Excel}
+\end{figure}
 
-\subsubsection{Siła modyfikacji parametru wygładzania}
-\paragraph{}
-Literatura najczęściej podaje że dobrą wartością siły modyfikacji parametru wygładzania jest 0.5, w niniejszym podrozdziale zbadana zostanie zależność jakości klasyfikacji od wartości parametru siły modyfikacji. Ponadto podjęta zostanie decyzja czy algorytm FPA należy uruchamiać z już ustawionym wygładzaniem, czy wystarczy znaleźć optymalne parametry bez wygładzania. 
-\paragraph{}
-Pierwszym eksperymentem jaki przeprowadzono jest porównanie wyników uzyskanych przez klasyfikator z parametrem wygładzania wybranym przez algorytm FPA w poprzednim podrozdziale. Zastosowanie parametru modyfikacji spowodowało spadek wyniku z 0.9619 do 0.9285. Można więc wnioskować, że stosowanie parametru wygładzania po zastosowaniu FPA nie jest dobrym rozwiązaniem. 
-Drugim przetestowanym podejściem byłą optymalizacja parametrów wygładzania z modyfikacją ustawioną na 0.5. Wadą takiego rozwiązania jest znacznie dłuższy czas wykonywania, ze względu na konieczność obliczenia parametrów modyfikacji dla każdego wektora rozwiązań. Rozwiązanie to również nie okazało się skuteczne, wynik jaki udało się osiągnąć w 100 iteracjach to tylko 0.9095. 
-\begin{table}[H]
-\centering
-\caption{Wpływ siły modyfikacji na jakość klasyfikacji}
-\label{modyfikacja}
-\begin{tabular}{|l|l|l|l|}
-\hline
-\theadfont\diagbox[width=25em]{Wariant}{Siła wygładzania} & 0 & 0.5 & 1\\ \hline
-FPA bez modyfikacji, Epanechnikow, seeds   & 0.9619 & 0.9047  &0.9047\\ \hline
-plug-in, Cauchy, seeds   &0.9142 & 0.9142  &0.9142\\ \hline
-h=1, Cauchy, seeds   &0.9 & 0.8952  &0.8952\\ \hline
-plug-in, Cauchy, breast cancer   &0.9825 & 0.9825  & 0.9821\\ \hline
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{image/008CVE20133180.png}
+    \caption{Pole opisu wpisu CVE-2013-3180. Produkt: Microsoft SharePoint Server}
+\end{figure}
 
-\end{tabular}
-\end{table}
-Wyniki zaprezentowane w tabeli \ref{modyfikacja} wskazują że stosowanie modyfikacji wygładzania ma neutralny lub negatywny wpływ na proces klasyfikacji. Oczywiście powyższy wniosek nie musi być prawdziwy dla innych zbiorów danych, jednakże w niniejszej pracy modyfikacja parametru wygładzania nie zostanie wykorzystana.
-\subsubsection{Strojenie parametrów FPA}
-\paragraph{}
-Algorytm Flower Pollination posiada parametry wejściowe, które należy odpowiednio dobrać aby uzyskać najlepszą efektywność. Efektywność algorytmu wyraża się przez szybkość z jaką wynik zbiega do optymalnego, jak również zdolność algorytmu do odnajdywania ekstremów globalnych. W przypadku FPA w klasycznej implementacji zaproponowanej w \cite{FPA} do inicjalizacji algorytmu należy wybrać jedynie liczność populacji. Wybór ten ma bardzo duży wpływ na zbieżność algorytmu, czym większa populacja tym szybciej algorytm znajduje coraz lepsze rozwiązania, jednakże większa ilość elementów to również więcej obliczeń do wykonania.  Należy również pamiętać, że duża liczba elementów populacji daje większą szanse na znalezienie globalnego celu optymalizacji, niska liczba elementów może prowadzić do zatrzymania algorytmu w lokalnym ekstremum. Wysoka liczność populacji jest również pożądana w celu zwiększenie pokrycia badanej przestrzeni. Klątwa wymiarowości oznacza że przestrzenie o wysokich wymiarowościach bardzo trudno jest wypełnić, dlatego też zwłaszcza w przypadkach zbiorów o wysokiej wymiarowości istotny jest duży rozmiar populacji początkowej.
-\paragraph{}
-W celu doboru optymalnej wartości parametru liczności populacji przeprowadzono test w którym porównano jakość klasyfikacji i czas wykonywania algorytmu przy użyciu liczności 5 i 50 elementów.Test przeprowadzono wykorzystując optymalizację wyniku pięciokrotnej walidacji krzyżowej. Wykorzystując pięcioelementowa populacja po 100 generacjach osiągnęła wynik 0.9047, obliczenia zajęły 125 sekund. Populacja pięćdziesięciu elementów osiągnęła wynik 0.9619 a czas wykonywania wyniósł 1250 sekund. Różnica w czasie wykonywania jest zrozumiała, złożoność obliczeniowa FPA zależy liniowo od wielkości populacji. FPA wykorzystujące populację 50-ciu elementów osiągnęło wynik lepszy od przypadku pięcioelementowego już w pierwszej generacji, której obliczenie zajęło zaledwie 30 sekund. 
-
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{image/009CVE20131302.png}
+    \caption{Pole opisu wpisu CVE-2013-1302. Produkt: Microsoft Lync}
+\end{figure}
 
 \paragraph{}
-Kolejnym elementem mającym wpływ na zbieżność algorytmu FPA jest ograniczenie domeny poszukiwań. Z definicji FPA jest algorytmem optymalizacji globalnej funkcji o nieskończonej dziedzinie, jednakże po zastosowaniu modyfikacji opisanej w podrozdziale 3.4  można wykorzystać go do optymalizacji funkcji ograniczonych. Funkcja jakości klasyfikacji w zależności od wartości parametrów wygładzania jest funkcją ograniczoną, parametr wygładzania nie powinien mieć wartości mniejszej od zera, a wartości wygładzania rzędu dziesiątek czy setek tysięcy w praktyce nigdy nie są wykorzystywane. Dlatego też można ograniczać dziedzinę poszukiwań optymalnego parametru wygładzania. Przeprowadzono test wpływu modyfikacji na zbieżność algorytmu. Usunięcie ograniczeń spowodowało ogromne pogorszenie jakości klasyfikacji i zbieżności algorytmu. W poprzednim teście wykorzystano ograniczenie zakresu parametru wygładzania do przedziału $(0,10])$, po zmianie przedziału na $(0,10^6])$ wynik algorytmu w pierwszej iteracji spadł z 0.93 do 0.38, a finalny wynik wyniósł zaledwie 0.9095. 
+Jak można zauważyć struktura opisu została zachowana jak w przypadku Microsoft Internet Explorer. To znaczy, że na początku opisu znajdują się informacje identyfikujące producenta i produkt, następnie podane są wersje produktu, w których występuje dana podatność. Zachowana została również część nazewnictwa poszczególnych wersji. Niektóre produkty mają jednak nowe identyfikatory wersji, którymi jest rok publikacji oraz występujące w opisie produktu Microsoft Excel słowo "Gold". Dodatkowym elementem opisu jest również wyszczególnienie w nim również innych produktów, w których występuje opisywana podatność. Analiza rysunków 6-9 pozwala stwierdzić, że w ramach produktów wytwarzanych przez jedną firmę istnieją różnice w nazewnictwie poszczególnych wersji, nie jest ono jednak znacząco bardziej skomplikowane, niż nazewnictwo wersji w ramach jednego produktu.
 
 \paragraph{}
-Ostatnią możliwością modyfikacji jest wprowadzona możliwość podania punktu startowego do algorytmu FPA. W badanych zbiorach algorytm FPA niemalże natychmiast znajduje rozwiązanie lepsze od proponowanego przez metodę plug-in, dlatego też rozwiązanie to nie zostało wykorzystane przede wszystkim ze względu na wysoką złożoność obliczeniową metody plug-in. Jednakże, możliwość taka może być przydatna w innych zbiorach danych. Nie zaobserwowano żadnego wpływu stosowania tej modyfikacji w badanych zbiorach danych.
-\subsubsection{Wpływ normalizacji na klasyfikację}
-W pracy badane są zbiory danych z atrybutami o bardzo różnych charakterystykach zmienności co wymusza dopasowanie parametrów klasyfikacji mocno różniących się dla każdego wymiaru. Można analizować przykładowo dane ma temat wzrostu i na temat zarobków, obydwie zmienne będą miały zarówno różną wartość oczekiwaną jak i odchylenie standardowe.  Przeskalowanie zbioru danych w taki sposób aby uniknąć tego typu różnic mógłby teoretycznie uprościć analizę danych i procedury wyznaczania parametrów do algorytmów, jak na przykład parametr wygładzania. Przeprowadzono test sprawdzający wpływ zastosowania normalizacji przed przystąpieniem do analizy danych na wyniki klasyfikacji. 
+Na rysunkach 10-13 znajdują się opisy podatności występujących w produktach stworzonych przez różnych producentów. Pozwoli to przeanalizować różnice pomiędzy strukturami opisów zapewnianych przez zróżnicowane środowiska.
 
-\paragraph{}
-Bardzo ważny problemem podczas wykorzystywania algorytmów optymalizacyjnych jest nadmierne dopasowanie danych. Zjawisko to wynika ze zbyt długiego treningu, z czasem optymalizowana struktura traci swoje możliwości generalizacji. Zbyt długi trening prowadzi do wyciągania wniosków z danych w sposób nie dający większego zrozumienia problemu, ale pozwalający na osiągnięcie lepszego wyniku. Aby rozwiązać ten problem należy tak dobrać ilość iteracji algorytmu aby uzyskać najbardziej zoptymalizowany wynik nie pozwalając na przetrenowanie. Aby to osiągnąć przeprowadzono testy wykorzystujące pięciokrotną walidację krzyżową. Należy przypomnieć, że algorytm FPA optymalizuje wynik pięciokrotnej walidacji krzyżowej, wykorzystane zostaną dwie walidacje krzyżowe, jedna w procesie tworzenia modelu z wykorzystaniem FPA, a druga do walidacji algorytmu tworzenia modeli. Przyczyną przetrenowania może być zarówno duża ilość iteracji jak i duża populacja. W celu doboru optymalnej ilości iteracji i wielkości populacji przeprowadzono porównanie, wyniki przedstawiono w tabeli  \ref{iteracje}.
-\begin{table}[H]
-\centering
-\caption{Wpływ ilości iteracji i wielkości populacji na jakość klasyfikacji dla zbioru seeds.}
-\label{iteracje}
-\begin{tabular}{|l|l|l|l|}
-\hline
-\theadfont\diagbox[width=15em]{Liczność populacji}{Ilość iteracji} & 10 & 20 & 50\\ \hline
-5  & 0.9285 & 0.9378  &0.9047\\ \hline
-10 &0.9476 & 0.939  &0.941\\ \hline
-20 &0.9333 & 0.8952  &0.8952\\ \hline
-\end{tabular}
-\end{table}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{image/010CVE20136622.png}
+    \caption{Pole opisu wpisu CVE-2013-6622. Produkt: Google Blink}
+\end{figure}
 
-Najlepszym wynikiem jaki udało się uzyskać jest wynik 0.9476 dla przypadku dziesięciu iteracji i dziesięciu elementów populacji FPA. Takie ustawienia zostaną wykorzystane w niniejszej pracy, jednakże dla każdego zbioru danych wybór tych parametrów należy przeprowadzić osobno. 
-\begin{table}[H]
-\centering
-\caption{Wpływ normalizacji na jakość klasyfikacji}
-\label{modyfikacja}
-\begin{tabular}{|l|l|l|l|}
-\hline
-\theadfont\diagbox[width=25em]{Wariant}{Siła wygładzania} & 0 & 0.5 & 1\\ \hline
-FPA bez wygładzania, Epanechnikow, seeds   & 0.9619 & 0.9047  &0.9047\\ \hline
-plug-in, Cauchy, seeds   &0.9142 & 0.9142  &0.9142\\ \hline
-h=1, Cauchy, seeds   &0.9 & 0.8952  &0.8952\\ \hline
-plug-in, Cauchy, breast cancer   &0.9825 & 0.9825  & 0.9821\\ \hline
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{image/011CVE20141568.png}
+    \caption{Pole opisu wpisu CVE-2014-1568. Produkt: Mozilla Network Security Services}
+\end{figure}
 
-\end{tabular}
-\end{table}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{image/012CVE20080660.png}
+    \caption{Pole opisu wpisu CVE-2008-0660. Produkt: Aurigma Image Uploader ActiveX}
+\end{figure}
 
-Można zaobserwować że że wszystkich badanych przypadkach neutralizacja ma wpływ pozytywny lub neutralny na wyniki klasyfikacj, dlatego też zostanie użyta w finalnym algorytmie. Dodatkowo, zastosowanie normalizacji umożliwia określenie mniejszego rejonu optymalizacji dla algorytmu FPA, który będzie uniwersalny niezależnie od zbioru danych. Ogranicza to liczbę parametrów wejściowych algorytmu, i poprawia czas zbieżności.
-\subsubsection{Wybór parametru wygładzania}
-\paragraph{}
-W niniejszej pracy zbadane zostaną dwie metody automatycznego doboru parametru wygładzania, metoda plug-in, oraz optymalizacji przy użyciu FPA. Dobierane będą osobne parametry wygładzania dla każdego z wymiarów. Do analizy wykorzystane zostanie jedno okno o nieskończonej szerokości ( Cauchiego) i jedno jądro o skończonej szerokości (Epanechinkowa).  Dokonano porównania jakości klasyfikacji dla przypadku wykorzystania stałego wygładzania, dla metody plug-in i dla algorytmu FPA uruchomionego na 100 generacji. 
-\begin{table}[H]
-\centering
-\caption{Dobór parametrów wygładzania dla jądra Cauchiego}
-\label{plugvsfpa}
-\begin{tabular}{|l|l|l|l|}
-\hline
-          & 1 & plug-in & FPA\\ \hline
-Seeds   & 0.9 & 0.9142 &0.9714 \\ \hline
-Cardiotocography (CTG)   & 0.9388 & 0.9825 & 0.98824 \\ \hline
-Breast Cancer Wisconsin  & 0.9402 & 0.94558 &0.9595\\ \hline
-Iris  & 0.9533 & 0.9333 &0.97333\\ \hline
-\end{tabular}
-\end{table}
-\paragraph{}
-W tabeli \ref{plugvsfpa} można zauważyć że we wszystkich przypadkach algorytm FPA był w stanie osiągnąć lepsze wyniki niż metoda plug-in. Często już losowo wygenerowana populacja osiąga wynik znacznie lepszy od tego osiągniętego przez metodę plug-in. Dodatkowo w tabeli \ref{plugvsfpa2}obserwujemy że w przypadku użycia jąder o skończonej szerokości algorytm FPA świetnie radzi sobie z doborem wygładzania pozwalającego na dostateczne wypełnienie przestrzeni, i w przeciwieństwie do algorytmu plug-in umożliwia użycie jąder tego typu. Wynik taki jest kolejnym argumentem potwierdzającym tezę postulującą że stosowanie estymatora gęstości o najmniejszym błędzie średnio kwadratowym i w ogólności dążenie do jak najlepszego odwzorowania funkcji gęstości prawdopodobieństwa nie jest najbardziej optymalne dla zadania klasyfikacji przy użyciu PNN. Przykład jąder o skończonej szerokości pokazuje że dokładne pokrycie pewnych obszarów przestrzeni przez estymator jest ważniejsze niż błąd średnio kwadratowy. Kolejnym argumentem za skutecznością FPA jest możliwość optymalizacji oceniającej istotność konkretnych wymiarów w procesie klasyfikacji. Proces optymalizacji prowadzi do znalezienia takiego rozwiązania gdzie kolumny wprowadzające nieistotne bądź szkodliwe informacje mogą zostać wygładzone znacznie bardziej od pozostałych. Można zauważyć że różnica jakości klasyfikacji jest większa w małych i nisko-wymiarowych zbiorach danych. Fakt ten wynika z mniejszej przestrzeni rozwiązań którą łatwiej jest przeszukać. W tych przypadkach zastosowanie większej populacji i większej liczby iteracji mogło by dać jeszcze lepsze rezultaty.
-\paragraph{}
-Jeżeli klasyfikacja pojedynczego elementu zostanie uznana za operację jednostkową to złożoność obliczeniowa algorytmu plug-in jest kwadratowa względem ilości elementów w zbiorze danych, natomiast złożoność obliczeniowa algorytmu FPA jest liniowa. Jednakże, w przypadku algorytmu FPA liniowy czas wykonywania przemnożony zostaje przez stałą wynoszącą iloraz ilości iteracji i wielkości populacji początkowej. Dlatego też w mały zbiorach danych algorytm FPA wykonuje się znacznie wolniej niż algorytm plug-in, jednakże w zbiorach znacznie większych, jeżeli ilość iteracji i wielkość populacji pozostanie na tym samym poziomie algorytm FPA będzie wykonywał się szybciej. Zestawienie czasów wykonania przedstawiono w tabeli \ref{plugvsfpa3}.
-
-\begin{table}[H]
-\centering
-\caption{Czas wykonania algorytmów}
-\label{plugvsfpa3}
-\begin{tabular}{|l|l|l|l|}
-\hline
-          & 1 & plug-in & FPA\\ \hline
-Seeds   &  0.24 s & 1.12 s & 1250 s \\ \hline
-Cardiotocography (CTG)   & 19 s & 336 s  & 89988 s\\ \hline
-Breast Cancer Wisconsin  &1.95 s & 30.30 s &8793 s\\ \hline
-Iris  & 0.18 s & 0.47 s &906.91 s\\ \hline
-\end{tabular}
-\end{table}
-\paragraph{}
-\subsubsection{Finalny algorytm}
-\paragraph{}
-Na podstawie wszystkich poprzednich obserwacji przygotowano algorytm służący do klasyfikacji który zostanie porównany z innymi dostępnymi metodami klasyfikacji w kolejnym podrozdziale. 
-Założenia algorytmu:
-\begin{itemize}
-\item Wykorzystanie Probabilistycznej sieci neuronowej jako klasyfikatora
-\item Dobór parametru wygładzania przy pomocy Flower Pollination Algorithm
-\item Brak modyfikacji parametru wygładzania
-\item Okno Cauchi'ego
-\item Strojenie parametrów dla każdego wymiaru osobno, tak samo dla każdej z klas. 
-\item Dokonano normalizacji zbioru danych przed podejściem do klasyfikacji
-\end{itemize}
-\subsection{Porównanie z istniejącymi algorytmami}
-\paragraph{}
-Do porównania z innymi algorytmami wykorzystana zostanie dziesięciokrotna walidacja krzyżowa. Porównane zostaną wyniki oraz czas wykonywania algorytmu dla wszystkich zbiorów danych wymienionych w tabeli \ref{zbiory}. Do porównania wykorzystaną popularne metody klasyfikacji:
-\begin{itemize}
-\item SVM - maszyna wektorów nośnych, jej działanie zostało opisane w podrozdziale 1.2.3.  Do porównania wyników wykorzystany zostanie pakiet  e1071 i wchodząca w jego skład funkcja svm. Parametry modelu cost i gamma zostały dobrane przy użyciu funkcji svm::tune, następnie stworzono model i przeprowadzono klasyfikację. 
-\item Gradient Boosting (XGBoost) - algorytm polegający na tworzeniu modelu poprzez składanie mniej dokładnych modeli, najczęściej drzew decyzyjnych. Biblioteka XGBoost implementuje algorytm parallel tree boosting, umożliwiając rozwiązywanie problemów klasyfikacyjnych i regresyjnych. Biblioteka ta jest obecnie bardzo popularna w świecie analizy danych. Parametry modelu zostały dobrane eksperymentalnie. 
-\item KNN - algorytm k najbliższych sąsiadów opisany w podrozdziale 1.2.1. Współczynnik k  
-\end{itemize}
-
-\begin{table}[H]
-\centering
-\caption{Czas wykonania algorytmów}
-\label{plugvsfpa3}
-\begin{tabular}{|l|l|l|l|l|}
-\hline
-          & SVM & XGBoost & kNN &FPA PNN\\ \hline
-Seeds   &  0.9380 & 0.9333 & 0.9142 &\\ \hline
-Cardiotocography (CTG)   & 0.9901 & 0.9901 & 0.9891 & \\ \hline
-Breast Cancer Wisconsin  &0.9771 & 0.9666 & 0.97189 &\\ \hline
-Iris  & 0.9466 & 0.94 & 0.96 & 0.9333\\ \hline
-\end{tabular}
-\end{table}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{image/013CVE20145576.png}
+    \caption{Pole opisu wpisu CVE-2014-5576. Produkt: Avira Secure Backup}
+\end{figure}
 
 
-\begin{table}[H]
-\centering
-\caption{Jakość klasyfikacji algorytmów}
-\label{plugvsfpa3}
-\begin{tabular}{|l|l|l|l|l|}
-\hline
-          & SVM & XGBoost & kNN &FPA PNN\\ \hline
-Seeds   &  24.28 & 2.92 & 14.82 &\\ \hline
-Cardiotocography (CTG)   & 3764 & 8.30 & 121 & \\ \hline
-Breast Cancer Wisconsin  &188.4 &  3.16  & 20.43 &\\ \hline
-Iris  & 12.73  & 2.22 & 12.75 &\\ \hline
-\end{tabular}
-\end{table}
-\newpage
-\thispagestyle{empty}
-\mbox{}
 
 
-\newpage
-%% =========================== PODSUMOWANIE ==============================
-\section{Podsumowanie}
-\paragraph{}
-asd
-\newline
-\newpage
-\thispagestyle{empty}
-\mbox{}
 
-\newpage
-%% =========================== ROZDZIAL 5 ================================
-\section{Kierunki dalszego rozwoju}
-\paragraph{}
-Niniejsza praca stanowi jedynie badanie użyteczności algorytmu FPA do strojenia probabilistycznych sieci neuronowych, jednakże analizowana dziedzina jest niezwykle szeroka i istnieje jeszcze wiele elementów które należało by zbadać. Dużym problemem prezentowanego algorytmu jest jego czas wykonywania.  Przede wszystkim, niniejszy algorytm zaimplementowano w języku R, który świetnie nadaje się do szybkiego prototypowania, jednakże jest znacznie wolniejszy od języków niższego poziomu. Implementacja zarówno FPA jak i PNN w kompilowanym języku jak na przykład C++ przyniosłaby znaczny zysk wydajnościowy. Wartym rozważenia było by również przeniesienie obliczeń na GPU. Należało by również przetestować proponowane modyfikacje algorytmu PNN zakładające zastąpienie umieszczania wszystkich elementów zbioru danych w strukturze sieci umieszczaniem jedynie reprezentantów klastrów. Zwiększenie szybkości wykonywania algorytmu pozwoliło by na wykorzystanie optymalizacji wygładzania dla każdej z klas z osobna, jak również na zwiększenie populacji i liczby iteracji. Dopracowanie samego algorytmu mogło by polegać na zbadaniu innych metod przeszukiwania przestrzeni w celach optymalizacyjnych. Można również przetestować możliwości strojenia parametru modyfikacji wygładzania przy użyciu FPA przy jednoczesnym strojeniu pozostałych parametrów. Zainteresowanie sieciami typu PNN jest obecnie bardzo duże, dlatego też powstaje wiele algorytmów mających na celu poprawę architektury sieci tego typu. Istnieją modyfikację wprowadzające dodatkowe wagi i/lub warstwy, warto było by przeprowadzić próbę wykorzystania algorytmu FPA do optymalizacji wszystkich parametrów takich zmodyfikowanych sieci.
 
-\newpage
-\thispagestyle{empty}
-\mbox{}
 
 \newpage
 %% =========================== BIBLIOGRAFIA ==============================
@@ -694,33 +435,33 @@ https://nvd.nist.gov
 
 \newpage
 %% =========================== SPIS ILUSTRACJI ===========================
-\section*{ }
-\listoffigures
-\newpage
-\addcontentsline{toc}{section}{Spis rysunków}
+%%\section*{ }
+%%\listoffigures
+%%\newpage
+%%\addcontentsline{toc}{section}{Spis rysunków}
 
-\newpage
+%%\newpage
 %% =========================== SPIS TABEL ===========================
-\section*{ }
-\listoftables
-\newpage
-\addcontentsline{toc}{section}{Spis tabel}
+%%\section*{ }
+%%\listoftables
+%%\newpage
+%%\addcontentsline{toc}{section}{Spis tabel}
 
-\newpage
+%%\newpage
 %% =========================== SPIS LISTINGÓW ===========================
-\section*{ }
-\renewcommand{\lstlistlistingname}{Spis listingów}
-\lstlistoflistings 
-\newpage
-\addcontentsline{toc}{section}{Spis listingów}
+%%\section*{ }
+%%\renewcommand{\lstlistlistingname}{Spis listingów}
+%%\lstlistoflistings 
+%%\newpage
+%%\addcontentsline{toc}{section}{Spis listingów}
 
 
 
-\newpage
+%%\newpage
 %% =========================== DODATKI ===========================
-\section*{Dodatki}
-\addcontentsline{toc}{section}{Dodatki}
-\markboth{Dodatki}{}
-\paragraph{}
+%%\section*{Dodatki}
+%%\addcontentsline{toc}{section}{Dodatki}
+%%\markboth{Dodatki}{}
+%%\paragraph{}
 
 \end{document}
