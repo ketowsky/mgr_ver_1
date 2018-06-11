@@ -303,106 +303,115 @@ Jak wspomniano w sekcji 2.1, pole opisu we wpisach CVE jest jednym z kluczowych 
 \paragraph{}
 Do dalszej, szczegółowej analizy wybrano kilka wpisów CVE dotyczących produktu Internet Explorer firmy Microsoft. Na ich przykładzie można pokazać najbardziej znaczące cechy pola opisu wpisów CVE oraz omówić ich konsekwencje i problemy przy ich automatycznym przetwarzaniu. 
 \paragraph{}
-Wpisy wyszukano za pomocą bazy danych NVD, z uwagi na możliwość filtrowania wyników wyszukiwania na podstawie producenta i produktu. Już na tym etapie można było zauważyć, że nazewnictwo w różnych wpisach może się różnić. Na Rysunku 1 widać, że zależnie od autora wpisu wybrany produkt może być inaczej nazwany. W tym przypadku nazwy "ie" oraz 'internet explorer" oznaczają to samo oprogramowanie. 
+Wpisy wyszukano za pomocą bazy danych NVD, z uwagi na możliwość filtrowania wyników wyszukiwania na podstawie producenta i produktu. Już na tym etapie można było zauważyć, że nazewnictwo w różnych wpisach może przybierać odmienne formy. Na Rysunku 1 widać, że zależnie od autora wpisu wybrany produkt może być inaczej nazwany. W tym przypadku nazwy "ie" oraz 'internet explorer" oznaczają to samo oprogramowanie. 
 
-
-\paragraph{}
-\begin{figure}[h]
+\begin{figure}
     \centering
-    \includegraphics[width=1.0\textwidth]{image/001NVDSearchResults.png}
+    \includegraphics[width=0.9\textwidth]{image/001NVDSearchResults.png}
     \caption{Wybór filtrów w wyszukiwarce bazy danych NVD}
+    \label{fig:Rysunek 1}
 \end{figure}
-
-
 
 Na rysunkach 2-5 można zauważyć iż opisy poszczególnych podatności mają podobną, jednak nie identyczną strukturę. W dwóch przypadkach, na rysunkach 2 i 3, wpis zaczyna się od określenia zakresu wpływu podatności na system, następnie podana jest nazwa producenta oraz nazwa produktu. Kolejnym elementem opisu jest wskazanie wersji produktu, w których wykryto daną podatność. W dalszej części opisu następuje wyjaśnienie istoty danej podatności. W opisach znajdujących się na rysunkach 4 oraz 5 pominięto część dotyczącą zakresu wpływu. 
 
 \paragraph{}
 Analizując poszczególne opisy można łatwo wywnioskować, że najbardziej różniącym się między poszczególnymi opisami elementem, jest określenie wersji produktu. W niektórych przypadkach opis ogranicza się do podania wersji produktu jako pojedynczej cyfry. W innych jest to doprecyzowane poprzez dopisanie po kropce dodatkowego identyfikatora wersji. Można spotkać również identyfikator wersji oznaczający pakiet, tak zwany Service Pack. W dodatku niektóre opisy zawierają mieszankę tych oznaczeń determinując poszczególne wersje z różną precyzją. Na rysunku 4 jest ukazany również przypadek, w którym podany jest zakres wersji produktu, w których można spotkać daną podatność. Wszystkie wspomniane różnice mogą powodować wysoki stopień trudności automatycznego przetwarzania opisu. Szczególnie biorąc pod uwagę fakt, że w omówionych przypadkach opisy dotyczyły tego samego produktu.
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \includegraphics[width=1.0\textwidth]{image/002CVE20100494.png}
     \caption{Pole opisu wpisu CVE-2010-0494}
+    \label{fig:Rysunek 2}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \includegraphics[width=1.0\textwidth]{image/003CVE20100491.png}
     \caption{Pole opisu wpisu CVE-2010-0491}
+    \label{fig:Rysunek 3}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \includegraphics[width=1.0\textwidth]{image/004CVE20111964.png}
     \caption{Pole opisu wpisu CVE-2011-1964}
+    \label{fig:Rysunek 4}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \includegraphics[width=1.0\textwidth]{image/005CVE20121881.png}
     \caption{Pole opisu wpisu CVE-2012-1881}
+    \label{fig:Rysunek 5}
 \end{figure}
 
 \paragraph{}
 Na zdjęciach 6-9 przedstawiono opisy dotyczące różnych produktów firmy Microsoft. Przeanalizowane zostaną pod kątem różnic w opisach wpisów CVE dotyczących aplikacji wytworzonych i rozwijanych przez tego samego producenta. 
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \includegraphics[width=1.0\textwidth]{image/006CVE20133870.png}
     \caption{Pole opisu wpisu CVE-2013-3870. Produkt: Microsoft Outlook}
+    \label{fig:Rysunek 6}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \includegraphics[width=1.0\textwidth]{image/007CVE20120141.png}
     \caption{Pole opisu wpisu CVE-2012-0141. Produkt: Microsoft Excel}
+    \label{fig:Rysunek 7}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \includegraphics[width=1.0\textwidth]{image/008CVE20133180.png}
     \caption{Pole opisu wpisu CVE-2013-3180. Produkt: Microsoft SharePoint Server}
+    \label{fig:Rysunek 8}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \includegraphics[width=1.0\textwidth]{image/009CVE20131302.png}
     \caption{Pole opisu wpisu CVE-2013-1302. Produkt: Microsoft Lync}
+    \label{fig:Rysunek 9}
 \end{figure}
 
 \paragraph{}
-Jak można zauważyć struktura opisu została zachowana jak w przypadku Microsoft Internet Explorer. To znaczy, że na początku opisu znajdują się informacje identyfikujące producenta i produkt, następnie podane są wersje produktu, w których występuje dana podatność. Zachowana została również część nazewnictwa poszczególnych wersji. Niektóre produkty mają jednak nowe identyfikatory wersji, którymi jest rok publikacji oraz występujące w opisie produktu Microsoft Excel słowo "Gold". Dodatkowym elementem opisu jest również wyszczególnienie w nim również innych produktów, w których występuje opisywana podatność. Analiza rysunków 6-9 pozwala stwierdzić, że w ramach produktów wytwarzanych przez jedną firmę istnieją różnice w nazewnictwie poszczególnych wersji, nie jest ono jednak znacząco bardziej skomplikowane, niż nazewnictwo wersji w ramach jednego produktu.
+Jak można zauważyć struktura opisu została zachowana jak w przypadku Microsoft Internet Explorer. To znaczy, że na początku opisu znajdują się informacje identyfikujące producenta i produkt, następnie podane są wersje produktu, w których występuje dana podatność. Zachowana została również część nazewnictwa poszczególnych wersji. Niektóre produkty mają jednak nowe identyfikatory wersji, którymi jest rok publikacji oraz występujące w opisie produktu Microsoft Excel słowo "Gold". Dodatkowym elementem opisu jest również wyszczególnienie w nim innych produktów, w których występuje opisywana podatność. Analiza rysunków 6-9 pozwala stwierdzić, że w ramach produktów wytwarzanych przez jedną firmę istnieją różnice w nazewnictwie poszczególnych wersji, nie jest ono jednak znacząco bardziej skomplikowane, niż nazewnictwo wersji w ramach jednego produktu.
 
 \paragraph{}
 Na rysunkach 10-13 znajdują się opisy podatności występujących w produktach stworzonych przez różnych producentów. Pozwoli to przeanalizować różnice pomiędzy strukturami opisów zapewnianych przez zróżnicowane środowiska.
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \includegraphics[width=1.0\textwidth]{image/010CVE20136622.png}
     \caption{Pole opisu wpisu CVE-2013-6622. Produkt: Google Blink}
+    \label{fig:Rysunek 10}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \includegraphics[width=1.0\textwidth]{image/011CVE20141568.png}
     \caption{Pole opisu wpisu CVE-2014-1568. Produkt: Mozilla Network Security Services}
+    \label{fig:Rysunek 11}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \includegraphics[width=1.0\textwidth]{image/012CVE20080660.png}
     \caption{Pole opisu wpisu CVE-2008-0660. Produkt: Aurigma Image Uploader ActiveX}
+    \label{fig:Rysunek 12} 
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \includegraphics[width=1.0\textwidth]{image/013CVE20145576.png}
     \caption{Pole opisu wpisu CVE-2014-5576. Produkt: Avira Secure Backup}
+    \label{fig:Rysunek 13}
 \end{figure}
 
-
-
+\paragraph{}
+Analizując rysunki 10-13 można stwierdzić, że nazewnictwo wersji poszczególnych produktów mogą przybierać zupełnie różne formy. Ale mają również cechy wspólne. Takim łącznikiem jest na przykład stopniowanie oznaczeń pomiędzy poszczególnymi aktualizacjami. Gdy zmiany w danej wersji są niewielkie, zmienia się tylko ostatni człon w oznaczeniu wersji. Jednak gdy zmiany mają większy wpływ na działanie produktu, wówczas zmieniane są wyższe stopnie w nazwie wersji. Wśród różnic natomiast należy wymienić rzędy liczb definiujących kolejne wersje. Rząd ten, w wybranej próbce opisów, waha się od liczb jednocyfrowych, do liczb czterocyfrowych. Odmienna jest też liczba stopni poszczególnych wersji. Co więcej na rysunku 11 spotkać można oznaczenie "3.16.x" obejmujące wszystkie niższe stopniem aktualizacje wersji "3.16". Informacje te potwierdzają złożoność zagadnienia automatycznego dopasowania wersji produktów zainstalowanych w analizowanym przez IBM Big Fix Inventory systemie.
 
 
 
