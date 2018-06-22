@@ -84,6 +84,15 @@ def get_cve_summaries(root):
         cve_summaries[id] = summary    
     return cve_summaries
 
+def parse_vendor_name(vendor_name):
+    #Method deletes unneccessary elements from vendor's name
+    new_name_elements = re.split(special_char_pattern, str(vendor_name).lower().strip())
+    new_name = ''
+    for element in new_name_elements:
+        if str(element) not in additionals:
+            new_name = new_name + str(element)
+    log_info('Vendors name: ' + vendor_name + ' was successfully changed to: ' + new_name)
+    return new_name
 '''    
 def find_all_vendors_cve(source_dict, vendor):
     #Function extracts CVE entries with chosen vendor, based on Summary mention
@@ -115,21 +124,48 @@ def parse_vendor_name(vendor_name):
     log_info('Vendors name: ' + vendor_name + ' was successfully changed to: ' + new_name)
     return new_name
 '''
-class product_cve_info(object):
-    #Class represents info about specific product.
-    #Methods analyse info about given product.
-    def __init__(self, vendor, product_name, version_name):
-        self.vendorName = vendor
+class system_product(object):
+    #Class represents info about specific product from system.
+    #Object should be created with info about producent, product and version
+    #Object runs self analyse to extract pattern for prod name
+    #Later on it holdes info about CVE Entries connected with itself
+    def __init__(self, vendor, product_name, ver_name):
+        self.vendorName = parse_vendor_name(vendor)
         self.productName = product_name
-        self.versionName = version_name
-        slef.versionPattern = ""
+        self.versionName = ver_name
+        self.versionPattern = self.ver_pattenr()
+        self.cveForProduct = {}
+        self.cveFindings = {}
+        
+    def ver_pattenr(self):
+        #Method is dedicated for automatic pattern extraction for product version name 
+        VersionObject = version_name(self.versionName)
+        VersionObject.create_version_pattern()
+        return VersionObject.regexpString
+    
+    def look_through_cve_sum(self, xml_cve_summaries):
+        #Method looks for CVE Summaries that mention about given product
+        vendor = vendor_cve_analizer(self.vendorName)
+        vendor.find_all_vendors_cve(xml_cve_summaries)
+        self.cveForProduct = vendor.find_all_products_cve(self.productName)
+        log_info('Looking for cve summaries for ' + self.vendorName + ' ' + self.productName + ' ver. ' + self.versionName, 'red')
+        log_info('Findings: ' + str(len(self.cveForProduct)), 'yellow')
+        
+    def look_for_patt_mentions(self):
+        #Method looks for strings in CVE Summaries matching to the given pattern
+        pass
+    
+    def validate_findings(self):
+        #Method validates found pattern matches
+        pass
+
 
     
 class vendor_cve_analizer(object):
     #Class analyses extracted CVE Summaries.
     #Object of class contains all summaries connected with given producent
     def __init__(self, vendor):
-        self.vendorName = self.parse_vendor_name(vendor)
+        self.vendorName = parse_vendor_name(vendor)
         self.vendorSummaries = {}
         
    
@@ -148,7 +184,7 @@ class vendor_cve_analizer(object):
             if product.lower().strip() in self.vendorSummaries[key].lower().strip():
                 product_summ_dict[key] = self.vendorSummaries[key]
         return product_summ_dict
-
+    '''
     def parse_vendor_name(self, vendor_name):
         #Method deletes unneccessary elements from vendor's name
         new_name_elements = re.split(special_char_pattern, str(vendor_name).lower().strip())
@@ -158,7 +194,8 @@ class vendor_cve_analizer(object):
                 new_name = new_name + str(element)
         log_info('Vendors name: ' + vendor_name + ' was successfully changed to: ' + new_name)
         return new_name        
-
+    '''
+    
 class level_name(object):  
     def __init__(self, orgStr):
         #Method automatically analyses given string
@@ -205,29 +242,32 @@ class version_name(object):
         
     def create_version_pattern(self):
         #Method creates pattern based on actual version name existing in the system
-        for element in self.listOfLevels:
-            level = level_name(element)
-            level.create_level_pattern()
-            self.listOfRegexpStrings.append(level.regexpString)
-        
-        #Part of code responsible for creating regexp for version name
-        self.regexpString = 'r\''
-        self.add_escape_char_for_specials()
+        if self.regexpString != '':
+            return
+        else: 
+            for element in self.listOfLevels:
+                level = level_name(element)
+                level.create_level_pattern()
+                self.listOfRegexpStrings.append(level.regexpString)
+            
+            #Part of code responsible for creating regexp for version name
+            self.regexpString = 'r\''
+            self.add_escape_char_for_specials()
 
-        if len(self.listOfRegexpStrings) > len(self.listOfSpecChar):
-            for i in range(0, len(self.listOfRegexpStrings)):
-                try:    
-                    self.regexpString = self.regexpString + str(self.listOfRegexpStrings[i]) + str(self.listOfSpecChar[i])
-                except:
-                    self.regexpString = self.regexpString + str(self.listOfRegexpStrings[i])
-        else:
-            for i in range(0, len(self.listOfSpecChar)):
-                try:    
-                    self.regexpString = self.regexpString + str(self.listOfRegexpStrings[i]) + str(self.listOfSpecChar[i])
-                except:
-                    self.regexpString = self.regexpString + str(self.listOfSpecChar[i])     
+            if len(self.listOfRegexpStrings) > len(self.listOfSpecChar):
+                for i in range(0, len(self.listOfRegexpStrings)):
+                    try:    
+                        self.regexpString = self.regexpString + str(self.listOfRegexpStrings[i]) + str(self.listOfSpecChar[i])
+                    except:
+                        self.regexpString = self.regexpString + str(self.listOfRegexpStrings[i])
+            else:
+                for i in range(0, len(self.listOfSpecChar)):
+                    try:    
+                        self.regexpString = self.regexpString + str(self.listOfRegexpStrings[i]) + str(self.listOfSpecChar[i])
+                    except:
+                        self.regexpString = self.regexpString + str(self.listOfSpecChar[i])     
 
-        self.regexpString = self.regexpString + '\''
+            self.regexpString = self.regexpString + '\''
      
     def add_escape_char_for_specials(self):
         #Method created to add escape character for proper special characters
@@ -317,7 +357,7 @@ for key in product_filtered_cve_sum:
     print(key, ':', product_filtered_cve_sum[key], '\n')
 '''  
 
-'''*************LOG INFO ABOUT CLASS CVE EXTRACTING***************************'''
+'''*************LOG INFO ABOUT CLASS CVE EXTRACTING***************************
 
 vendor_microsoft = vendor_cve_analizer('microsoft')
 vendor_microsoft.find_all_vendors_cve(xml_cve_summaries)
@@ -350,7 +390,9 @@ log_info('Findings for ' + vend2_prod1 + ' query: ' + str(len(product_filtered_c
 log_info('Printing for Product Dictionary')    
 for key in product_filtered_cve_sum:
     print(key, ':', product_filtered_cve_sum[key], '\n')
+'''
 
-
+SysProd = system_product('Microsoft', 'outlook', 'SP1 234.23')
+SysProd.look_through_cve_sum(xml_cve_summaries)
 
 #parse_vendor_name('#Microsoft_corporation')
