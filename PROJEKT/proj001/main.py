@@ -115,8 +115,19 @@ def parse_vendor_name(vendor_name):
     log_info('Vendors name: ' + vendor_name + ' was successfully changed to: ' + new_name)
     return new_name
 '''
+class product_cve_info(object):
+    #Class represents info about specific product.
+    #Methods analyse info about given product.
+    def __init__(self, vendor, product_name, version_name):
+        self.vendorName = vendor
+        self.productName = product_name
+        self.versionName = version_name
+        slef.versionPattern = ""
 
-class vendor_cve_analizer():
+    
+class vendor_cve_analizer(object):
+    #Class analyses extracted CVE Summaries.
+    #Object of class contains all summaries connected with given producent
     def __init__(self, vendor):
         self.vendorName = self.parse_vendor_name(vendor)
         self.vendorSummaries = {}
@@ -140,7 +151,6 @@ class vendor_cve_analizer():
 
     def parse_vendor_name(self, vendor_name):
         #Method deletes unneccessary elements from vendor's name
-        #new_name_elements = re.split(r'[\.:-/\\,_#]', str(vendor_name).lower().strip())
         new_name_elements = re.split(special_char_pattern, str(vendor_name).lower().strip())
         new_name = ''
         for element in new_name_elements:
@@ -275,7 +285,7 @@ log_info('version.listOfLevels is equal to: ' + str(version.listOfLevels), 'yell
 log_info('version.regexpString is equal to: ' + str(version.regexpString), 'yellow')
 '''
 
-'''*************LOG INFO ABOUT CVE EXTRACTING***************************
+'''*************LOG INFO ABOUT SCRIPT CVE EXTRACTING***************************
 vendor_filtered_cve_summ = find_all_vendors_cve(xml_cve_summaries, vendor1)
 log_info('Findings for ' + vendor1 +' query: ' + str(len(vendor_filtered_cve_summ)))
 
@@ -320,13 +330,13 @@ for key in product_filtered_cve_sum:
     print(key, ':', product_filtered_cve_sum[key], '\n') 
 
 product_filtered_cve_sum = vendor_microsoft.find_all_products_cve(vend1_prod2)
-log_info('\n\nFindings for ' + vend1_prod2 + ' query: ' + str(len(product_filtered_cve_sum)))
+log_info('Findings for ' + vend1_prod2 + ' query: ' + str(len(product_filtered_cve_sum)))
 log_info('Printing for Product Dictionary')    
 for key in product_filtered_cve_sum:
     print(key, ':', product_filtered_cve_sum[key], '\n')
     
 product_filtered_cve_sum = vendor_microsoft.find_all_products_cve(vend1_prod3)
-log_info('\n\nFindings for ' + vend1_prod3 + ' query: ' + str(len(product_filtered_cve_sum)))
+log_info('Findings for ' + vend1_prod3 + ' query: ' + str(len(product_filtered_cve_sum)))
 log_info('Printing for Product Dictionary')    
 for key in product_filtered_cve_sum:
     print(key, ':', product_filtered_cve_sum[key], '\n')
@@ -336,7 +346,7 @@ vendor_mozilla.find_all_vendors_cve(xml_cve_summaries)
 log_info('Findings for ' + vendor_mozilla.vendorName +' query: ' + str(len(vendor_mozilla.vendorSummaries)))
     
 product_filtered_cve_sum = vendor_mozilla.find_all_products_cve(vend2_prod1)
-log_info('\n\nFindings for ' + vend2_prod1 + ' query: ' + str(len(product_filtered_cve_sum)))
+log_info('Findings for ' + vend2_prod1 + ' query: ' + str(len(product_filtered_cve_sum)))
 log_info('Printing for Product Dictionary')    
 for key in product_filtered_cve_sum:
     print(key, ':', product_filtered_cve_sum[key], '\n')
