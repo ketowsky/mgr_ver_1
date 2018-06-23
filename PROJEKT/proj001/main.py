@@ -136,6 +136,7 @@ class system_product(object):
         self.versionPattern = self.ver_pattenr()
         self.cveForProduct = {}
         self.cveFindings = {}
+        self.versionFindings = {}
         
     def ver_pattenr(self):
         #Method is dedicated for automatic pattern extraction for product version name 
@@ -153,7 +154,18 @@ class system_product(object):
         
     def look_for_patt_mentions(self):
         #Method looks for strings in CVE Summaries matching to the given pattern
-        pass
+        log_info('REGEXP CVE: LOOK AT ME NOW, BITCH: ' + self.versionPattern + '\n', 'yellow')
+        compiledPattern  = re.compile(r'' + self.versionPattern)
+        for key in self.cveForProduct:
+            print(self.cveForProduct[key] + '\n')
+            matches = re.findall(compiledPattern, self.cveForProduct[key])
+            if matches != []:
+                self.cveFindings[key] = self.cveForProduct[key]
+                self.versionFindings[key] = matches
+                log_info('Wiedz, ze cos sie dzieje\n', 'green')
+            else:
+                log_info('Wiedz, ze cos sie dzieje\n', 'red')
+        log_info('IM DONE. FIND YOUR OWN MENTIONS IF U NEED THEM SO MUCH, SUCKER\n', 'blue')
     
     def validate_findings(self):
         #Method validates found pattern matches
@@ -251,7 +263,6 @@ class version_name(object):
                 self.listOfRegexpStrings.append(level.regexpString)
             
             #Part of code responsible for creating regexp for version name
-            self.regexpString = 'r\''
             self.add_escape_char_for_specials()
 
             if len(self.listOfRegexpStrings) > len(self.listOfSpecChar):
@@ -267,7 +278,6 @@ class version_name(object):
                     except:
                         self.regexpString = self.regexpString + str(self.listOfSpecChar[i])     
 
-            self.regexpString = self.regexpString + '\''
      
     def add_escape_char_for_specials(self):
         #Method created to add escape character for proper special characters
@@ -392,7 +402,9 @@ for key in product_filtered_cve_sum:
     print(key, ':', product_filtered_cve_sum[key], '\n')
 '''
 
-SysProd = system_product('Microsoft', 'outlook', 'SP1 234.23')
+SysProd = system_product('Mozilla', 'firefox', '45.8')
 SysProd.look_through_cve_sum(xml_cve_summaries)
+SysProd.look_for_patt_mentions()
+print(SysProd.versionFindings)
 
 #parse_vendor_name('#Microsoft_corporation')
