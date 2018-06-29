@@ -93,6 +93,27 @@ def parse_vendor_name(vendor_name):
             new_name = new_name + str(element)
     log_info('Vendors name: ' + vendor_name + ' was successfully changed to: ' + new_name)
     return new_name
+    
+def levenshtein(s1, s2):
+    if len(s1) < len(s2):
+        return levenshtein(s2, s1)
+
+    # len(s1) >= len(s2)
+    if len(s2) == 0:
+        return len(s1)
+
+    previous_row = range(len(s2) + 1)
+    for i, c1 in enumerate(s1):
+        current_row = [i + 1]
+        for j, c2 in enumerate(s2):
+            insertions = previous_row[j + 1] + 1 # j+1 instead of j since previous_row and current_row are one character longer
+            deletions = current_row[j] + 1       # than s2
+            substitutions = previous_row[j] + (c1 != c2)
+            current_row.append(min(insertions, deletions, substitutions))
+        previous_row = current_row
+    
+    return previous_row[-1]
+
 '''    
 def find_all_vendors_cve(source_dict, vendor):
     #Function extracts CVE entries with chosen vendor, based on Summary mention
@@ -133,16 +154,31 @@ class system_product(object):
         self.vendorName = parse_vendor_name(vendor)
         self.productName = product_name
         self.versionName = ver_name
+        self.levelsLength = []
+        self.versionNameLevels = re.split(special_char_pattern_with_s, self.versionName)
+        self.versionSpecCharsOfLevels = re.split(special_char_pattern_with_rest, self.versionName)
         self.versionPattern = self.ver_pattenr()
         self.cveForProduct = {}
         self.cveFindings = {}
         self.versionFindings = {}
+        self.versionObject = version_name(self.versionName)
+
+        # removing actual names of version levels from special characters list
+        for element in self.versionNameLevels:
+            self.versionSpecCharsOfLevels.remove(element)
+            self.levelsLength.append(len(element))
+            log_info('Len of level: ' + str(len(element)) + ' and element itself: ' + str(element), 'blue')
+        
         
     def ver_pattenr(self):
         #Method is dedicated for automatic pattern extraction for product version name 
         VersionObject = version_name(self.versionName)
         VersionObject.create_version_pattern()
+        #self.levelsLength = VersionObject.levelsLength
+        #self.versionNameLevels = VersionObject.listOfLevels
+        #self.versionSpecCharsOfLevels = VersionObject.listOfSpecChar
         return VersionObject.regexpString
+        
     
     def look_through_cve_sum(self, xml_cve_summaries):
         #Method looks for CVE Summaries that mention about given product
@@ -169,8 +205,13 @@ class system_product(object):
     
     def validate_findings(self):
         #Method validates found pattern matches
-        pass
-
+        #TODO change to validation of each level apart
+        for key in self.versionFindings:
+            lev_dist = levenshtein(str(self.versionFindings[key]).replace('[','').replace(']','').replace('\'',''), self.versionName)
+            if lev_dist <= self.levelsLength[-1]:
+                log_info('Levenstein distance is: ' + str(lev_dist), 'red')
+                log_info('Found version name is: ' + str(self.versionFindings[key]).replace('[','').replace(']','').replace('\'',''), 'red')
+                log_info('System version name is: ' + self.versionName + '\n', 'red')
 
     
 class vendor_cve_analizer(object):
@@ -180,7 +221,6 @@ class vendor_cve_analizer(object):
         self.vendorName = parse_vendor_name(vendor)
         self.vendorSummaries = {}
         
-   
     def find_all_vendors_cve(self, source_dict):
         #Method extracts CVE entries with chosen vendor, based on Summary mention
         log_info('Chosen vendor: ' + self.vendorName)
@@ -248,9 +288,12 @@ class version_name(object):
         self.listOfSpecChar = re.split(special_char_pattern_with_rest, self.versionName)
         self.listOfRegexpStrings = []
         self.regexpString = ''
-        # removing actual names of version levels from specil characters list
+        self.levelsLength = []
+        # removing actual names of version levels from special characters list
         for element in self.listOfLevels:
             self.listOfSpecChar.remove(element)
+            self.levelsLength.append(len(element))
+            log_info('Len of level: ' + str(len(element)) + ' and element itself: ' + str(element), 'blue')
         
     def create_version_pattern(self):
         #Method creates pattern based on actual version name existing in the system
@@ -402,9 +445,26 @@ for key in product_filtered_cve_sum:
     print(key, ':', product_filtered_cve_sum[key], '\n')
 '''
 
+
+'''*************LOG INFO ABOUT CVE VALIDATION***************************'''
 SysProd = system_product('Mozilla', 'firefox', '45.8')
 SysProd.look_through_cve_sum(xml_cve_summaries)
 SysProd.look_for_patt_mentions()
 print(SysProd.versionFindings)
+levDist = levenshtein(str(SysProd.versionFindings['CVE-2016-5293']).replace('[','').replace(']','').replace('\'',''), '45.6')
+log_info(str(SysProd.versionFindings['CVE-2016-5293']).replace('[','').replace(']','').replace('\'',''), 'yellow')
+log_info(str(levDist))
+SysProd.validate_findings()
+
+
+'''*************LOG INFO ABOUT LEVENSTEIN VALIDATION***************************'''
+lev = levenshtein('abcde', 'abcde')
+log_info('Tak to sobie levek policzyl:  ' + str(lev) + '\n', 'red')
+lev = levenshtein('abcde', 'edcba')
+log_info('Tak to sobie levek policzyl:  ' + str(lev)+ '\n', 'red')
+lev = levenshtein('abcde', 'ABCDE')
+log_info('Tak to sobie levek policzyl:  ' + str(lev)+ '\n', 'red')
+
+
 
 #parse_vendor_name('#Microsoft_corporation')
