@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 import xml.etree.ElementTree as ET
-from termcolor import colored
 import re 
-
+try:
+    from termcolor import colored
+    are_there_colours = True
+except:
+    are_there_colours = False
 
 #global variables
 xml_file_name = 'nvdcve-2.0-recent.xml'
@@ -56,20 +59,19 @@ UNDERLINE = '\033[4m'
    
 def log_info(log_string, colour='green'):
     #Function created to keep clear code
-     if colour is 'green':
-        print('\033[92m' + '##LOG INFO: ' + str(log_string) + '\033[0m')
-     elif colour is 'blue':
-        print('\033[94m' + '##LOG INFO: ' + str(log_string) + '\033[0m')
-     elif colour is 'yellow':
-        print('\033[93m' + '##LOG INFO: ' + str(log_string) + '\033[0m')        
-     elif colour is 'red':
-        print('\033[91m' + '##LOG INFO: ' + str(log_string) + '\033[0m')
-     else:
-        print('##LOG INFO: ' + str(log_string))        
-        
-#def log_info(log_string, colour='green'):
-#    #Function created to keep clear code
-#    print('########### LOG INFO: ' + str(log_string))
+    if are_there_colours:
+         if colour is 'green':
+            print('\033[92m' + '##LOG INFO: ' + str(log_string) + '\033[0m')
+         elif colour is 'blue':
+            print('\033[94m' + '##LOG INFO: ' + str(log_string) + '\033[0m')
+         elif colour is 'yellow':
+            print('\033[93m' + '##LOG INFO: ' + str(log_string) + '\033[0m')        
+         elif colour is 'red':
+            print('\033[91m' + '##LOG INFO: ' + str(log_string) + '\033[0m')
+         else:
+            print('##LOG INFO: ' + str(log_string))        
+    else:  
+        print('########### LOG INFO: ' + str(log_string))
 
 def vulner_list_parser(cve_file_name):
     #Function parsing NVD Data Feeds which is XML file published by NVD
@@ -455,6 +457,7 @@ levDist = levenshtein(str(SysProd.versionFindings['CVE-2016-5293']).replace('[',
 log_info(str(SysProd.versionFindings['CVE-2016-5293']).replace('[','').replace(']','').replace('\'',''), 'yellow')
 log_info(str(levDist))
 SysProd.validate_findings()
+print(str(SysProd.versionFindings))
 
 
 '''*************LOG INFO ABOUT LEVENSTEIN VALIDATION***************************'''
