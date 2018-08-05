@@ -10,6 +10,9 @@ except:
 #global variables
 xml_file_name = 'nvdcve-2.0-recent.xml'
 nist_gov_referr = '{http://scap.nist.gov/schema/vulnerability/0.4}'
+
+tolerance_factor = 2 # factor that keeps some margin for validation of version names
+
 vendor1 = 'microsoft'
 vend1_prod1 = 'outlook'
 vend1_prod2 = 'excel'
@@ -21,9 +24,9 @@ vend3_prod1 = 'reader'
 vendor3_1 = 'foxit reader'
 
 #regexp pattern compilations
-special_char_pattern = re.compile(r'[\.:-_/\\#,]')
-special_char_pattern_with_s = re.compile(r'[\.:-_/\\#,\s]')
-special_char_pattern_with_rest = re.compile(r'([\.:-_/\\#,\s])')
+special_char_pattern = re.compile(r'[\.:-_/\\#,\']')
+special_char_pattern_with_s = re.compile(r'[\.:-_/\\#,\s\']')
+special_char_pattern_with_rest = re.compile(r'([\.:-_/\\#,\s\'])')
 
 #mock instances
 mock_bfi_version_names = { 
@@ -93,59 +96,14 @@ def parse_vendor_name(vendor_name):
     for element in new_name_elements:
         if str(element) not in additionals:
             new_name = new_name + str(element)
-    log_info('Vendors name: ' + vendor_name + ' was successfully changed to: ' + new_name)
     return new_name
-    
-def levenshtein(s1, s2):
-    if len(s1) < len(s2):
-        return levenshtein(s2, s1)
 
-    if len(s2) == 0:
-        return len(s1)
 
-    previous_row = range(len(s2) + 1)
-    for i, c1 in enumerate(s1):
-        current_row = [i + 1]
-        for j, c2 in enumerate(s2):
-            insertions = previous_row[j + 1] + 1 # j+1 instead of j since previous_row and current_row are one character longer
-            deletions = current_row[j] + 1       # than s2
-            substitutions = previous_row[j] + (c1 != c2)
-            current_row.append(min(insertions, deletions, substitutions))
-        previous_row = current_row
-    
-    return previous_row[-1]
+def get_rid_of_empty_elements(someList):
+    while '' in someList:
+        someList.remove('')
+    return someList
 
-'''    
-def find_all_vendors_cve(source_dict, vendor):
-    #Function extracts CVE entries with chosen vendor, based on Summary mention
-    log_info('Chosen vendor: ' + vendor)
-    new_dict = {}
-    for key in source_dict:
-        if vendor.lower().strip() in source_dict[key].lower().strip():
-            new_dict[key] = source_dict[key]
-    return new_dict
-    
-    
-def find_all_products_cve(source_dict, product):
-    #Function extracts CVE entries with chosen product, based on Summary mention
-    log_info('Chosen product: ' + product)
-    new_dict = {}
-    for key in source_dict:
-        if product.lower().strip() in source_dict[key].lower().strip():
-            new_dict[key] = source_dict[key]
-    return new_dict
-
-def parse_vendor_name(vendor_name):
-    #Function deletes unneccessary elements from vendor's name
-    #new_name_elements = re.split(r'[\.:-/\\,_#]', str(vendor_name).lower().strip())
-    new_name_elements = re.split(special_char_pattern, str(vendor_name).lower().strip())
-    new_name = ''
-    for element in new_name_elements:
-        if str(element) not in additionals:
-            new_name = new_name + str(element)
-    log_info('Vendors name: ' + vendor_name + ' was successfully changed to: ' + new_name)
-    return new_name
-'''
 class SystemProduct(object):
     #Class represents info about specific product from system.
     #Object should be created with info about producent, product and version
@@ -158,6 +116,7 @@ class SystemProduct(object):
         self.lvlLengthList = []
         self.verNameLvlList = re.split(special_char_pattern_with_s, self.verNameStr)
         self.verLvlSpecCharsList = re.split(special_char_pattern_with_rest, self.verNameStr)
+        self.regexpLvlPatternList = []  # holds merged patterns created for all levels of version name
         self.verPatternStr = self.ver_pattenr()
         self.cveForProdDict = {}        # all CVE with summaries which mention about give product
         self.cveFindingsDict = {}       # all found CVE with summaries with was matched with pattern
@@ -169,68 +128,154 @@ class SystemProduct(object):
         for element in self.verNameLvlList:
             self.verLvlSpecCharsList.remove(element)
             self.lvlLengthList.append(len(element))
-            log_info('Len of level: ' + str(len(element)) + ' and element itself: ' + str(element), 'blue')
         
         
     def ver_pattenr(self):
         #Method is dedicated for automatic pattern extraction for product version name 
         VersionObject = VersionName(self.verNameStr)
         VersionObject.create_version_pattern()
+        self.regexpLvlPatternList = VersionObject.regexpLvlPatternList
         return VersionObject.regexpString
-        
     
     def look_through_cve_sum(self, xml_cve_summaries):
         #Method looks for CVE Summaries that mention about given product
         vendor = VendorCveAnalizer(self.venNameStr)
         vendor.find_all_vendors_cve(xml_cve_summaries)
         self.cveForProdDict = vendor.find_all_products_cve(self.prodNameStr)
-        log_info('Looking for cve summaries for ' + self.venNameStr + ' ' + self.prodNameStr + ' ver. ' + self.verNameStr, 'red')
-        log_info('Findings: ' + str(len(self.cveForProdDict)), 'yellow')
         
+    # def look_for_patt_mentions(self):
+    #     #Method looks for strings in CVE Summaries matching to the given pattern
+    #     compiledPattern  = re.compile(r'' + self.verPatternStr)
+    #     for key in self.cveForProdDict:
+    #         print(self.cveForProdDict[key] + '\n')
+    #         matches = re.findall(compiledPattern, self.cveForProdDict[key])
+    #         if matches != []:
+    #             self.cveFindingsDict[key] = self.cveForProdDict[key]
+    #             self.verFindingsDict[key] = matches
+    #         #     log_info('Wiedz, ze cos sie dzieje\n', 'green')
+    #         # else:
+    #         #     log_info('Wiedz, ze cos sie dzieje\n', 'red')
+
     def look_for_patt_mentions(self):
         #Method looks for strings in CVE Summaries matching to the given pattern
-        log_info('REGEXP CVE: LOOK AT ME NOW, BITCH: ' + self.verPatternStr + '\n', 'yellow')
-        compiledPattern  = re.compile(r'' + self.verPatternStr)
-        for key in self.cveForProdDict:
-            print(self.cveForProdDict[key] + '\n')
-            matches = re.findall(compiledPattern, self.cveForProdDict[key])
-            if matches != []:
-                self.cveFindingsDict[key] = self.cveForProdDict[key]
-                self.verFindingsDict[key] = matches
-            #     log_info('Wiedz, ze cos sie dzieje\n', 'green')
-            # else:
-            #     log_info('Wiedz, ze cos sie dzieje\n', 'red')
+        for verPatternStr in self.regexpLvlPatternList:
+            compiledPattern  = re.compile(r'' + verPatternStr)
+            for key in self.cveForProdDict:
+                matches = re.findall(compiledPattern, self.cveForProdDict[key])
+                if matches != []:
+                    try:
+                        self.cveFindingsDict[key] = self.cveForProdDict[key]
+                        self.verFindingsDict[key].append(matches)
+                    except KeyError:
+                        self.cveFindingsDict[key] = self.cveForProdDict[key]
+                        self.verFindingsDict[key] = []
+                        self.verFindingsDict[key].append(matches)
+
+    def levenshtein(self, s1, s2):
+        if len(s1) < len(s2):
+            return self.levenshtein(s2, s1)
+
+        if len(s2) == 0:
+            return len(s1)
+
+        previous_row = range(len(s2) + 1)
+        for i, c1 in enumerate(s1):
+            current_row = [i + 1]
+            for j, c2 in enumerate(s2):
+                insertions = previous_row[
+                                 j + 1] + 1  # j+1 instead of j since previous_row and current_row are one character longer
+                deletions = current_row[j] + 1  # than s2
+                substitutions = previous_row[j] + (c1 != c2)
+                current_row.append(min(insertions, deletions, substitutions))
+            previous_row = current_row
+
+        return previous_row[-1]
+
+    def add_matches(self, lev_dist_of_lvl, ver, key):
+        # TODO Decide about acceptable distance to count as match
+        if lev_dist_of_lvl <= self.lvlLengthList[-1] + tolerance_factor:
+            try:
+                self.verValidationsDict[key].append(
+                    {str(ver).replace('[', '').replace(']', '').replace('\'', ''): lev_dist_of_lvl})
+                log_info('wlasnie dodaje cos do verValidaonDict: \nkey: ' + str(key) + '\nappend: ' + str(
+                    {str(ver): lev_dist_of_lvl}), 'yellow')
+
+            except KeyError:
+                self.verValidationsDict[key] = []
+                self.verValidationsDict[key].append(
+                    {str(ver).replace('[', '').replace(']', '').replace('\'', ''): lev_dist_of_lvl})
+                log_info('wlasnie dodaje cos do verValidaonDict: \nkey: ' + str(key) + '\nappend: ' + str(
+                    {str(ver): lev_dist_of_lvl}), 'yellow')
+
 
     def validate_findings(self):
         #Method validates found pattern matches
         for key in self.verFindingsDict:
+            log_info('Klucz w self.verFindingsDict: ' + str(key), 'red')
+            log_info('Dla przypomnienia zawartosc self.verNameStr: ' + str(self.verNameStr), 'blue')
+            log_info('jeszcze jedna wazna sprawa, czyli opis daneo cve: ' + str(self.cveFindingsDict[key]), 'red')
+
             for ver in self.verFindingsDict[key]:
-                splittedFindingLevels = re.split(special_char_pattern_with_s, str(ver))
-                splittedProductLevels = re.split(special_char_pattern_with_s, str(self.verNameStr))
-                if len(splittedFindingLevels) == len(splittedProductLevels):
+                ver_iter = 0
+                splittedFindingLevels = get_rid_of_empty_elements(re.split(special_char_pattern_with_s, str(ver)))
+                splittedProductLevels = get_rid_of_empty_elements(re.split(special_char_pattern_with_s, str(self.verNameStr)))
+
+                log_info('Zawartosc self.verFindingsDict[key]' + str(ver))
+                log_info('w tym czasie w splittedFindingLevels: ' + str(splittedFindingLevels), 'yellow')
+                log_info('w tym czasie w splittedProductLevels: ' + str(splittedProductLevels), 'yellow')
+
+                # Case when extracted version names are only from the top level
+                if len(re.findall(r'' + self.regexpLvlPatternList[0], str(ver))) == len(ver):
                     lev_dist_of_lvl = 0
                     for count in range(len(splittedFindingLevels)):
-                        level_factor = levenshtein(splittedFindingLevels[count], splittedProductLevels[count]) * (len(splittedFindingLevels) - count)
+                        #Levenstein distance is multiplied by 5 (just high value), because it it the top level of naming
+                        # TODO if you revalue other factors you should put here proper value
+                        level_factor = self.levenshtein(splittedFindingLevels[count], splittedProductLevels[0]) * 5
                         lev_dist_of_lvl = lev_dist_of_lvl + level_factor
-                        log_info('Levenstein distance for level ' + str(count) + ' multiplied by level factor is equal to: ' + str(level_factor), 'yellow')
-                    log_info('Levenstein distance for all levels is equal to: ' + str(lev_dist_of_lvl), 'blue')
-                    #TODO Decide about acceptable distance to count as match
-                    if lev_dist_of_lvl <= self.lvlLengthList[-1]:
-                                try:
-                                    self.verValidationsDict[key].append({ver: lev_dist_of_lvl})
-                                except KeyError:
-                                    self.verValidationsDict[key] = []
-                                    self.verValidationsDict[key].append({ver: lev_dist_of_lvl})
-                                # log_info('Levenstein distance is: ' + str(lev_dist_of_lvl), 'red')
-                                # log_info('Found version name is: ' + str(self.verFindingsDict[key]).replace('[', '').replace(']', '').replace('\'', ''), 'red')
-                                # log_info('System version name is: ' + self.verNameStr + '\n', 'red')
-                else:
-                    log_info('Something went wrong with levels name. Check this out in system_product.vlidate_findings()', 'red')
-        log_info('!!!Sum of ' + str(len(self.verValidationsDict)) + ' levenstein valid versions was found in this file!!!')
-        log_info('ekhm, the validations for findings are like:')
-        print(self.verValidationsDict)
+                        #TODO Decide about acceptable distance to count as match
+                        if lev_dist_of_lvl <= self.lvlLengthList[-1] + tolerance_factor:
+                            try:
+                                self.verValidationsDict[key].append({str(splittedFindingLevels[count]).replace('[' ,'').replace(']' ,'').replace('\'', '') : lev_dist_of_lvl})
+                                log_info('wlasnie dodaje cos do verValidaonDict: \nkey: ' + str(key) + '\nappend: ' + str({str(splittedFindingLevels[count]) : lev_dist_of_lvl}), 'blue')
+                            except KeyError:
+                                self.verValidationsDict[key] = []
+                                self.verValidationsDict[key].append({str(splittedFindingLevels[count]).replace('[' ,'').replace(']' ,'').replace('\'', '') : lev_dist_of_lvl})
+                                log_info('wlasnie dodaje cos do verValidaonDict: \nkey: ' + str(key) + '\nappend: ' + str({str(splittedFindingLevels[count]) : lev_dist_of_lvl}), 'blue')
 
-    
+                # Case when extracted and expected version name have same count of levels
+                # if len(splittedFindingLevels) == len(splittedProductLevels):
+                elif len(splittedFindingLevels) == len(splittedProductLevels):
+                    lev_dist_of_lvl = 0
+                    for count in range(len(splittedFindingLevels)):
+                        level_factor = self.levenshtein(splittedFindingLevels[count], splittedProductLevels[count]) * (len(splittedFindingLevels) - count)
+                        lev_dist_of_lvl = lev_dist_of_lvl + level_factor
+                    self.add_matches(lev_dist_of_lvl, ver, key)
+
+                # Case when expected version name has more levels than the extracted
+                elif len(splittedFindingLevels) < len(splittedProductLevels):
+                    lev_dist_of_lvl = 0
+                    for count in range(len(splittedFindingLevels)):
+                        level_factor = self.levenshtein(splittedFindingLevels[count], splittedProductLevels[count]) * (len(splittedFindingLevels) - count)
+                        lev_dist_of_lvl = lev_dist_of_lvl + level_factor
+                    lev_dist_of_lvl = lev_dist_of_lvl + len(splittedProductLevels) - len(splittedFindingLevels)
+                    self.add_matches(lev_dist_of_lvl, ver, key)
+
+                # Case when extracted version name has more levels than the expected
+                elif len(splittedFindingLevels) > len(splittedProductLevels):
+                    lev_dist_of_lvl = 0
+                    for count in range(len(splittedProductLevels)):
+                        level_factor = self.levenshtein(splittedFindingLevels[count], splittedProductLevels[count]) * (len(splittedFindingLevels) - count)
+                        lev_dist_of_lvl = lev_dist_of_lvl + level_factor
+                    self.add_matches(lev_dist_of_lvl, ver, key)
+
+                ver_iter = ver_iter + 1
+
+        log_info('\n\nVALIDATION IS OVER!!\nTheres the results:\n')
+        log_info(str(self.verValidationsDict) + '\n', 'red')
+
+
+
+
 class VendorCveAnalizer(object):
     #Class analyses extracted CVE Summaries.
     #Object of class contains all summaries connected with given producent
@@ -240,14 +285,12 @@ class VendorCveAnalizer(object):
         
     def find_all_vendors_cve(self, source_dict):
         #Method extracts CVE entries with chosen vendor, based on Summary mention
-        log_info('Chosen vendor: ' + self.venName)
         for key in source_dict:
             if self.venName.lower().strip() in source_dict[key].lower().strip():
                 self.venSummaries[key] = source_dict[key]
         
     def find_all_products_cve(self, product):
         #Method extracts CVE entries with chosen product, based on Summary mention
-        log_info('Chosen product: ' + product)
         product_summ_dict = {}
         for key in self.venSummaries:
             if product.lower().strip() in self.venSummaries[key].lower().strip():
@@ -275,6 +318,7 @@ class LevelName(object):
         self.isThereLetters = re.findall(r'[a-z]+', self.originalString) != []
         self.isThereNumbers = re.findall(r'\d+', self.originalString) != []
         self.regexpString = ''
+        self.regexpLvlList = []
 
     def create_level_pattern(self):
         #Method creates regexp pattern for part of version name
@@ -283,13 +327,15 @@ class LevelName(object):
         elif not self.isThereNumbers and self.isThereLetters:       # case with level name contains only letters
             self.regexpString = '[a-z]{' + str(self.length) + '}'    
         else:                                                       # case with mixed numbers and letters in level name
-            tmpLevelName = re.split(r'([1-9]+)', self.originalString)
-            if '' in tmpLevelName: tmpLevelName.remove('') #1st element is removed
-            if '' in tmpLevelName: tmpLevelName.remove('') #2nd element is removed
+            # tmpLevelName = re.split(r'([1-9]+)', self.originalString)
+            tmpLevelName = get_rid_of_empty_elements(re.split(r'([1-9]+)', self.originalString))
+            # if '' in tmpLevelName: tmpLevelName.remove('') #1st element is removed
+            # if '' in tmpLevelName: tmpLevelName.remove('') #2nd element is removed
             for element in tmpLevelName:
                 level = LevelName(element)
                 level.create_level_pattern()
                 self.regexpString = self.regexpString + level.regexpString
+
     
     
 
@@ -298,18 +344,21 @@ class VersionName(object):
         #Method automatically analyses given string
         #WARNING: There is some simplification - it has been assumpted that in version name
         #         it is not important if there is lower or upper case
-        log_info('Creating new instance of version_name class for: ' + str(orgStr))
         self.verName = str(orgStr).lower().strip()
         self.length = len(self.verName)
         self.lvlList = re.split(special_char_pattern_with_s, self.verName)
         self.SpecCharList = re.split(special_char_pattern_with_rest, self.verName)
-        self.regexpStrList = []
-        self.regexpString = ''
+        self.regexpStrList = []             # regexp for each level of version name
+        self.regexpString = ''              # whole regexp for given product
+        self.regexpLvlPatternList = []      # holds merged patterns created for all levels of version name
         self.lvlLengthList = []
         # removing actual names of version levels from special characters list
         for element in self.lvlList:
             self.SpecCharList.remove(element)
             self.lvlLengthList.append(len(element))
+
+    def check_if_there_is_spec_char(self):
+        pass
 
     def create_version_pattern(self):
         #Method creates pattern based on actual version name existing in the system
@@ -328,14 +377,18 @@ class VersionName(object):
                 for i in range(0, len(self.regexpStrList)):
                     try:    
                         self.regexpString = self.regexpString + str(self.regexpStrList[i]) + str(self.SpecCharList[i])
+                        self.regexpLvlPatternList.append(self.regexpString)
                     except:
                         self.regexpString = self.regexpString + str(self.regexpStrList[i])
+                        self.regexpLvlPatternList.append(self.regexpString)
             else:
                 for i in range(0, len(self.SpecCharList)):
                     try:    
                         self.regexpString = self.regexpString + str(self.regexpStrList[i]) + str(self.SpecCharList[i])
+                        self.regexpLvlPatternList.append(self.regexpString)
                     except:
                         self.regexpString = self.regexpString + str(self.SpecCharList[i])
+                        self.regexpLvlPatternList.append(self.regexpString)
 
      
     def add_escape_char_for_specials(self):
@@ -464,10 +517,9 @@ for key in product_filtered_cve_sum:
 SysProd = SystemProduct('Apple', 'macOS', '10.13.5')
 SysProd.look_through_cve_sum(xml_cve_summaries)
 SysProd.look_for_patt_mentions()
-#levDist = levenshtein(str(SysProd.verFindingsDict['CVE-2016-5293']).replace('[', '').replace(']', '').replace('\'', ''), '45.6')
-#log_info(str(SysProd.verFindingsDict['CVE-2016-5293']).replace('[', '').replace(']', '').replace('\'', ''), 'yellow')
-#log_info(str(levDist))
 SysProd.validate_findings()
+print(SysProd.regexpLvlPatternList)
+print('Levenstein at the end is eq to: ', SysProd.levenshtein('abcd', 'abde'))
 #print(str(SysProd.verFindingsDict))
 
 
@@ -479,6 +531,14 @@ log_info('Tak to sobie levek policzyl:  ' + str(lev)+ '\n', 'red')  #should be 4
 lev = levenshtein('abcde', 'ABCDE')
 log_info('Tak to sobie levek policzyl:  ' + str(lev)+ '\n', 'red')  #should be 5
 '''
+
+
+
+oklesttry = {}
+oklesttry['ok'] = {'wannabekey' : 'smth'}
+
+print(oklesttry['ok'])
+print(oklesttry['ok']['wannabekey'])
 
 
 #parse_vendor_name('#Microsoft_corporation')
