@@ -1,5 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <nvd xmlns:scap-core="http://scap.nist.gov/schema/scap-core/0.1" xmlns:cvss="http://scap.nist.gov/schema/cvss-v2/0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://scap.nist.gov/schema/feed/vulnerability/2.0" xmlns:patch="http://scap.nist.gov/schema/patch/0.1" xmlns:cpe-lang="http://cpe.mitre.org/language/2.0" xmlns:vuln="http://scap.nist.gov/schema/vulnerability/0.4" nvd_xml_version="2.0" pub_date="2018-06-14T16:00:00" xsi:schemaLocation="http://scap.nist.gov/schema/patch/0.1 https://scap.nist.gov/schema/nvd/patch_0.1.xsd http://scap.nist.gov/schema/feed/vulnerability/2.0 https://scap.nist.gov/schema/nvd/nvd-cve-feed_2.0.xsd http://scap.nist.gov/schema/scap-core/0.1 https://scap.nist.gov/schema/nvd/scap-core_0.1.xsd">
+12.345.1410.4
+
 
     <entry id="CVE-2009-1111">
         <vuln:vulnerable-configuration id="http://nvd.nist.gov/">
@@ -68,9 +70,7 @@
           <vuln:source>MISC</vuln:source>
           <vuln:reference href="https://www.somemockaddress.com/system/files/veryinportant.pdf" xml:lang="en">https://www.somemockaddress.com/system/files/veryinportant.pdf</vuln:reference>
         </vuln:references>
-        <vuln:summary>The Hunger Games Mockingjay version from 12.345.1410.4 to 12.345.2137.2 does not have a digital
-            signature for the configuration block which allows attackers to set up communication with a web site other
-            than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
+        <vuln:summary>The Hunger Games Mockingjay versions 12.345.1410.4, 12.345.1410.5, 12.345.1410.6, 12.345.1408.2, 12.345.1408.4 and 12.345.2137.2 does not have a digital signature for the configuration block which allows attackers to set up communication with a web site other than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
       </entry>
 
     <entry id="CVE-2009-1133">
@@ -105,9 +105,7 @@
           <vuln:source>MISC</vuln:source>
           <vuln:reference href="https://www.somemockaddress.com/system/files/veryinportant.pdf" xml:lang="en">https://www.somemockaddress.com/system/files/veryinportant.pdf</vuln:reference>
         </vuln:references>
-        <vuln:summary>The Hunger Games Mockingjay version from 12.345.1410.4 to 12.345.2137.2 does not have a digital
-            signature for the configuration block which allows attackers to set up communication with a web site other
-            than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
+        <vuln:summary>The Hunger Games Mockingjay versions 12.345.1410.4, 12.345.1409.4, 12.345.2137.4, 12.345.2137.2, 12.478.1410.4 and 15.345.1410.4 does not have a digital signature for the configuration block which allows attackers to set up communication with a web site other than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
       </entry>
 
 
@@ -143,9 +141,7 @@
           <vuln:source>MISC</vuln:source>
           <vuln:reference href="https://www.somemockaddress.com/system/files/veryinportant.pdf" xml:lang="en">https://www.somemockaddress.com/system/files/veryinportant.pdf</vuln:reference>
         </vuln:references>
-        <vuln:summary>The Hunger Games Mockingjay version from 12.345.1410.4 to 12.345.2137.2 does not have a digital
-            signature for the configuration block which allows attackers to set up communication with a web site other
-            than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
+        <vuln:summary>The Hunger Games Mockingjay versions 12.345.1409.4, 12.345.2137.4, 12.345.2137.2, 12.478.1410.4 and 15.345.1410.4 does not have a digital signature for the configuration block which allows attackers to set up communication with a web site other than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
       </entry>
 
     <entry id="CVE-2009-1155">
@@ -180,9 +176,7 @@
           <vuln:source>MISC</vuln:source>
           <vuln:reference href="https://www.somemockaddress.com/system/files/veryinportant.pdf" xml:lang="en">https://www.somemockaddress.com/system/files/veryinportant.pdf</vuln:reference>
         </vuln:references>
-        <vuln:summary>The Hunger Games Mockingjay version from 12.345.1410.4 to 12.345.2137.2 does not have a digital
-            signature for the configuration block which allows attackers to set up communication with a web site other
-            than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
+        <vuln:summary>The Hunger Games Mockingjay versions 12.345.2137.2, 12.478.1410.4 and 15.345.1410.4 does not have a digital signature for the configuration block which allows attackers to set up communication with a web site other than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
       </entry>
 
     <entry id="CVE-2009-1166">
@@ -217,9 +211,7 @@
           <vuln:source>MISC</vuln:source>
           <vuln:reference href="https://www.somemockaddress.com/system/files/veryinportant.pdf" xml:lang="en">https://www.somemockaddress.com/system/files/veryinportant.pdf</vuln:reference>
         </vuln:references>
-        <vuln:summary>The Hunger Games Mockingjay version from 12.345.1410.4 to 12.345.2137.2 does not have a digital
-            signature for the configuration block which allows attackers to set up communication with a web site other
-            than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
+        <vuln:summary>The Hunger Games Mockingjay version 12.345.1410.4 does not have a digital signature for the configuration block which allows attackers to set up communication with a web site other than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
       </entry>
 
     <entry id="CVE-2009-1177">
@@ -254,9 +246,7 @@
           <vuln:source>MISC</vuln:source>
           <vuln:reference href="https://www.somemockaddress.com/system/files/veryinportant.pdf" xml:lang="en">https://www.somemockaddress.com/system/files/veryinportant.pdf</vuln:reference>
         </vuln:references>
-        <vuln:summary>The Hunger Games Mockingjay version from 12.345.1410.4 to 12.345.2137.2 does not have a digital
-            signature for the configuration block which allows attackers to set up communication with a web site other
-            than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
+        <vuln:summary>The Hunger Games Mockingjay versios 12.345.2137.2, 12.345.2137.3, 12.345.2137.4, 12.345.2137.5, 12.345.2169.2, 12.345.2697.2 does not have a digital signature for the configuration block which allows attackers to set up communication with a web than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary> site other
       </entry>
 
     <entry id="CVE-2009-1188">
@@ -291,9 +281,7 @@
           <vuln:source>MISC</vuln:source>
           <vuln:reference href="https://www.somemockaddress.com/system/files/veryinportant.pdf" xml:lang="en">https://www.somemockaddress.com/system/files/veryinportant.pdf</vuln:reference>
         </vuln:references>
-        <vuln:summary>The Hunger Games Mockingjay version from 12.345.1410.4 to 12.345.2137.2 does not have a digital
-            signature for the configuration block which allows attackers to set up communication with a web site other
-            than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
+        <vuln:summary>The Hunger Games Mockingjay version from 13.345.1410.4, 14.345.1410.4, 15.345.1410.4, 16.345.1410.4, 17.345.1410.4 and 12.345.2137.2 does not have a digital signature for the configuration block which allows attackers to set up communication with a web site other than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
       </entry>
 
     <entry id="CVE-2009-1199">
@@ -328,14 +316,8 @@
           <vuln:source>MISC</vuln:source>
           <vuln:reference href="https://www.somemockaddress.com/system/files/veryinportant.pdf" xml:lang="en">https://www.somemockaddress.com/system/files/veryinportant.pdf</vuln:reference>
         </vuln:references>
-        <vuln:summary>The Hunger Games Mockingjay version from 12.345.1410.4 to 12.345.2137.2 does not have a digital
-            signature for the configuration block which allows attackers to set up communication with a web site other
-            than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
+        <vuln:summary>The Hunger Games Mockingjay version from 14.657.2656.1 to 14.657.2656.9 does not have a digital signature for the configuration block which allows attackers to set up communication with a web site other than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
       </entry>
-
-
-
-
     <entry id="CVE-2011-3172">
         <vuln:cve-id>CVE-2011-3172</vuln:cve-id>
         <vuln:published-datetime>2018-06-08T09:29:00.237-04:00</vuln:published-datetime>
@@ -350,3 +332,4 @@
         </vuln:references>
         <vuln:summary>A vulnerability in pam_modules of SUSE SUSE Linux Enterprise allows attackers to log into accounts that should have been disabled. Affected releases are SUSE SUSE Linux Enterprise: versions prior to 12.</vuln:summary>
       </entry>
+</nvd>
