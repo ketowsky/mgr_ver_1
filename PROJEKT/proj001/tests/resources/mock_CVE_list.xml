@@ -246,7 +246,7 @@
           <vuln:source>MISC</vuln:source>
           <vuln:reference href="https://www.somemockaddress.com/system/files/veryinportant.pdf" xml:lang="en">https://www.somemockaddress.com/system/files/veryinportant.pdf</vuln:reference>
         </vuln:references>
-        <vuln:summary>The Hunger Games Mockingjay versios 12.345.2137.2, 12.345.2137.3, 12.345.2137.4, 12.345.2137.5, 12.345.2169.2, 12.345.2697.2 does not have a digital signature for the configuration block which allows attackers to set up communication with a web than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary> site other
+        <vuln:summary>The Hunger Games Mockingjay versions 12.345.2137.2, 12.345.2137.3, 12.345.2137.4, 12.345.2137.5, 12.345.2169.2, 12.345.2697.2 does not have a digital signature for the configuration block which allows attackers to set up communication with a web than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary> site other
       </entry>
 
     <entry id="CVE-2009-1188">
@@ -281,7 +281,7 @@
           <vuln:source>MISC</vuln:source>
           <vuln:reference href="https://www.somemockaddress.com/system/files/veryinportant.pdf" xml:lang="en">https://www.somemockaddress.com/system/files/veryinportant.pdf</vuln:reference>
         </vuln:references>
-        <vuln:summary>The Hunger Games Mockingjay version from 13.345.1410.4, 14.345.1410.4, 15.345.1410.4, 16.345.1410.4, 17.345.1410.4 and 12.345.2137.2 does not have a digital signature for the configuration block which allows attackers to set up communication with a web site other than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
+        <vuln:summary>The Hunger Games Mockingjay versions 13.345.1410.4, 14.345.1410.4, 15.345.1410.4, 16.345.1410.4, 17.345.1410.4 and 12.345.2137.2 does not have a digital signature for the configuration block which allows attackers to set up communication with a web site other than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
       </entry>
 
     <entry id="CVE-2009-1199">
@@ -316,8 +316,44 @@
           <vuln:source>MISC</vuln:source>
           <vuln:reference href="https://www.somemockaddress.com/system/files/veryinportant.pdf" xml:lang="en">https://www.somemockaddress.com/system/files/veryinportant.pdf</vuln:reference>
         </vuln:references>
-        <vuln:summary>The Hunger Games Mockingjay version from 14.657.2656.1 to 14.657.2656.9 does not have a digital signature for the configuration block which allows attackers to set up communication with a web site other than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
+        <vuln:summary>The Hunger Games Mockingjay versions from 14.657.2656.1 to 14.657.2656.9 does not have a digital signature for the configuration block which allows attackers to set up communication with a web site other than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
       </entry>
+
+    <entry id="CVE-2014-2211">
+        <vuln:vulnerable-configuration id="http://nvd.nist.gov/">
+          <cpe-lang:logical-test operator="OR" negate="false">
+            <cpe-lang:fact-ref name="cpe:/a:absolute:computrace_agent:80.845"/>
+            <cpe-lang:fact-ref name="cpe:/a:absolute:computrace_agent:80.866"/>
+          </cpe-lang:logical-test>
+        </vuln:vulnerable-configuration>
+        <vuln:vulnerable-software-list>
+          <vuln:product>cpe:/a:thehungergames:mockingjay:80.845</vuln:product>
+          <vuln:product>cpe:/a:thehungergames:mockingjay:80.866</vuln:product>
+        </vuln:vulnerable-software-list>
+        <vuln:cve-id>CVE-2009-1199</vuln:cve-id>
+        <vuln:published-datetime>2018-05-11T15:29:00.220-04:00</vuln:published-datetime>
+        <vuln:last-modified-datetime>2018-06-14T09:01:37.017-04:00</vuln:last-modified-datetime>
+        <vuln:cvss>
+          <cvss:base_metrics>
+            <cvss:score>7.2</cvss:score>
+            <cvss:access-vector>LOCAL</cvss:access-vector>
+            <cvss:access-complexity>LOW</cvss:access-complexity>
+            <cvss:authentication>NONE</cvss:authentication>
+            <cvss:confidentiality-impact>COMPLETE</cvss:confidentiality-impact>
+            <cvss:integrity-impact>COMPLETE</cvss:integrity-impact>
+            <cvss:availability-impact>COMPLETE</cvss:availability-impact>
+            <cvss:source>http://nvd.nist.gov</cvss:source>
+            <cvss:generated-on-datetime>2018-06-13T22:23:30.847-04:00</cvss:generated-on-datetime>
+          </cvss:base_metrics>
+        </vuln:cvss>
+        <vuln:cwe id="CWE-284"/>
+        <vuln:references xml:lang="en" reference_type="VENDOR_ADVISORY">
+          <vuln:source>MISC</vuln:source>
+          <vuln:reference href="https://www.somemockaddress.com/system/files/veryinportant.pdf" xml:lang="en">https://www.somemockaddress.com/system/files/veryinportant.pdf</vuln:reference>
+        </vuln:references>
+        <vuln:summary>The Hunger Games Corp. Mockingjay versions 14.345.1410.4 and 14.400.1000.5 does not have a digital signature for the configuration block which allows attackers to set up communication with a web site other than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
+      </entry>
+
     <entry id="CVE-2011-3172">
         <vuln:cve-id>CVE-2011-3172</vuln:cve-id>
         <vuln:published-datetime>2018-06-08T09:29:00.237-04:00</vuln:published-datetime>
@@ -332,4 +368,109 @@
         </vuln:references>
         <vuln:summary>A vulnerability in pam_modules of SUSE SUSE Linux Enterprise allows attackers to log into accounts that should have been disabled. Affected releases are SUSE SUSE Linux Enterprise: versions prior to 12.</vuln:summary>
       </entry>
+    <entry id="CVE-2014-2222">
+        <vuln:vulnerable-configuration id="http://nvd.nist.gov/">
+          <cpe-lang:logical-test operator="OR" negate="false">
+            <cpe-lang:fact-ref name="cpe:/a:absolute:computrace_agent:80.845"/>
+            <cpe-lang:fact-ref name="cpe:/a:absolute:computrace_agent:80.866"/>
+          </cpe-lang:logical-test>
+        </vuln:vulnerable-configuration>
+        <vuln:vulnerable-software-list>
+          <vuln:product>cpe:/a:thehungergames:mockingjay:80.845</vuln:product>
+          <vuln:product>cpe:/a:thehungergames:mockingjay:80.866</vuln:product>
+        </vuln:vulnerable-software-list>
+        <vuln:cve-id>CVE-2009-1199</vuln:cve-id>
+        <vuln:published-datetime>2018-05-11T15:29:00.220-04:00</vuln:published-datetime>
+        <vuln:last-modified-datetime>2018-06-14T09:01:37.017-04:00</vuln:last-modified-datetime>
+        <vuln:cvss>
+          <cvss:base_metrics>
+            <cvss:score>7.2</cvss:score>
+            <cvss:access-vector>LOCAL</cvss:access-vector>
+            <cvss:access-complexity>LOW</cvss:access-complexity>
+            <cvss:authentication>NONE</cvss:authentication>
+            <cvss:confidentiality-impact>COMPLETE</cvss:confidentiality-impact>
+            <cvss:integrity-impact>COMPLETE</cvss:integrity-impact>
+            <cvss:availability-impact>COMPLETE</cvss:availability-impact>
+            <cvss:source>http://nvd.nist.gov</cvss:source>
+            <cvss:generated-on-datetime>2018-06-13T22:23:30.847-04:00</cvss:generated-on-datetime>
+          </cvss:base_metrics>
+        </vuln:cvss>
+        <vuln:cwe id="CWE-284"/>
+        <vuln:references xml:lang="en" reference_type="VENDOR_ADVISORY">
+          <vuln:source>MISC</vuln:source>
+          <vuln:reference href="https://www.somemockaddress.com/system/files/veryinportant.pdf" xml:lang="en">https://www.somemockaddress.com/system/files/veryinportant.pdf</vuln:reference>
+        </vuln:references>
+        <vuln:summary>the hunger games Mockingjay versions 14.345.1410.4, 14.400.1000.5 and 15.400.1000.5 does not have a digital signature for the configuration block which allows attackers to set up communication with a web site other than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
+      </entry>
+
+    <entry id="CVE-2014-2233">
+        <vuln:vulnerable-configuration id="http://nvd.nist.gov/">
+          <cpe-lang:logical-test operator="OR" negate="false">
+            <cpe-lang:fact-ref name="cpe:/a:absolute:computrace_agent:80.845"/>
+            <cpe-lang:fact-ref name="cpe:/a:absolute:computrace_agent:80.866"/>
+          </cpe-lang:logical-test>
+        </vuln:vulnerable-configuration>
+        <vuln:vulnerable-software-list>
+          <vuln:product>cpe:/a:thehungergames:mockingjay:80.845</vuln:product>
+          <vuln:product>cpe:/a:thehungergames:mockingjay:80.866</vuln:product>
+        </vuln:vulnerable-software-list>
+        <vuln:cve-id>CVE-2009-1199</vuln:cve-id>
+        <vuln:published-datetime>2018-05-11T15:29:00.220-04:00</vuln:published-datetime>
+        <vuln:last-modified-datetime>2018-06-14T09:01:37.017-04:00</vuln:last-modified-datetime>
+        <vuln:cvss>
+          <cvss:base_metrics>
+            <cvss:score>7.2</cvss:score>
+            <cvss:access-vector>LOCAL</cvss:access-vector>
+            <cvss:access-complexity>LOW</cvss:access-complexity>
+            <cvss:authentication>NONE</cvss:authentication>
+            <cvss:confidentiality-impact>COMPLETE</cvss:confidentiality-impact>
+            <cvss:integrity-impact>COMPLETE</cvss:integrity-impact>
+            <cvss:availability-impact>COMPLETE</cvss:availability-impact>
+            <cvss:source>http://nvd.nist.gov</cvss:source>
+            <cvss:generated-on-datetime>2018-06-13T22:23:30.847-04:00</cvss:generated-on-datetime>
+          </cvss:base_metrics>
+        </vuln:cvss>
+        <vuln:cwe id="CWE-284"/>
+        <vuln:references xml:lang="en" reference_type="VENDOR_ADVISORY">
+          <vuln:source>MISC</vuln:source>
+          <vuln:reference href="https://www.somemockaddress.com/system/files/veryinportant.pdf" xml:lang="en">https://www.somemockaddress.com/system/files/veryinportant.pdf</vuln:reference>
+        </vuln:references>
+        <vuln:summary>The Hunger Games mockingjay versions 14.345.1410.4 and 14.400.1000.5 does not have a digital signature for the configuration block which allows attackers to set up communication with a web site other than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
+      </entry>
+
+    <entry id="CVE-2014-2244">
+        <vuln:vulnerable-configuration id="http://nvd.nist.gov/">
+          <cpe-lang:logical-test operator="OR" negate="false">
+            <cpe-lang:fact-ref name="cpe:/a:absolute:computrace_agent:80.845"/>
+            <cpe-lang:fact-ref name="cpe:/a:absolute:computrace_agent:80.866"/>
+          </cpe-lang:logical-test>
+        </vuln:vulnerable-configuration>
+        <vuln:vulnerable-software-list>
+          <vuln:product>cpe:/a:thehungergames:mockingjay:80.845</vuln:product>
+          <vuln:product>cpe:/a:thehungergames:mockingjay:80.866</vuln:product>
+        </vuln:vulnerable-software-list>
+        <vuln:cve-id>CVE-2009-1199</vuln:cve-id>
+        <vuln:published-datetime>2018-05-11T15:29:00.220-04:00</vuln:published-datetime>
+        <vuln:last-modified-datetime>2018-06-14T09:01:37.017-04:00</vuln:last-modified-datetime>
+        <vuln:cvss>
+          <cvss:base_metrics>
+            <cvss:score>7.2</cvss:score>
+            <cvss:access-vector>LOCAL</cvss:access-vector>
+            <cvss:access-complexity>LOW</cvss:access-complexity>
+            <cvss:authentication>NONE</cvss:authentication>
+            <cvss:confidentiality-impact>COMPLETE</cvss:confidentiality-impact>
+            <cvss:integrity-impact>COMPLETE</cvss:integrity-impact>
+            <cvss:availability-impact>COMPLETE</cvss:availability-impact>
+            <cvss:source>http://nvd.nist.gov</cvss:source>
+            <cvss:generated-on-datetime>2018-06-13T22:23:30.847-04:00</cvss:generated-on-datetime>
+          </cvss:base_metrics>
+        </vuln:cvss>
+        <vuln:cwe id="CWE-284"/>
+        <vuln:references xml:lang="en" reference_type="VENDOR_ADVISORY">
+          <vuln:source>MISC</vuln:source>
+          <vuln:reference href="https://www.somemockaddress.com/system/files/veryinportant.pdf" xml:lang="en">https://www.somemockaddress.com/system/files/veryinportant.pdf</vuln:reference>
+        </vuln:references>
+        <vuln:summary>The Hunger Games Mockingjay versions from 14.345.1000.1 to 14.400.1000.9 does not have a digital signature for the configuration block which allows attackers to set up communication with a web site other than the intended dont.lookup.here.com site by modifying data within a disk's inter-partition space.</vuln:summary>
+      </entry>
+
 </nvd>

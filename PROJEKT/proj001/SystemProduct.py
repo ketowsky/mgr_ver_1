@@ -96,32 +96,30 @@ class SystemProduct(object):
             try:
                 self.verValidationsDict[key].append(
                     {str(ver).replace('[', '').replace(']', '').replace('\'', ''): lev_dist_of_lvl})
-                SUP.log_info('wlasnie dodaje cos do verValidaonDict: \nkey: ' + str(key) + '\nappend: ' + str(
-                    {str(ver): lev_dist_of_lvl}), 'yellow')
+                #SUP.log_info('wlasnie dodaje cos do verValidaonDict: \nkey: ' + str(key) + '\nappend: ' + str({str(ver): lev_dist_of_lvl}), 'yellow')
 
             except KeyError:
                 self.verValidationsDict[key] = []
                 self.verValidationsDict[key].append(
                     {str(ver).replace('[', '').replace(']', '').replace('\'', ''): lev_dist_of_lvl})
-                SUP.log_info('wlasnie dodaje cos do verValidaonDict: \nkey: ' + str(key) + '\nappend: ' + str(
-                    {str(ver): lev_dist_of_lvl}), 'yellow')
+                #SUP.log_info('wlasnie dodaje cos do verValidaonDict: \nkey: ' + str(key) + '\nappend: ' + str({str(ver): lev_dist_of_lvl}), 'yellow')
 
 
     def validate_findings(self):
         #Method validates found pattern matches
         for key in self.verFindingsDict:
-            SUP.log_info('Klucz w self.verFindingsDict: ' + str(key), 'red')
-            SUP.log_info('Dla przypomnienia zawartosc self.verNameStr: ' + str(self.verNameStr), 'blue')
-            SUP.log_info('jeszcze jedna wazna sprawa, czyli opis daneo cve: ' + str(self.cveFindingsDict[key]), 'red')
+            #SUP.log_info('Klucz w self.verFindingsDict: ' + str(key), 'red')
+            #SUP.log_info('Dla przypomnienia zawartosc self.verNameStr: ' + str(self.verNameStr), 'blue')
+            #SUP.log_info('jeszcze jedna wazna sprawa, czyli opis daneo cve: ' + str(self.cveFindingsDict[key]), 'red')
 
             for ver in self.verFindingsDict[key]:
                 ver_iter = 0
                 splittedFindingLevels = SUP.get_rid_of_empty_elements(re.split(SUP.special_char_pattern_with_s, str(ver)))
                 splittedProductLevels = SUP.get_rid_of_empty_elements(re.split(SUP.special_char_pattern_with_s, str(self.verNameStr)))
 
-                SUP.log_info('Zawartosc self.verFindingsDict[key]' + str(ver))
-                SUP.log_info('w tym czasie w splittedFindingLevels: ' + str(splittedFindingLevels), 'yellow')
-                SUP.log_info('w tym czasie w splittedProductLevels: ' + str(splittedProductLevels), 'yellow')
+                #SUP.log_info('Zawartosc self.verFindingsDict[key]' + str(ver))
+                #SUP.log_info('w tym czasie w splittedFindingLevels: ' + str(splittedFindingLevels), 'yellow')
+                #SUP.log_info('w tym czasie w splittedProductLevels: ' + str(splittedProductLevels), 'yellow')
 
                 # Case when extracted version names are only from the top level
                 if len(re.findall(r'' + self.regexpLvlPatternList[0], str(ver))) == len(ver):
@@ -135,11 +133,11 @@ class SystemProduct(object):
                         if lev_dist_of_lvl <= self.lvlLengthList[-1] + SUP.tolerance_factor:
                             try:
                                 self.verValidationsDict[key].append({str(splittedFindingLevels[count]).replace('[' ,'').replace(']' ,'').replace('\'', '') : lev_dist_of_lvl})
-                                SUP.log_info('wlasnie dodaje cos do verValidaonDict: \nkey: ' + str(key) + '\nappend: ' + str({str(splittedFindingLevels[count]) : lev_dist_of_lvl}), 'blue')
+                                #SUP.log_info('wlasnie dodaje cos do verValidaonDict: \nkey: ' + str(key) + '\nappend: ' + str({str(splittedFindingLevels[count]) : lev_dist_of_lvl}), 'blue')
                             except KeyError:
                                 self.verValidationsDict[key] = []
                                 self.verValidationsDict[key].append({str(splittedFindingLevels[count]).replace('[' ,'').replace(']' ,'').replace('\'', '') : lev_dist_of_lvl})
-                                SUP.log_info('wlasnie dodaje cos do verValidaonDict: \nkey: ' + str(key) + '\nappend: ' + str({str(splittedFindingLevels[count]) : lev_dist_of_lvl}), 'blue')
+                                #SUP.log_info('wlasnie dodaje cos do verValidaonDict: \nkey: ' + str(key) + '\nappend: ' + str({str(splittedFindingLevels[count]) : lev_dist_of_lvl}), 'blue')
 
                 # Case when extracted and expected version name have same count of levels
                 # if len(splittedFindingLevels) == len(splittedProductLevels):
@@ -169,5 +167,5 @@ class SystemProduct(object):
 
                 ver_iter = ver_iter + 1
 
-        SUP.log_info('\n\nVALIDATION IS OVER!!\nTheres the results:\n')
-        SUP.log_info(str(self.verValidationsDict) + '\n', 'red')
+        #SUP.log_info('\n\nVALIDATION IS OVER!!\nTheres the results:\n')
+        #SUP.log_info(str(self.verValidationsDict) + '\n', 'red')
