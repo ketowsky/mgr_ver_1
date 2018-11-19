@@ -12,14 +12,15 @@ class VendorCveAnalizer(object):
         # Method extracts CVE entries with chosen vendor, based on Summary mention
         for key in source_dict:
             if self.venName.lower().strip() in source_dict[key].lower().strip():
-                self.venSummaries[key] = source_dict[key]
+                self.venSummaries[key] = source_dict[key].lower()
 
     def find_all_products_cve(self, product):
         # Method extracts CVE entries with chosen product, based on Summary mention
         product_summ_dict = {}
+        print(self.venSummaries)
         for key in self.venSummaries:
             if product.lower().strip() in self.venSummaries[key].lower().strip():
-                product_summ_dict[key] = self.venSummaries[key]
+                product_summ_dict[key] = self.venSummaries[key].lower()
         return product_summ_dict
 
     '''

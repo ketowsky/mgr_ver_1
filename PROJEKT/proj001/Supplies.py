@@ -10,7 +10,7 @@ except:
 #global variables
 xml_file_name = 'nvdcve-2.0-recent.xml'
 nist_gov_referr = '{http://scap.nist.gov/schema/vulnerability/0.4}'
-tolerance_factor = 2 # factor that keeps some margin for validation of version names
+tolerance_factor = 3 # factor that keeps some margin for validation of version names
 
 #regexp pattern compilations
 special_char_pattern = re.compile(r'[\.:-_/\\#,\']')
