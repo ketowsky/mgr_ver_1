@@ -39,7 +39,9 @@ for key in SysProd.verValidationsDict:
 
 ############################### COMMONS ###############################
 def check_if_mentioned(cve_id):
-    print('\nLOOKING FOR: ' + cve_id)
+    print("\n\nvvvvvvvvvvvvvvvvvvvvvvvv")
+    print('LOOKING FOR: ' + cve_id)
+    print('in dictionary: ' + str(SysProd.verValidationsDict))
     if str(cve_id) in SysProd.verValidationsDict:
         print('PASSED')
         return True
@@ -50,7 +52,8 @@ def check_if_mentioned(cve_id):
         # pass_ratio['failed_case'] = pass_ratio['failed_case'] + 1
 
 def check_if_NOT_mentioned(cve_id):
-    print('\nNOT LOOKING FOR: ' + cve_id)
+    print("\n\nvvvvvvvvvvvvvvvvvvvvvvvv")
+    print('NOT LOOKING FOR: ' + cve_id)
     print('in dictionary: ' + str(SysProd.verValidationsDict))
     if str(cve_id) in SysProd.verValidationsDict:
         print('FAILED')

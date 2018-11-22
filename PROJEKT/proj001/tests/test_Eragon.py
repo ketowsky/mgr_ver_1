@@ -22,7 +22,7 @@ CVE entry source:   resources/mock_CVE_list.xml
 '''
 pass_ratio = {'failed_case' : 0, 'passed_case' : 0}
 pass_flag = False
-SUP.tolerance_factor = 3
+SUP.tolerance_factor = 2
 # failed_case = 0
 # passed_case = 0
 
@@ -40,7 +40,8 @@ for key in SysProd.verValidationsDict:
 
 ############################### COMMONS ###############################
 def check_if_mentioned(cve_id):
-    print('\nLOOKING FOR: ' + cve_id)
+    print("\n\nvvvvvvvvvvvvvvvvvvvvvvvv")
+    print('LOOKING FOR: ' + cve_id)
     print('in dictionary: ' + str(SysProd.verValidationsDict))
     if str(cve_id) in SysProd.verValidationsDict:
         print('PASSED')
@@ -51,12 +52,21 @@ def check_if_mentioned(cve_id):
         return False
         # pass_ratio['failed_case'] = pass_ratio['failed_case'] + 1
 
-def check_if_NOT_mentioned(cve_id):
-    # print('\nNOT LOOKING FOR: ' + cve_id)
-    # print('in dictionary: ' + str(SysProd.verValidationsDict))
-    if str(cve_id) in SysProd.verValidationsDict:
-        print('FAILED')
+def validate_if_above_TF(cve_id):
+    print("%%%%%%%%%%% " + str(SysProd.verValidationsDict[cve_id][0].values()))
+    if list(SysProd.verValidationsDict[cve_id][0].values())[0] > SUP.tolerance_factor:
         return False
+    else:
+        return True
+
+def check_if_NOT_mentioned(cve_id):
+    print("\n\nvvvvvvvvvvvvvvvvvvvvvvvv")
+    print('NOT LOOKING FOR: ' + cve_id)
+    print('in dictionary: ' + str(SysProd.verValidationsDict))
+    if str(cve_id) in SysProd.verValidationsDict:
+        # validate_if_above_TF(cve_id)
+        print('FAILED')
+        return validate_if_above_TF(cve_id)
         # pass_ratio['passed_case'] = pass_ratio['passed_case'] + 1
     else:
         print('PASSED')

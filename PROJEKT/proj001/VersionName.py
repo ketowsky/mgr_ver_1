@@ -53,6 +53,8 @@ class VersionName(object):
                     except:
                         self.regexpString = self.regexpString + str(self.SpecCharList[i])
                         self.regexpLvlPatternList.append(self.regexpString)
+            self.regexpString = "\\s" + self.regexpString + "\\W"
+        print("::::::::::: regexp jest rowny: " + self.regexpString)
 
     def add_escape_char_for_specials(self):
         # Method created to add escape character for proper special characters
