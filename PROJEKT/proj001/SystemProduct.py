@@ -118,25 +118,31 @@ class SystemProduct(object):
                 #         self.verFindingsDict[key].append(tmp_matches)
                 #         print("@@@@@@@@@@@@@@@@@ matches: " + str(tmp_matches))
 
-    def levenshtein(self, s1, s2):
-        if len(s1) < len(s2):
-            return self.levenshtein(s2, s1)
+    def evaluate_edit_distance(self, s1, s2, metric='levenshtein'):
+         ###              Default metric of edit distance is Levenshtein
+         ###   Levenshtein
+         print('\n\n' + '@@@@@' +'\n\n' + str(metric) + '\n\n' + '@@@@@' +'\n\n')
+         if metric == 'levenshtein':
+            if len(s1) < len(s2):
+                return self.evaluate_edit_distance(s2, s1)
 
-        if len(s2) == 0:
-            return len(s1)
+            if len(s2) == 0:
+                return len(s1)
 
-        previous_row = range(len(s2) + 1)
-        for i, c1 in enumerate(s1):
-            current_row = [i + 1]
-            for j, c2 in enumerate(s2):
-                insertions = previous_row[
-                                 j + 1] + 1  # j+1 instead of j since previous_row and current_row are one character longer
-                deletions = current_row[j] + 1  # than s2
-                substitutions = previous_row[j] + (c1 != c2)
-                current_row.append(min(insertions, deletions, substitutions))
-            previous_row = current_row
+            previous_row = range(len(s2) + 1)
+            for i, c1 in enumerate(s1):
+                current_row = [i + 1]
+                for j, c2 in enumerate(s2):
+                    insertions = previous_row[
+                                     j + 1] + 1  # j+1 instead of j since previous_row and current_row are one character longer
+                    deletions = current_row[j] + 1  # than s2
+                    substitutions = previous_row[j] + (c1 != c2)
+                    current_row.append(min(insertions, deletions, substitutions))
+                previous_row = current_row
 
-        return previous_row[-1]
+            return previous_row[-1]
+         else:
+             print('\nERROR:\tMetric: \'' + str(metric) + '\' is not valid\n')
 
     def add_matches(self, lev_dist_of_lvl, ver, key):
         # TODO #1 it is possible that not whole 'ver' should be used as 'key' in verValidationsDict
@@ -178,7 +184,8 @@ class SystemProduct(object):
                         print("\n>>>>>>>>>>  validation in progress: im in dupa1\n")
                         #Levenstein distance is multiplied by 5 (just high value), because it it the top level of naming
                         # TODO if you revalue other factors you should put here proper value
-                        level_factor = self.levenshtein(splittedFindingLevels[count], splittedProductLevels[0])  #+ len(splittedFindingLevels)
+                        level_factor = self.evaluate_edit_distance(splittedFindingLevels[count], splittedProductLevels[
+                            0])  #+ len(splittedFindingLevels)
                         print("%%%%%%%")
                         print("Version from findings:\t" + str(splittedFindingLevels[count]))
                         print("Version from product levels:\t" + str(splittedProductLevels[0]))
@@ -202,7 +209,8 @@ class SystemProduct(object):
                     if len(splittedProductLevels) > 1:
                         for count in range(len(splittedFindingLevels)):
                             mod_fact = count%len(splittedProductLevels)
-                            level_factor = self.levenshtein(splittedFindingLevels[count], splittedProductLevels[mod_fact]) * (len(splittedFindingLevels) - count)
+                            level_factor = self.evaluate_edit_distance(splittedFindingLevels[count],
+                                                                       splittedProductLevels[mod_fact]) * (len(splittedFindingLevels) - count)
                             lev_dist_of_lvl = lev_dist_of_lvl + level_factor
                             print("%%%%%%%")
                             print("Version from findings:\t" + str(splittedFindingLevels[count]))
@@ -210,7 +218,7 @@ class SystemProduct(object):
                             print("%%%%%%%")
                     else:
                         for item in splittedFindingLevels:
-                            level_factor = self.levenshtein(item, splittedProductLevels[0])
+                            level_factor = self.evaluate_edit_distance(item, splittedProductLevels[0])
                             lev_dist_of_lvl = lev_dist_of_lvl + level_factor
                             print("Version from findings:\t" + str(item))
                             print("Version from product levels:\t" + str(splittedProductLevels[0]))
@@ -230,7 +238,8 @@ class SystemProduct(object):
                             print("----------> Levek porownuje cos takiego:")
                             print("splittedFindingLevels[count]: " + str(splittedFindingLevels[count]))
                             print("splittedProductLevels[mod_fact]: " + str(splittedProductLevels[mod_fact]))
-                            level_factor = self.levenshtein(splittedFindingLevels[count], splittedProductLevels[mod_fact]) * (len(splittedFindingLevels) - count)
+                            level_factor = self.evaluate_edit_distance(splittedFindingLevels[count],
+                                                                       splittedProductLevels[mod_fact]) * (len(splittedFindingLevels) - count)
                             lev_dist_of_lvl = lev_dist_of_lvl + level_factor
                             print("%%%%%%%")
                             print("Version from findings:\t" + str(splittedFindingLevels[count]))
@@ -238,7 +247,7 @@ class SystemProduct(object):
                             print("%%%%%%%")
                     else:
                         for item in splittedFindingLevels:
-                            level_factor = self.levenshtein(item, splittedProductLevels[0])
+                            level_factor = self.evaluate_edit_distance(item, splittedProductLevels[0])
                             lev_dist_of_lvl = lev_dist_of_lvl + level_factor
                             print("Version from findings:\t" + str(item))
                             print("Version from product levels:\t" + str(splittedProductLevels[0]))
@@ -252,7 +261,8 @@ class SystemProduct(object):
                     lev_dist_of_lvl = 0
                     for count in range(len(splittedFindingLevels)):
                         mod_fact = count % len(splittedProductLevels)
-                        level_factor = self.levenshtein(splittedFindingLevels[count], splittedProductLevels[mod_fact]) * (len(splittedFindingLevels) - count)
+                        level_factor = self.evaluate_edit_distance(splittedFindingLevels[count],
+                                                                   splittedProductLevels[mod_fact]) * (len(splittedFindingLevels) - count)
                         lev_dist_of_lvl = lev_dist_of_lvl + level_factor
                         print("%%%%%%%")
                         print("Version from findings:\t" + str(splittedFindingLevels[count]))

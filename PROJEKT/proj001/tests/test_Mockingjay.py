@@ -30,7 +30,7 @@ SysProd.look_through_cve_sum(xml_cve_summaries)
 SysProd.look_for_patt_mentions()
 SysProd.validate_findings()
 print(SysProd.regexpLvlPatternList)
-print('Levenstein at the end is eq to: ', SysProd.levenshtein('abcd', 'abde'))
+print('Levenstein at the end is eq to: ', SysProd.evaluate_edit_distance('abcd', 'abde'))
 print('Version findings:\n' + str(SysProd.verFindingsDict))
 
 for key in SysProd.verValidationsDict:
@@ -349,4 +349,4 @@ def run_tests():
     print("\n\n" + str(SysProd.cveForProdDict.keys()))
 
 
-    print('Levek rzecze, ze ' + str(SysProd.levenshtein('15.345.1410.4', '12.345.1410.4')))
+    print('Levek rzecze, ze ' + str(SysProd.evaluate_edit_distance('15.345.1410.4', '12.345.1410.4')))

@@ -14,19 +14,19 @@ xml_cve_summaries = SUP.get_cve_summaries(xml_cve_root)
 
 ##################################  SETUP  #################################
 '''
-Producer:           Inheritance Corporation
-Product:            Eragon
-Wanted Version:     5 SP 3.1
+Producer:           Gluchovsky
+Product:            METRO
+Wanted Version:     20.33
 CVE entry source:   resources/mock_CVE_list.xml       
 
 '''
 pass_ratio = {'failed_case' : 0, 'passed_case' : 0}
 pass_flag = False
-SUP.tolerance_factor = -4
+SUP.tolerance_factor = -2
 # failed_case = 0
 # passed_case = 0
 
-SysProd = SystemProduct('Harry', 'Potter', '2010')
+SysProd = SystemProduct('Gluchovsky', 'METRO', '20.33')
 SysProd.look_through_cve_sum(xml_cve_summaries)
 SysProd.look_for_patt_mentions()
 SysProd.validate_findings()
@@ -75,89 +75,100 @@ def get_rid_of_spec_char_at_the_end( nameStr):
 
 ############################### TEST CASE 1  ###############################
 '''
-CVE: CVE-2010-4411
-Producer: Harry Corp.
-Product: Potter
-Version: 2008, 2010, 2012
+CVE: CVE-2013-5511
+Producer: Gluchovsky
+Product: METRO
+Version: 20.33, 20.34, 20.35
 Description: Simple case with mention.
              Test checks if CVE will be matched.
 
 '''
 pass_flag = False
-pass_flag = check_if_mentioned('CVE-2010-4411')
+pass_flag = check_if_mentioned('CVE-2013-5511')
 evaluate_if_passed(pass_flag)
 
 ############################### TEST CASE 2  ###############################
 '''
-CVE: CVE-2010-4422
-Producer: Harry Corp.
-Product: Potter
-Version: 2007, 2009, 2011
-Description: Simple case with no mentions. 
-             Test checks if CVE won't be matched.
+CVE: CVE-2013-5522
+Producer: Gluchovsky
+Product: METRO
+Version: 22.33, 21.33, 30.33
+Description: Simple case with mention.
+             Test checks if CVE will be matched.
 
 '''
 pass_flag = False
-pass_flag = check_if_NOT_mentioned('CVE-2010-4422')
+pass_flag = check_if_NOT_mentioned('CVE-2013-5522')
 evaluate_if_passed(pass_flag)
 
 ############################### TEST CASE 3  ###############################
 '''
-CVE: CVE-2010-4433
-Producer: Harry Corp.
-Product: Potter
-Version: 2010-2016
-Description: Case with mentions. 
-             Test checks opening boundary conditions. 
+CVE: CVE-2013-5533
+Producer: Gluchovsky
+Product: METRO
+Version: 20.34, 20.35, 20.36
+Description: Simple case with mention.
              Test checks if CVE will be matched.
 
 '''
 pass_flag = False
-pass_flag = check_if_mentioned('CVE-2010-4433')
+pass_flag = check_if_NOT_mentioned('CVE-2013-5533')
 evaluate_if_passed(pass_flag)
 
 ############################### TEST CASE 4  ###############################
 '''
-CVE: CVE-2010-4444
-Producer: Harry Corp.
-Product: Potter
-Version: 2005-2010
-Description: Case with mentions. 
-             Test checks closing boundary conditions.
+CVE: CVE-2013-5544
+Producer: Gluchovsky
+Product: METRO
+Version: 20.33.15
+Description: Simple case with mention.
              Test checks if CVE will be matched.
 
 '''
 pass_flag = False
-pass_flag = check_if_mentioned('CVE-2010-4444')
+pass_flag = check_if_mentioned('CVE-2013-5544')
 evaluate_if_passed(pass_flag)
 
 ############################### TEST CASE 5  ###############################
 '''
-CVE: CVE-2010-4455
-Producer: Harry Corp.
-Product: Potter
-Version: 201, 210, 2101, 2110
-Description: No mentions.
-             Version names are similar to looked for 
-             Test checks if CVE won't be matched.
+CVE: CVE-2013-5555
+Producer: Gluchovsky
+Product: METRO
+Version: 15.20.33, 20.15.33
+Description: Simple case with mention.
+             Test checks if CVE will be matched.
 
 '''
 pass_flag = False
-pass_flag = check_if_NOT_mentioned('CVE-2010-4455')
+pass_flag = check_if_NOT_mentioned('CVE-2013-5555')
 evaluate_if_passed(pass_flag)
 
 ############################### TEST CASE 6  ###############################
 '''
-CVE: CVE-2010-4466
-Producer: Harry Corp.
-Product: Potter
-Version: 2010 SP 1
-Description: Case with mention.
-             Version name is extended but should be counted as match 
+CVE: CVE-2013-5566
+Producer: Gluchovsky
+Product: METRO
+Version: 20.33-20.35
+Description: Simple case with mention.
+             Test checks if CVE will be matched.
 
 '''
 pass_flag = False
-pass_flag = check_if_mentioned('CVE-2010-4466')
+pass_flag = check_if_mentioned('CVE-2013-5566')
+evaluate_if_passed(pass_flag)
+
+############################### TEST CASE 7  ###############################
+'''
+CVE: CVE-2013-5577
+Producer: Gluchovsky
+Product: METRO
+Version: 20.31-20.33
+Description: Simple case with mention.
+             Test checks if CVE will be matched.
+
+'''
+pass_flag = False
+pass_flag = check_if_mentioned('CVE-2013-5577')
 evaluate_if_passed(pass_flag)
 
 ############################################################################
